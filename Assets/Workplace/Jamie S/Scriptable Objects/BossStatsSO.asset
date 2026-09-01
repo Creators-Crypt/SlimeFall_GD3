@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9eddcbf2bdf1a4baa3b0861d9e74e6, type: 3}
+  m_Name: BossStatsSO
+  m_EditorClassIdentifier: Assembly-CSharp::BossStatsSO
+  enemyType: 0
+  maxHealth: 250
+  patrolSpeed: 3.5
+  chaseSpeed: 6
+  patrolRadius: 20
+  patrolWaitTimeMin: 1.5
+  patrolWaitTimeMax: 3.5
+  detectionRadius: 30
+  detectionAngle: 180
+  lostSightTime: 3
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  attackRange: 2.5
+  attackCooldown: 1.2
+  attackDamage: 5
+  projectilePrefab: {fileID: 2002685277281540589, guid: 85faa578e3404a0469553bca229569c0, type: 3}
+  projectileSpeed: 20
+  explosionRadius: 15
+  splitChance: 0
+  splitPrefab: {fileID: 0}
+  splitCount: 2
+  splitRadius: 0.75
+  splitVFXPrefab: {fileID: 0}
+  splitGrowthSpeed: 0
+  phase2HealthPercent: 0.5
+  phase3HealthPercent: 0.02
+  phase1Material: {fileID: 2100000, guid: b83308c389b240e44bd537f596dc6501, type: 2}
+  phase2Material: {fileID: 2100000, guid: 501bad688d6dd4dfd80cf405df51e849, type: 2}
+  phase3Material: {fileID: 2100000, guid: 217152b783193b54dae650758dcefac2, type: 2}
+  stunMaterial: {fileID: 2100000, guid: f2ba0e26bd5a8064da7c72101ad2eaf6, type: 2}
+  colorBlendTime: 1.25
+  eyeDamageMultiplier: 2
+  eyeHitsToStun: 3
+  eyeHitTime: 5
+  stunDuration: 4
+  stunDamageMultiplier: 1.5
+  stunCooldown: 3
+  p1StartDelay: 1.5
+  p1TimeBetweenVolley: 1.5
+  p1ShotsPerVolley: 3
+  p1TimeBetweenShots: 0.25
+  p1SpreadDegrees: 7
+  p1ProjectileSpeed: 20
+  p1ProjectileDamage: 6
+  bulletAimAheadOfPlayer: 0.45
+  mortarPrefab: {fileID: 9088488918856700192, guid: 466ea04b990663b4fbbb7ac281251852, type: 3}
+  mortarHitPosDisplayPrefab: {fileID: 4962518280841777773, guid: 6194df4a2f503be4996a1de72e362c5c, type: 3}
+  mortarCooldown: 6
+  mortarShellsPreSalvo: 4
+  mortarTimeBetweenShells: 0.35
+  mortarSpeed: 19.9
+  mortarArcHeight: 8
+  mortarSplashRadius: 8.48
+  mortarDamage: 14
+  mortarScatter: 3
+  mortarAimAheadOfPlayer: 1
+  transitionWindup: 1
+  leapTime: 1.1
+  leapHeight: 6
+  leapLandingDist: 4
+  landingShockRad: 6
+  landingShockDmg: 12
+  landingShockVfxPrefab: {fileID: 0}
+  p2ChaseSpeed: 5
+  p2MeleeRange: 2.6
+  p2MeleeAngle: 100
+  p2MelleDmg: 10
+  p2MeleeCooldown: 5
+  p2MeleeWindup: 0.35
+  aoeWavePrefab: {fileID: 3563498644967845075, guid: 90b365e0f2a425e4ba07ecf2baebf395, type: 3}
+  aoeWaveCooldown: 7
+  aoeWaveWarnintTime: 1
+  aoeWaveRadius: 9
+  aoeWaveSpeed: 11
+  aoeWaveDmg: 7
+  p3PullRadius: 100
+  p3PullForce: 30
+  slimedSlowAmount: 0.5
+  slimedTime: 3
+  detonationTime: 10
+  detonationKillRad: 50
+  detonationDmg: 100000000
+  detonationVFXPrefab: {fileID: 0}
+  detonationTelegraphPrefab: {fileID: 6911871139904711538, guid: 581835e11040e274bbccb60a64dd7340, type: 3}

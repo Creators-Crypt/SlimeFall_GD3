@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91ed46f2e35663a4899748da965190d9, type: 3}
+  m_Name: MeleeSlime
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatsSO
+  enemyType: 0
+  maxHealth: 30
+  patrolSpeed: 2
+  chaseSpeed: 5
+  patrolRadius: 20
+  patrolWaitTimeMin: 1.5
+  patrolWaitTimeMax: 3.5
+  detectionRadius: 10
+  detectionAngle: 145
+  lostSightTime: 3
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  attackRange: 2.1
+  attackCooldown: 1.2
+  attackDamage: 5
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 10
+  explosionRadius: 3
+  explosionVFX: {fileID: 0}
+  splitChance: 1
+  splitPrefab: {fileID: 4858449309327273670, guid: 614c2b9a88154c045ab679a987b44de2, type: 3}
+  splitCount: 2
+  splitRadius: 10
+  splitVFXPrefab: {fileID: 4078941901485021609, guid: 9eac5d095d625cb4684d216c543ebc7e, type: 3}
+  splitGrowthSpeed: 0

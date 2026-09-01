@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bfd6b29c565404581f07c3653bf0e6, type: 3}
+  m_Name: Frost
+  m_EditorClassIdentifier: Assembly-CSharp::SpellData
+  spellName: New Spell
+  icon: {fileID: 0}
+  element: 4
+  delivery: 1
+  damage: 15
+  staminaCost: 10
+  concentrationCost: 25
+  cooldown: 0.75
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 12
+  projectileLifetime: 4
+  arcGravityScale: 2
+  arcLaunchAngle: 30
+  rayDistance: 10
+  rayWidth: 0.15
+  rayVisualDuration: 0.12
+  rayMaterial: {fileID: 0}
+  rayColor: {r: 0, g: 1, b: 1, a: 1}
+  aoeRadius: 2.5
+  aoeCastDistance: 0
+  aoeVfxPrefab: {fileID: 0}
+  handRange: 1.4
+  handRadius: 0.8
+  handVfxPrefab: {fileID: 0}
+  spawnCount: 1
+  spreadAngle: 30
+  spawnInterval: 0

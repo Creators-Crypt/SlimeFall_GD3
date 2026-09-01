@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91ed46f2e35663a4899748da965190d9, type: 3}
+  m_Name: Shooter Slime 1
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatsSO
+  enemyType: 1
+  maxHealth: 75
+  patrolSpeed: 2
+  chaseSpeed: 4
+  patrolRadius: 20
+  patrolWaitTimeMin: 1.5
+  patrolWaitTimeMax: 3.5
+  detectionRadius: 25
+  detectionAngle: 145
+  lostSightTime: 3
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  attackRange: 20
+  attackCooldown: 0.8
+  attackDamage: 10
+  projectilePrefab: {fileID: 2002685277281540589, guid: 85faa578e3404a0469553bca229569c0, type: 3}
+  projectileSpeed: 20
+  explosionRadius: 3
+  explosionVFX: {fileID: 1053634625239504964, guid: 2d1219a6a7587cf47915192db2b69d4f, type: 3}
+  splitChance: 1
+  splitPrefab: {fileID: 8849678851245949963, guid: 722e50717483894479156f0de3d076ac, type: 3}
+  splitCount: 2
+  splitRadius: 10
+  splitVFXPrefab: {fileID: 6865101975669719008, guid: d6e9340b6de345a49ab29188122113e4, type: 3}
+  splitGrowthSpeed: 0
