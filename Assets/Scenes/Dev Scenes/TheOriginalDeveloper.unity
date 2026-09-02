@@ -11867,6 +11867,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5733542144322329335, guid: 7c8edd1a529e66a458b62d32b65baca2, type: 3}
+      propertyPath: interactableLayer.m_Bits
+      value: 512
+      objectReference: {fileID: 0}
     - target: {fileID: 8016098750306855659, guid: 7c8edd1a529e66a458b62d32b65baca2, type: 3}
       propertyPath: m_Mesh
       value: 

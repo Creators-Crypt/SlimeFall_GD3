@@ -14,6 +14,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Fire",
+                    "type": "Button",
+                    "id": "53daac50-d03a-49ec-84f5-95baba826b4b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -82,6 +91,17 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "d388650e-485d-4074-9ea5-26312ce93399",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -103,6 +123,34 @@
                 {
                     "name": "",
                     "id": "7a7ceb50-0007-4e77-a5eb-8a73ece97161",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Attack",
+            "id": "b19b1240-cb92-45e4-ba10-ead37c396235",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "cea39287-64b4-4e6f-b20f-cc76e20cb23c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "21f15875-6735-49b1-98af-b0b719768fee",
                     "path": "",
                     "interactions": "",
                     "processors": "",
