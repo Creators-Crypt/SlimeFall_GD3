@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour 
 {
     [Header("References")]
+    [SerializeField] private PlayerControls inputs;
     [SerializeField] CharacterController controller;
     [SerializeField] PlayerStats stats;
     [SerializeField] HealthSystem healthSystem;
@@ -55,8 +57,9 @@ public class PlayerController : MonoBehaviour
     float teleportDistanceBonus = 0f;
     float dodgeCooldownReduction = 0f;
     float dodgeSpeedBonus = 0f;
-  
+
     //Movement
+    Vector2 moveInput;
     Vector3 moveDir;
     Vector3 playerVel;
 
@@ -101,7 +104,20 @@ public class PlayerController : MonoBehaviour
         Concentrate,
         Dead
     }
+    private void OnEnable() {
 
+        inputs = new PlayerControls();
+        inputs.Enable();
+
+        inputs.Movement.Move.performed += Move_performed;
+        inputs.Movement.Move.canceled += Move_performed;
+    }
+    private void OnDisable() {
+        inputs.Disable();
+
+        inputs.Movement.Move.performed -= Move_performed;
+        inputs.Movement.Move.canceled -= Move_performed;
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
         controller = GetComponent<CharacterController>();
@@ -151,8 +167,8 @@ public class PlayerController : MonoBehaviour
         {
             teleportCooldownTimer -= Time.deltaTime;
         }
-        moveDir = Input.GetAxis("Horizontal") * transform.right +
-            Input.GetAxis("Vertical") * transform.forward;
+/*        moveDir = Input.GetAxis("Horizontal") * transform.right +
+            Input.GetAxis("Vertical") * transform.forward;*/
 
         teleport();
         dodge();
@@ -170,15 +186,24 @@ public class PlayerController : MonoBehaviour
             rotateArm();
         }
     }
-
+    private void Move_performed(InputAction.CallbackContext context) {
+        if (context.performed) {
+            moveInput = context.ReadValue<Vector2>();
+        } else {
+            moveInput = Vector2.zero;
+        }
+        Debug.Log($"movement value: {moveInput}");
+    }
     void movement() {
         if (controller.isGrounded && playerVel.y < 0) {
             jumpCount = 0;
             playerVel.y = -2f;
         }
 
-        if (!isTeleporting && !isDodging && !isConcentrating) { 
-            controller.Move(moveDir.normalized * (currentSpeed * speedMult) * Time.deltaTime);
+        if (!isTeleporting && !isDodging && !isConcentrating) {
+            var movement = new Vector3(moveInput.x, 0f, moveInput.y);
+            movement = transform.TransformDirection(movement);
+            controller.Move(movement.normalized * (currentSpeed * speedMult) * Time.deltaTime);
         }
 
         if(!isConcentrating)
