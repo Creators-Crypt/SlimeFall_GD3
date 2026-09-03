@@ -731,7 +731,7 @@ MonoBehaviour:
   interactionRange: 3
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 512
   interact:
     m_Name: Interact
     m_Type: 0

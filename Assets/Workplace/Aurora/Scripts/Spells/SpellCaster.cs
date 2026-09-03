@@ -139,21 +139,24 @@ public class SpellCaster : MonoBehaviour {
     }
     private Vector3 GetAimDirection(Vector3 origin) {
 
-        var mouse = Mouse.current;
         var cam = Camera.main;
 
-        if (mouse == null || cam == null) return transform.forward;
+        if (cam == null) return transform.forward;
 
-        Vector3 mouseScreenPosition = mouse.position.ReadValue();
+        Vector3 centerPosition = new(Screen.width * 0.5f, Screen.height * 0.5f, 0f);
+        Ray reticleRay = cam.ScreenPointToRay(centerPosition);
+        Vector3 targetWorldPosition;
+        float maxAimDistance = 500f;
 
-        Ray ray = cam.ScreenPointToRay(mouseScreenPosition);
-        if (Physics.Raycast(ray, out RaycastHit hit)) {
-            Vector3 direction = hit.point - origin;
-            
-            direction.y = 0f;
-
-            if (direction.sqrMagnitude > 0.001f) return direction.normalized;
+        if (Physics.Raycast(reticleRay, out RaycastHit hit, maxAimDistance, EquippedSpell?.AssetData.hitLayers ?? ~0)) {
+            targetWorldPosition = hit.point;
+        } else {
+            targetWorldPosition = reticleRay.origin + reticleRay.direction * maxAimDistance;
         }
+        Vector3 convergenceDirection = targetWorldPosition - origin;
+
+        if (convergenceDirection.sqrMagnitude > 0.001f) return convergenceDirection.normalized;
+
         return transform.forward;
     }
     public void SetWeapon(SpellWeaponData newWeapon) { equippedWeapon = newWeapon; }
