@@ -45,7 +45,7 @@ public class EnemyAI : MonoBehaviour, IDamageable
             Debug.LogWarning("Be sure the player is TAGED AS PLAYER");
         }
 
-        origColor = model.material.color;
+        origColor = model.material.GetColor("_BaseColor");
 
         if (firePoint == null) firePoint = transform;
         spawnPostion = transform.position;
@@ -255,9 +255,9 @@ public class EnemyAI : MonoBehaviour, IDamageable
 
     public virtual IEnumerator FlashRed()
     {
-        model.material.color = Color.red;
+        model.material.SetColor("_BaseColor", Color.red);
         yield return new WaitForSeconds(0.1f);
-        model.material.color = origColor;
+        model.material.SetColor("_BaseColor", origColor);
     }
 
     IEnumerator GrowSpawn (float _duration)

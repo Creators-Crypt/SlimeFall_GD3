@@ -160,7 +160,8 @@ public class BossAI : EnemyAI
 
         model.material = _phaseMaterial;
 
-        currentColor = model.material.color;
+        currentColor = model.material.GetColor("_BaseColor");
+        origColor = currentColor;
     }
 
     public void WarpToNavMesh(Vector3 _position)
