@@ -31,6 +31,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 2002685277281540589, guid: 85faa578e3404a0469553bca229569c0, type: 3}
   projectileSpeed: 20
   explosionRadius: 15
+  explosionVFX: {fileID: 0}
   splitChance: 0
   splitPrefab: {fileID: 0}
   splitCount: 2
@@ -39,9 +40,9 @@ MonoBehaviour:
   splitGrowthSpeed: 0
   phase2HealthPercent: 0.5
   phase3HealthPercent: 0.02
-  phase1Material: {fileID: 2100000, guid: b83308c389b240e44bd537f596dc6501, type: 2}
-  phase2Material: {fileID: 2100000, guid: 501bad688d6dd4dfd80cf405df51e849, type: 2}
-  phase3Material: {fileID: 2100000, guid: 217152b783193b54dae650758dcefac2, type: 2}
+  phase1Material: {fileID: 2100000, guid: 385816ac7a6781e4f933eaa0425cfd8f, type: 2}
+  phase2Material: {fileID: 2100000, guid: ed30b6adc0c509548b22534664951f1b, type: 2}
+  phase3Material: {fileID: 2100000, guid: db971205d21102d4090ace1e54d830a7, type: 2}
   stunMaterial: {fileID: 2100000, guid: f2ba0e26bd5a8064da7c72101ad2eaf6, type: 2}
   colorBlendTime: 1.25
   eyeDamageMultiplier: 2

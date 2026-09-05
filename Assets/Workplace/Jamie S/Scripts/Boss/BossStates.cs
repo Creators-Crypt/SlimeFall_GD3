@@ -161,6 +161,9 @@ public class BossPhase1State : IEnemyState
 
     private Vector3 PickImpactPoint(int _shellNumber)
     {
+        Vector3 lead = boss.playerVelocity;
+        lead.y = 0f;
+
         Vector3 aimPoint = boss.playerTarget.position + boss.playerVelocity * stats.mortarAimAheadOfPlayer;
 
         if (_shellNumber > 0)
@@ -206,7 +209,7 @@ public class BossPhase1State : IEnemyState
         }
         else
         {
-            Object.Destroy(marker, _flightTime + .5f);
+            Object.Destroy(marker, _flightTime + .1f);
         }
     }
 }
