@@ -1,12 +1,12 @@
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour 
 {
     [Header("References")]
-    [SerializeField] private PlayerControls inputs;
+    [SerializeField] private PlayerInputHandler inputHandler;
     [SerializeField] CharacterController controller;
     [SerializeField] PlayerStats stats;
     [SerializeField] HealthSystem healthSystem;
@@ -59,7 +59,6 @@ public class PlayerController : MonoBehaviour
     float dodgeSpeedBonus = 0f;
 
     //Movement
-    Vector2 moveInput;
     Vector3 moveDir;
     Vector3 playerVel;
 
@@ -104,20 +103,7 @@ public class PlayerController : MonoBehaviour
         Concentrate,
         Dead
     }
-    private void OnEnable() {
-
-        inputs = new PlayerControls();
-        inputs.Enable();
-
-        inputs.Movement.Move.performed += Move_performed;
-        inputs.Movement.Move.canceled += Move_performed;
-    }
-    private void OnDisable() {
-        inputs.Disable();
-
-        inputs.Movement.Move.performed -= Move_performed;
-        inputs.Movement.Move.canceled -= Move_performed;
-    }
+  
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
         controller = GetComponent<CharacterController>();
@@ -127,6 +113,8 @@ public class PlayerController : MonoBehaviour
         staminaController = GetComponent<StaminaController>();
 
         concentrationController = GetComponent<ConcentrationController>();
+
+        inputHandler = GetComponent<PlayerInputHandler>();
 
         currentSpeed = stats.walkSpeed;
 
@@ -150,8 +138,9 @@ public class PlayerController : MonoBehaviour
 
         stamina = staminaController.Current;
         isPlayerSprinting = !isConcentrating && 
-            Input.GetKey(KeyCode.LeftShift) &&
-            (staminaController.Current > stats.sprintStaminaCost);
+            inputHandler.SprintHeld &&
+            moveDir.sqrMagnitude > 0.01f &&
+            staminaController.Current > 0f ;
 
         staminaController.IsConsuming = isPlayerSprinting;
         currentSpeed = (isPlayerSprinting) ? stats.sprintSpeed : stats.walkSpeed;
@@ -167,8 +156,7 @@ public class PlayerController : MonoBehaviour
         {
             teleportCooldownTimer -= Time.deltaTime;
         }
-/*        moveDir = Input.GetAxis("Horizontal") * transform.right +
-            Input.GetAxis("Vertical") * transform.forward;*/
+
 
         teleport();
         dodge();
@@ -186,62 +174,66 @@ public class PlayerController : MonoBehaviour
             rotateArm();
         }
     }
-    private void Move_performed(InputAction.CallbackContext context) {
-        if (context.performed) {
-            moveInput = context.ReadValue<Vector2>();
-        } else {
-            moveInput = Vector2.zero;
-        }
-        Debug.Log($"movement value: {moveInput}");
-    }
-    void movement() {
-        if (controller.isGrounded && playerVel.y < 0) {
+  
+    void movement() 
+    {
+        if (controller.isGrounded && playerVel.y < 0) 
+        {
             jumpCount = 0;
             playerVel.y = -2f;
         }
 
-        if (!isTeleporting && !isDodging && !isConcentrating) {
-            var movement = new Vector3(moveInput.x, 0f, moveInput.y);
-            movement = transform.TransformDirection(movement);
-            controller.Move(movement.normalized * (currentSpeed * speedMult) * Time.deltaTime);
+        if (!isTeleporting && !isDodging && !isConcentrating) 
+        {
+            moveDir = new Vector3(inputHandler.MoveInput.x, 0f, inputHandler.MoveInput.y);
+
+            moveDir = transform.TransformDirection(moveDir);
+
+            controller.Move(moveDir.normalized * (currentSpeed * speedMult) * Time.deltaTime);
         }
 
         if(!isConcentrating)
         {
             jump();
         }
-       
 
         controller.Move(playerVel * Time.deltaTime);
-
         playerVel.y -= (gravity * gravityMult) * Time.deltaTime;
-
     }
-
     void dodge() {
 
 
-        if (Input.GetButtonDown("Dodge") && dodgeCooldownTimer <= 0 && staminaController.TrySpend(stats.dodgeStaminaCost))
+        if (inputHandler.DodgePressed)
         {
-            isDodging = true;
+           if(dodgeCooldownTimer <= 0 && staminaController.TrySpend(stats.dodgeStaminaCost))
+            {
+                isDodging = true;
 
-            dodgeTimer = stats.dodgeDuration;
-            dodgeCooldownTimer = Mathf.Max(0f, stats.dodgeCooldown - dodgeCooldownTimer);
+                dodgeTimer = stats.dodgeDuration;
+                dodgeCooldownTimer = Mathf.Max(0f, stats.dodgeCooldown - dodgeCooldownReduction);
 
-            dodgeDirection = moveDir.normalized;
+                dodgeDirection = moveDir.normalized;
 
-            if (dodgeDirection == Vector3.zero) {
-                dodgeDirection = transform.forward;
+                if (dodgeDirection == Vector3.zero)
+                {
+                    dodgeDirection = transform.forward;
+                }
+
+                controller.height = dodgeControllerHeight;
+
+                float heightDifference = originalControllerHeight - dodgeControllerHeight;
+
+                controller.center = originalControllerCenter - new Vector3(0f, heightDifference / 2f, 0f);
+
+                if (GameManager.Instance != null)
+                {
+                    GameManager.Instance.PlayerPerformAction("Dodge");
+                }
             }
 
-            controller.height = dodgeControllerHeight;
-
-            float heightDifference = originalControllerHeight - dodgeControllerHeight;
-
-            controller.center = originalControllerCenter - new Vector3(0f, heightDifference / 2f, 0f);
-
-            GameManager.Instance.PlayerPerformAction("Dodge");
+            inputHandler.UseDodge();
         }
+       
 
         if (isDodging) {
 
@@ -268,84 +260,96 @@ public class PlayerController : MonoBehaviour
                 originalScale, 15f * Time.deltaTime);
         }
     }
-     // only needs a cooldown and will work off of focus
     void teleport ()
     {
-        if (Input.GetButtonDown("Teleport") && teleportCooldownTimer <= 0 && !isTeleporting)
+        if (inputHandler.TeleportPressed)
         {
-            isTeleporting = true;
-
-            teleportCooldownTimer = Mathf.Max(0f, teleportCooldown - teleportCooldownReduction);
-
-            RaycastHit hit;
-
-            Vector3 teleportDirection = Camera.main.transform.forward;
-            Vector3 teleportPoint;
-
-            if (Physics.Raycast(Camera.main.transform.position,
-                teleportDirection, out hit, teleportDistance + teleportDistanceBonus, ~ignoreLayer))
+           if(teleportCooldownTimer <= 0 && !isTeleporting)
             {
-                teleportPoint = hit.point - teleportDirection * 1.5f;
-            }
 
-            else
-            {
-                teleportPoint = transform.position + teleportDirection * (teleportDistance + teleportDistanceBonus);
-            }
+                isTeleporting = true;
 
-            RaycastHit groundHit;
+                teleportCooldownTimer = Mathf.Max(0f, teleportCooldown - teleportCooldownReduction);
 
-            Vector3 groundCheck = teleportPoint + Vector3.up * 10f;
+                RaycastHit hit;
 
-            if(Physics.Raycast(groundCheck, Vector3.down, out groundHit, 20f, ~ignoreLayer))
-            {
-                float controllerBottom = controller.center.y - (controller.height / 2f);
+                Vector3 teleportDirection = Camera.main.transform.forward;
+                Vector3 teleportPoint;
 
-                float groundOffset = -controllerBottom;
-                if(teleportPoint.y < groundHit.point.y + groundOffset)
+                if (Physics.Raycast(Camera.main.transform.position,
+                    teleportDirection, out hit, teleportDistance + teleportDistanceBonus, ~ignoreLayer))
                 {
-                    teleportPoint.y = groundHit.point.y + groundOffset;
+                    teleportPoint = hit.point - teleportDirection * 1.5f;
+                }
+
+                else
+                {
+                    teleportPoint = transform.position + teleportDirection * (teleportDistance + teleportDistanceBonus);
+                }
+
+                RaycastHit groundHit;
+
+                Vector3 groundCheck = teleportPoint + Vector3.up * 10f;
+
+                if (Physics.Raycast(groundCheck, Vector3.down, out groundHit, 20f, ~ignoreLayer))
+                {
+                    float controllerBottom = controller.center.y - (controller.height / 2f);
+
+                    float groundOffset = -controllerBottom;
+                    if (teleportPoint.y < groundHit.point.y + groundOffset)
+                    {
+                        teleportPoint.y = groundHit.point.y + groundOffset;
+                    }
+                }
+
+                if (teleportTrail != null)
+                {
+                    teleportTrail.Clear();
+                    teleportTrail.emitting = true;
+                }
+
+                controller.enabled = false;
+                transform.position = teleportPoint;
+                controller.enabled = true;
+                isTeleporting = false;
+               
+               if(teleportTrail != null)
+                {
+                    StartCoroutine(stopTeleportTrail());
+                }
+
+                if(GameManager.Instance != null)
+                {
+                    GameManager.Instance.PlayerPerformAction("Teleport");
                 }
             }
-           
-            if(teleportTrail != null)
-            {
-                teleportTrail.Clear();
-                teleportTrail.emitting = true;
-            }
-
-            controller.enabled = false;
-            transform.position = teleportPoint;
-            controller.enabled = true;
-
-            GameManager.Instance.PlayerPerformAction("Teleport");
-            //playerVel.y = 0f;
-
-            if (teleportTrail != null)
-            {
-                StartCoroutine(stopTeleportTrail());
-            }
-
-            
-        } 
+           inputHandler.UseTeleport();
+        }
     }
     IEnumerator stopTeleportTrail()
     {
-        yield return new WaitForSeconds(teleportTrailTime);
+        yield return null;
 
-        if(teleportTrail!= null)
+        if(teleportTrail != null)
         {
             teleportTrail.emitting = false;
         }
-        isTeleporting = false;
     }
+void jump() {
+        if (inputHandler.JumpPressed) 
+        {
+            if(jumpCount < jumpMax + bonusJumps)
+            {
+                jumpCount++;
+                playerVel.y = jumpSpeed;
 
-    void jump() {
-        if (Input.GetButtonDown("Jump") && jumpCount < jumpMax + bonusJumps) {
-            jumpCount++;
-            playerVel.y = jumpSpeed;
+                if (GameManager.Instance != null)
+                {
+                    GameManager.Instance.PlayerPerformAction("Jump");
+                }
+            }
 
-            GameManager.Instance.PlayerPerformAction("Jump");
+            inputHandler.UseJump();
         }
     }
 
@@ -403,12 +407,20 @@ public class PlayerController : MonoBehaviour
     }
     void concentrate()
     {
-        if (Input.GetButtonDown("Concentrate") && !isConcentrating)
+        if (inputHandler.ConcentratePressed)
         {
-            isConcentrating = true;
-            concentrationTimer = stats.refillConcentrationTime / concentrationSpeedMult;
+            if(!isConcentrating)
+            {
+                isConcentrating = true;
+                concentrationTimer = stats.refillConcentrationTime / concentrationSpeedMult;
 
-            concentrationLight.SetActive(true);
+                if(concentrationLight != null)
+                {
+                    concentrationLight.SetActive(true);
+                }
+            }
+
+            inputHandler.UseConcentrate();
         }
 
         if(isConcentrating)
@@ -419,12 +431,18 @@ public class PlayerController : MonoBehaviour
             {
                 concentrationController.refill();
 
-                GameManager.Instance.PlayerPerformAction("Concentrate");
+                if (GameManager.Instance != null)
+                {
+                    GameManager.Instance.PlayerPerformAction("Concentrate");
+                }
 
                 isConcentrating = false;
                 concentrationTimer = 0f;
 
-                concentrationLight.SetActive(false);
+                if(concentrationLight != null)
+                {
+                    concentrationLight.SetActive(false);
+                }
             }
         }
     }

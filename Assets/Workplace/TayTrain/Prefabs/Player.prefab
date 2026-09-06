@@ -320,6 +320,8 @@ GameObject:
   - component: {fileID: 6683432880067380384}
   - component: {fileID: 5648653540166664426}
   - component: {fileID: 5733542144322329335}
+  - component: {fileID: 5064682265971215465}
+  - component: {fileID: 237129675723485011}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -407,6 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3311b4e944df67c4a9108caadf427232, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
+  inputHandler: {fileID: 0}
   controller: {fileID: 9159737729615350152}
   stats: {fileID: 11400000, guid: dfe4fb052dce893488008b0512ccee0f, type: 2}
   healthSystem: {fileID: 1874060393386750794}
@@ -618,7 +621,7 @@ TrailRenderer:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.79399025
+        time: 1
         value: 0
         inSlope: 0
         outSlope: 0
@@ -749,6 +752,48 @@ MonoBehaviour:
       m_Action: Interact
       m_Flags: 0
     m_Flags: 0
+--- !u!114 &5064682265971215465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818594594264804547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
+  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &237129675723485011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818594594264804547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9c6a057b9aabd74ea40c8b84c4ee6e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInputHandler
 --- !u!1 &1883817470414989196
 GameObject:
   m_ObjectHideFlags: 0
@@ -2659,7 +2704,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6008
+  m_VersionIndex: 6080
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
