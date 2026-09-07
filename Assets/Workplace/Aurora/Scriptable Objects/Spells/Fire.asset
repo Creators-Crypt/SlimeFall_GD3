@@ -31,7 +31,7 @@ MonoBehaviour:
   rayDistance: 10
   rayWidth: 0.15
   rayVisualDuration: 0.12
-  rayMaterial: {fileID: 0}
+  rayMaterial: {fileID: 2100000, guid: a0871421f56b5d443aea99db6a6d73f2, type: 2}
   rayColor: {r: 0, g: 1, b: 1, a: 1}
   aoeRadius: 5
   aoeCastDistance: 5
