@@ -728,7 +728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
   target: {fileID: 0}
-  interactionRange: 3
+  interactionRange: 5
   interactableLayer:
     serializedVersion: 2
     m_Bits: 512
@@ -2659,7 +2659,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6008
+  m_VersionIndex: 6011
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
