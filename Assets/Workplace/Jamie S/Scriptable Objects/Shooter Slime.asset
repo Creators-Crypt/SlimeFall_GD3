@@ -28,9 +28,10 @@ MonoBehaviour:
   attackRange: 20
   attackCooldown: 1.2
   attackDamage: 5
-  projectilePrefab: {fileID: 2002685277281540589, guid: 85faa578e3404a0469553bca229569c0, type: 3}
+  projectilePrefab: {fileID: 7734611303218779850, guid: 471942e24e6ab0847860bd254d3d13c1, type: 3}
   projectileSpeed: 20
   explosionRadius: 3
+  explosionVFX: {fileID: 0}
   splitChance: 1
   splitPrefab: {fileID: 8849678851245949963, guid: 722e50717483894479156f0de3d076ac, type: 3}
   splitCount: 2
