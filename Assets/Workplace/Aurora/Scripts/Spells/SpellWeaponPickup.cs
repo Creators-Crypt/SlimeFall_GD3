@@ -11,7 +11,7 @@ public class SpellWeaponPickup : MonoBehaviour, IInteractable {
     [SerializeField] private Transform visualAnchor;
 
     [Header("Interaction Settings")]
-    [SerializeField] private string promptMessage = "Press E to equip ";
+    [SerializeField] private string promptMessage = "Press Z to equip ";
 
     public string InteractionPrompt => weaponData != null ? $"{promptMessage}{weaponData.weaponName}" : "Interact";
 
