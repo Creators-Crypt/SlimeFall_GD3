@@ -17,5 +17,5 @@ MonoBehaviour:
   dropWeight: 5
   minStatRolls: 3
   maxStatRolls: 4
-  minStatMultiplier: 1.5
-  maxStatMultiplier: 3
+  minStatMultiplier: 2.5
+  maxStatMultiplier: 3.5

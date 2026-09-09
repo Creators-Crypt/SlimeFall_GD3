@@ -15,7 +15,7 @@ MonoBehaviour:
   rarity: 2
   displayColor: {r: 0.8301887, g: 0.003915994, b: 0.025529517, a: 1}
   dropWeight: 10
-  minStatRolls: 2
+  minStatRolls: 3
   maxStatRolls: 3
   minStatMultiplier: 1.25
   maxStatMultiplier: 1.5
