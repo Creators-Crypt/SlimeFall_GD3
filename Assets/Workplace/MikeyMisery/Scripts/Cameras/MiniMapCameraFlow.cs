@@ -3,7 +3,18 @@ using UnityEngine;
 public class MiniMapCameraFlow : MonoBehaviour
 {
     [SerializeField] private Transform player;
-    [SerializeField] private float height = 50f;
+    [SerializeField] private float height = 150f;
+
+    private void Start()
+    {
+        if (player == null)
+        {
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+
+            if (playerObject != null )
+                player = playerObject.transform;
+        }
+    }
 
     private void LateUpdate()
     {
@@ -11,8 +22,8 @@ public class MiniMapCameraFlow : MonoBehaviour
             return;
 
         transform.position = new Vector3(
-            player.position.x, 
-            player.position.y + height, 
+            player.position.x,
+            player.position.y + height,
             player.position.z
         );
     }
