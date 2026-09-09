@@ -255,7 +255,7 @@ public class BossAI : EnemyAI
         }
 
         float bottom = GetPhaseHealthBottom();
-        currentHealth = Mathf.Max(currentHealth - finalDamage, bottom);
+        CurrentHealth = Mathf.Max(CurrentHealth - finalDamage, bottom);
 
         StartCoroutine(FlashRed());
 
@@ -264,6 +264,7 @@ public class BossAI : EnemyAI
             RegisterEyeHits();
         }
         CheckPhaseChange();
+        NotifyHealthChanged();
     }
 
 
@@ -359,13 +360,12 @@ public class BossAI : EnemyAI
     }
     public float GetMaxHealth()
     {
-        if (stats == null) return 1f;
-        return stats.maxHealth;
+        return MaxHealth;
     }
     public float GetHealthPercent()
     {
         if (GetMaxHealth() <= 0f) return 0f;
-        return Mathf.Clamp01(currentHealth / GetMaxHealth());
+        return Mathf.Clamp01(CurrentHealth / GetMaxHealth());
     }
 
     public override void Die()

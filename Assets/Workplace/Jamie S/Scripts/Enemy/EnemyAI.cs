@@ -16,10 +16,9 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
     [SerializeField] public Transform playerTarget;
     [SerializeField] public Renderer model;
 
-    [SerializeField] private LayerMask playerLayer; //ADDED Line to script.
+    [SerializeField] private LayerMask playerLayer; 
 
-    public Vector3 spawnPostion;   
-    public float currentHealth;
+    public Vector3 spawnPostion;    
     public float faceTargetRotSpeed = 10;
     public float timeSinceLastSawPlayer;
     public float lastAttackTime;
@@ -35,11 +34,9 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
     public event Action OnDeath;
     public event Action<float, float> OnHealthChanged;
 
-    public float CurrentHealth => throw new NotImplementedException();
-
-    public float MaxHealth => throw new NotImplementedException();
-
-    public bool IsDead => throw new NotImplementedException();
+    public float CurrentHealth {  get; protected set; }
+    public float MaxHealth { get; private set; }
+    public bool IsDead { get; private set; }
 
     public virtual void Awake()
     {
@@ -58,7 +55,8 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
 
         if (firePoint == null) firePoint = transform;
         spawnPostion = transform.position;
-        currentHealth = stats.maxHealth;
+        InitializeEnemyHealth();
+
 
         stateMachine = new EnemyStateMachine();
         idleState = new EnemyIdleState(this);
@@ -71,13 +69,29 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
     public virtual void Start()
     {
         stateMachine.Initialize(patrolState);
-
     }
-
     // Update is called once per frame
    public virtual void Update()
     {
         stateMachine.Tick();
+    }
+
+    protected void InitializeEnemyHealth()
+    {
+        if (stats != null)
+        {
+            MaxHealth = stats.maxHealth;
+        }
+        CurrentHealth = MaxHealth;
+        IsDead = false;
+    }
+
+    protected void NotifyHealthChanged()
+    {
+        if (OnHealthChanged != null)
+        {
+            OnHealthChanged(CurrentHealth, MaxHealth);
+        }
     }
 
     public bool CanSeePlayer()
@@ -212,13 +226,18 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
 
     public virtual void OnDamage(float amount)
     {
+        if (IsDead) return;       
 
-        currentHealth -= amount;
+        CurrentHealth -= amount;
         StartCoroutine(FlashRed());
         //if(stats.projectilePrefab != null) { Destroy(stats.projectilePrefab, .01f); }
-        if (currentHealth <= 0f)
+        if (CurrentHealth <= 0f)
         {
             Die();
+        }
+        else
+        {
+            NotifyHealthChanged();
         }
     }
   
@@ -251,7 +270,12 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
     }
     public virtual void Die()
     {
-        //GameManager.instance.EnemyAIKilled();
+        if (IsDead) return;
+        CurrentHealth = 0f;
+
+        NotifyHealthChanged();
+        if(OnDeath != null) OnDeath();
+        
         if(stats.splitPrefab != null && UnityEngine.Random.value <= stats.splitChance)
         {
             SplitSlime();
@@ -285,16 +309,17 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
 
     public void OnHeal(float healAmount)
     {
-        throw new NotImplementedException();
+        //enemies don't heal
     }
 
     public void HealMax()
     {
-        throw new NotImplementedException();
+        //enemies don't heal
     }
 
     public IEnumerator HealOverTime(float duration)
     {
-        throw new NotImplementedException();
+        //Enemies don't heal with time.....Unless????
+        yield break;
     }
 }

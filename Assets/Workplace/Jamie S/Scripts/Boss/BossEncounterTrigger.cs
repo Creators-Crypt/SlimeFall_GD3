@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BossEncounterTrigger : MonoBehaviour
 {
-    public BossAI boss;
+    public MonoBehaviour boss;
     public BossHealthBarUI bossHealthBar;
 
     public void Awake()
