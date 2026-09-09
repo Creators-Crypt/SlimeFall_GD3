@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using static EnemyStatsSO;
 
-public class EnemyAI : MonoBehaviour, IDamageable
+public class EnemyAI : MonoBehaviour, IDamageable, IHealth
 {
     
     [Header("Data from Scriptiabl object")]
@@ -31,6 +32,14 @@ public class EnemyAI : MonoBehaviour, IDamageable
     public EnemyChaseState chaseState;
     public EnemyAttackState attackState;
 
+    public event Action OnDeath;
+    public event Action<float, float> OnHealthChanged;
+
+    public float CurrentHealth => throw new NotImplementedException();
+
+    public float MaxHealth => throw new NotImplementedException();
+
+    public bool IsDead => throw new NotImplementedException();
 
     public virtual void Awake()
     {
@@ -272,5 +281,20 @@ public class EnemyAI : MonoBehaviour, IDamageable
             yield return null;
         }
         transform.localScale = fullScale;
+    }
+
+    public void OnHeal(float healAmount)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void HealMax()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IEnumerator HealOverTime(float duration)
+    {
+        throw new NotImplementedException();
     }
 }
