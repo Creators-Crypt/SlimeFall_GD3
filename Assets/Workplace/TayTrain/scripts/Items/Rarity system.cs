@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class Raritysystem : MonoBehaviour
+public class RaritySystem : MonoBehaviour
 {
     [Header("Rarity Definitions")]
     [SerializeField] private List<RarityDef> rarityDef;
