@@ -1,10 +1,13 @@
-using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class NarrationManager : MonoBehaviour {
-    
-    [System.Serializable]
+
+    public static Action<DialogueData> OnDialogueFinished;
+
+    [Serializable]
     public struct StageDialogueMapping {
         public GameStage stage;
         public DialogueData dialogue;
@@ -26,26 +29,27 @@ public class NarrationManager : MonoBehaviour {
     private Coroutine queueProcessingCoroutine;
 
     private void Awake() {
-        
+
+        Debug.Log("<color=lime>NARRATION MANAGER AWAKE</color>");
+
         InitializeDynamicComments();
         narrationLookup = new Dictionary<GameStage, DialogueData>();
         foreach (var mapping in stageNarrations) {
             narrationLookup[mapping.stage] = mapping.dialogue;
         }
-    }
-
-    private void Start() {
-
         queueProcessingCoroutine = StartCoroutine(ProcessDialogueQueue());
     }
-
     private void OnEnable() {
+
+        Debug.Log("<color=yellow>NARRATION MANAGER ENABLED</color>");
 
         GameManager.OnStageChanged += HandleStageChanged;
         GameManager.OnPlayerAction += HandleDynamicAction;
     }
 
     private void OnDisable() {
+
+        Debug.Log("<color=yellow>NARRATION MANAGER DISABLED</color>");
 
         GameManager.OnStageChanged -= HandleStageChanged;
         GameManager.OnPlayerAction -= HandleDynamicAction;
@@ -64,8 +68,23 @@ public class NarrationManager : MonoBehaviour {
     }
     // This handles primary story milestones from the GameManager
     private void HandleStageChanged(GameStage newStage) {
+
+        Debug.Log(
+            $"<color=cyan>NARRATION STAGE RECEIVED:</color> {newStage}"
+        );
+
         if (narrationLookup.TryGetValue(newStage, out DialogueData data)) {
+
+            Debug.Log(
+                $"<color=lime>NARRATION FOUND:</color> {data.name}"
+            );
+
             RequestNarration(data);
+        } else {
+
+            Debug.LogWarning(
+                $"<color=red>NO NARRATION MAPPED:</color> {newStage}"
+            );
         }
     }
     // This handles real-time actions (combat, falling, smashing objects)
@@ -86,18 +105,28 @@ public class NarrationManager : MonoBehaviour {
         if (newLine == null) return;
 
         if (newLine.priority == NarrationPriority.High_CriticalStory) {
-            InterruptCurrentLine(newLine);
+            if (activeLine != null) {
+                InterruptCurrentLine(newLine);
+            } else {
+                dialogueQueue.Insert(0, newLine);
+            }
             return;
         }
+
         if (activeLine != null &&
             activeLine.priority == NarrationPriority.High_CriticalStory &&
             newLine.priority == NarrationPriority.Low_CasualCommentary) {
-            Debug.Log($"Dropped low priority line: '{newLine.subtitleText}' because critical story is playing.");
+            Debug.Log(
+                $"Dropped low priority line: '{newLine.subtitleText}' because critical story is playing."
+            );
             return;
         }
+
         dialogueQueue.Add(newLine);
 
-        dialogueQueue.Sort((line1, line2) => line2.priority.CompareTo(line1.priority));
+        dialogueQueue.Sort(
+            (line1, line2) => line2.priority.CompareTo(line1.priority)
+        );
     }
     private IEnumerator ProcessDialogueQueue() {
         
@@ -112,6 +141,8 @@ public class NarrationManager : MonoBehaviour {
 
                 float waitTime = activeLine.voiceAudio != null ? activeLine.voiceAudio.length : activeLine.displayDuration;
                 yield return new WaitForSeconds(waitTime);
+
+                OnDialogueFinished?.Invoke(activeLine);
 
                 activeLine = null;
             }
@@ -131,18 +162,36 @@ public class NarrationManager : MonoBehaviour {
         queueProcessingCoroutine = StartCoroutine(ProcessDialogueQueue());
     }
     private void PlayAudioAndUI(DialogueData data) {
-        
-        if (data.voiceAudio != null) {
-            audioSource.PlayOneShot(data.voiceAudio);
+
+        Debug.Log($"PLAYING NARRATION: {data.name}");
+
+        if (audioSource == null) {
+            Debug.LogError("NarrationManager: No AudioSource assigned!");
+            return;
         }
 
-        // Send text data to your console / UI box
-        Debug.Log($"[{data.speakerName}]: {data.subtitleText} (Priority: {data.priority})");
+        if (data.voiceAudio != null) {
+            Debug.Log(
+                $"<color=cyan>NARRATION PLAY:</color> " +
+                $"'{data.subtitleText}' | Clip: {data.voiceAudio.name}"
+            );
 
-        // Hook up to UI system here when ready:
-        // UIManager.Instance.ShowSubtitle(data.speakerName, data.subtitleText, data.displayDuration);
+            audioSource.clip = data.voiceAudio;
+            audioSource.Play();
+        } else {
+            Debug.LogWarning(
+                $"NarrationManager: Dialogue '{data.name}' has no AudioClip."
+            );
+        }
+
+        Debug.Log(
+            $"[{data.speakerName}]: {data.subtitleText} " +
+            $"(Priority: {data.priority})"
+        );
+
         if (data.isSpecialIntroLine) {
             // UIManager.Instance.TriggerSplash(data.characterSplashImage, data.titleCardText);
         }
+        
     }
 }
