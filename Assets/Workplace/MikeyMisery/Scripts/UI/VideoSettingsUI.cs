@@ -13,9 +13,59 @@ public class VideoSettingsUI : MonoBehaviour
 
     private Resolution[] resolutions;
 
+    private void FindUIReferences()
+    {
+        TMP_Dropdown[] dropdowns = GetComponentsInChildren<TMP_Dropdown>(true);
+        Toggle[] toggles = GetComponentsInChildren<Toggle>(true);
+        Slider[] sliders = GetComponentsInChildren<Slider>(true);
+        TMP_Text[] texts = GetComponentsInChildren<TMP_Text>(true);
+
+        foreach (TMP_Dropdown dropdown in dropdowns)
+        {
+            switch (dropdown.name)
+            {
+                case "ResolutionDropdown":
+                    resolutionDropdown = dropdown;
+                    break;
+                case "DisplayModeDropdown":
+                    displayModeDropdown = dropdown;
+                    break;
+                case "FrameRateDropdown":
+                    frameRateDropdown = dropdown;
+                    break;
+            }
+        }
+        foreach (Toggle toggle in toggles)
+        {
+            if (toggle.name == "VSyncToggle")
+            {
+                vSyncToggle = toggle;
+                break;
+            }
+        }
+        foreach (Slider slider in sliders)
+        {
+            if (slider.name == "BrightnessSlider")
+            {
+                brightnessSlider = slider;
+                break;
+            }
+        }
+        foreach (TMP_Text text in texts)
+        {
+            if (text.name == "BrightnessValue")
+            {
+                brightnessValue = text;
+                break;
+            }
+        }
+    }
+
     private void Start()
     {
+        FindUIReferences();
         SetupResolution();
+
         int savedResolution = PlayerPrefs.GetInt("Resolution", resolutionDropdown.value);
 
         if (savedResolution >= 0 && savedResolution < resolutions.Length)
@@ -25,7 +75,7 @@ public class VideoSettingsUI : MonoBehaviour
         }
         
         vSyncToggle.isOn = PlayerPrefs.GetInt("VSync", 1) == 1; // Default to VSync enabled
-        frameRateDropdown.value = PlayerPrefs.GetInt("FrameRate", -1); // Default to platform's default frame rate
+        frameRateDropdown.value = PlayerPrefs.GetInt("FrameRate", 0); // Default to platform's default frame rate
         frameRateDropdown.RefreshShownValue();
         displayModeDropdown.value = PlayerPrefs.GetInt("DisplayMode", 1); // Default to Borderless Fullscreen
         displayModeDropdown.RefreshShownValue();
