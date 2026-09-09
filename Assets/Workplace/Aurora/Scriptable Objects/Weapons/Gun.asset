@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a088f71807047c94cb5dffadccadf377, type: 3}
   m_Name: Gun
   m_EditorClassIdentifier: Assembly-CSharp::SpellWeaponData
-  weaponName: 
+  weaponName: Temp Gun
   weaponKind: 0
   delivery: 1
-  weaponModelPrefab: {fileID: 7060625056157491474, guid: d15ad3d44776ce249b0d4345d278d86e, type: 3}
+  weaponModelPrefab: {fileID: 1030983134, guid: 345cd27e9f3d8a6498270ab81902ff9c, type: 3}
   damageMultiplier: 1
   cooldownMultiplier: 1
   overrideSpawnCount: 0
