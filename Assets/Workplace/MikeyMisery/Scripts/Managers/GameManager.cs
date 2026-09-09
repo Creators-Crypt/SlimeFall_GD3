@@ -32,18 +32,16 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake() { 
         base.Awake();   
     }
-
     private void Start()
     {
 
         cameraController = Camera.main.GetComponent<CameraController>();
         Time.timeScale = 1f;
         currentState = GameState.Playing;
-        currentStage = GameStage.Intro_Spawn;
+        SetStage(GameStage.HomeBase_Tut_Spawn);
         hud.SetActive(true);
         HideCursor();
     }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
