@@ -30,5 +30,7 @@ public enum GameStage {
     HomeBase_Tut_WeaponsMagic,
     HomeBase_Tut_Abilities,
     HomeBase_Tut_Combat,
+    HomeBase_Tut_Kitchen,
+    HomeBase_Tut_Office,
     HomeBase_Tut_Complete,
 }

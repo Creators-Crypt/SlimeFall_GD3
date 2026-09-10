@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -70,6 +71,15 @@ public abstract class SpellDeliveryStrategyBase : ISpellDeliveryStrategy {
             yield return new WaitForSeconds(context.spawnInterval);
         }
     }
+    protected static StatusEffect CreateEffectFromElement(SpellElement element) => element switch {
+
+        SpellElement.None => null,
+        SpellElement.Fire => new BurnEffect(duration: 5f, dps: 3f),
+        SpellElement.Ice => new FreezeEffect(duration: 4f, slowPercent: 0.5f),
+        SpellElement.Void => throw new NotImplementedException(),
+        SpellElement.Wind => throw new NotImplementedException(),
+        _ => null
+    };
     private static Vector3 FanDirection(SpellCastContext context, int index, int count) {
 
         float spread = context.spreadAngle;
@@ -87,10 +97,18 @@ public abstract class SpellDeliveryStrategyBase : ISpellDeliveryStrategy {
 
         var hits = Physics.OverlapSphere(center, radius, context.data.hitLayers);
         foreach (var hit in hits) {
-            var dmg = hit.GetComponentInParent<IDamageable>();
-            if (dmg != null) {
-                Debug.Log($"Enter here for damage, {context.damage}");
-                dmg.OnDamage(context.damage * context.multiplier);
+
+            var parent = hit.transform.root.gameObject;
+
+            if (parent.TryGetComponent<IDamageable>(out IDamageable damage)) {
+                damage.OnDamage(context.damage * context.multiplier);
+            }
+
+            if (parent.TryGetComponent<StatusEffectTracker>(out StatusEffectTracker tracker)) {
+                StatusEffect effect = CreateEffectFromElement(context.element);
+                if (effect != null) {
+                    tracker.ApplyEffect(effect);
+                }
             }
         }
     }
@@ -171,9 +189,18 @@ public class RayDelivery : SpellDeliveryStrategyBase {
             endPosition = hitBuffer[0].point;
 
             for (int i = 0; i < hitCount; i++) {
-                var dmg = hitBuffer[i].collider.GetComponentInParent<IDamageable>();
-                if (dmg != null) {
-                    dmg.OnDamage(context.damage * context.multiplier);
+
+                var parent = hitBuffer[i].transform.root.gameObject;
+
+                if (parent.TryGetComponent<IDamageable>(out IDamageable damage)) {
+                    damage?.OnDamage(context.damage * context.multiplier);
+                }
+
+                if (parent.TryGetComponent<StatusEffectTracker>(out StatusEffectTracker tracker)) {
+                    StatusEffect effect = CreateEffectFromElement(context.element);
+                    if (effect != null) {
+                        tracker.ApplyEffect(effect);
+                    }
                 }
             }
         }

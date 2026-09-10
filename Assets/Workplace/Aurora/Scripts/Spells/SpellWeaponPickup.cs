@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class SpellWeaponPickup : MonoBehaviour, IInteractable {
 
-    private SpellWeaponManager spellManager;
-
     [Header("Weapon Settings")]
     [SerializeField] private SpellWeaponData weaponData;
 
@@ -46,6 +44,8 @@ public class SpellWeaponPickup : MonoBehaviour, IInteractable {
             Debug.Log($"[Interaction] Inventory full. Overwrote active slot {activeSlot} with '{weaponData.weaponName}'.");
         } 
         else { weaponManager.EquipWeapon(weaponData); }
+
+        GameManager.Instance.PlayerPerformAction("WeaponPickedUp");
 
         Destroy(gameObject);
     }
