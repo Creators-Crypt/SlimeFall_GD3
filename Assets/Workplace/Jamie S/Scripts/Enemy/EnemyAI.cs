@@ -170,7 +170,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
                 PreforeBomberAttack();
                 break;
             case EnemyType.Mortar:
-                PreforeBomberAttack();
+                PreformMortarAttack(stats.attackDamage);
                 break;
             case EnemyType.Boss:
                 break;
