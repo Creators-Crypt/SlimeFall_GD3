@@ -345,6 +345,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5889835068240220316}
+  - component: {fileID: 35535000766684833}
   m_Layer: 0
   m_Name: PH_BossDoor
   m_TagString: Untagged
@@ -371,6 +372,19 @@ Transform:
   - {fileID: 6280737729986635041}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &35535000766684833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3362531929385345929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fbfbde4e1677094aad3aed73a94c3ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DesertBossDoor
+  doorObject: {fileID: 729733239617852258}
 --- !u!1 &6818848624056984908
 GameObject:
   m_ObjectHideFlags: 0
