@@ -39,12 +39,15 @@ public class EnemyStatsSO : ScriptableObject
 
     [Header("Mortar Attack")]
     public GameObject mortarPrefab;
+    public GameObject mortarHitPosDisplayPrefab;
     public float mortarSpeed = 15f;
+    public int mortarShellsPreSalvo = 1;
+    public float mortarTimeBetweenShells = .35f;
+    public float mortarScatter = 3f;
     public float mortarArcHeight = 10f;
     public float mortarSplashRadius = 5f;
-
+    public float mortarAimAheadOfPlayer = 1f;
     public LayerMask mortarGroundMask; //Walls flors or anything else that can trigger a hit
-
     public LayerMask mortarDamageMask; //Things that take mortar damage
 
     [Header("Split")]
