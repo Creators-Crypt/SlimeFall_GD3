@@ -82,6 +82,36 @@ public class EquipmentManager : MonoBehaviour, IEquipmentPickup
         return oldEquipment;
     }
 
+    public EquipmentData UnequipEquipment(EquipmentSlot slot)
+    {
+        EquipmentData equipmentToRemove = null;
+
+        switch(slot)
+        {
+            case EquipmentSlot.Helmet:
+                equipmentToRemove = helmet;
+                helmet = null;
+                break;
+
+            case EquipmentSlot.Amulet:
+                equipmentToRemove = amulet;
+                 amulet = null;
+                break;
+
+            case EquipmentSlot.Armor:
+                equipmentToRemove = armor;
+                armor = null;
+                break;
+
+            case EquipmentSlot.Boots:
+                equipmentToRemove = boots;
+                boots = null;
+                break;
+
+        }
+        return equipmentToRemove;
+    }
+
     public EquipmentData GetHelmet()
     {
         return helmet;
