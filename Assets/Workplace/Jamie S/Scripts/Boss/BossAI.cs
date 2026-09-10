@@ -17,19 +17,7 @@ public enum BossPhase
 
 public class BossAI : EnemyAI
 {
-    public Transform mortarFirePoint;
-
-    [Header("Layers")]
-    public LayerMask groundMask = ~0;
-    public LayerMask damageableMask = ~0; //Player Layer
-    public LayerMask otherEnemyMask = 0;
-
-    [Header("Friendly Fire - hurt other slimes")]
-    public bool mortarFriendlyFire = true;
-    public bool landingShockFriendlyFire = false;
-    public bool meleeFriendlyFire = false;
-    public bool aoeWaveFriendlyFire = false;
-    public bool detonationFriendlyFire = true;
+    //public Transform mortarFirePoint;
 
     [Header("Info/Stats")]
     public BossStatsSO bossStats;
@@ -44,13 +32,7 @@ public class BossAI : EnemyAI
     public BossPhase2State phase2State;
     public BossPhase3State phase3State;
     public BossStunState stunState;
-    public BossTransitionState transitionState;
-
-
-
-    public Vector3 playerVelocity;
-
-    private Vector3 lastPlayerPostion;
+    public BossTransitionState transitionState;    
 
     private Color currentColor;
     private Color targetColor;
@@ -98,31 +80,13 @@ public class BossAI : EnemyAI
     }
 
     public override void Update()
-    {
-        MeasurePlayerSpeed();
+    {        
         ClearEyeHIts();
-
         base.Update();
 
     }
 
-    private void MeasurePlayerSpeed()
-    {
-        if (playerTarget == null)
-        {
-            playerVelocity = Vector3.zero;
-            return;
-        }
-
-        if (Time.deltaTime > 0f)
-        {
-            Vector3 movedThisFrame = playerTarget.position - lastPlayerPostion;
-            Vector3 speed = movedThisFrame / Time.deltaTime;
-
-            playerVelocity = Vector3.Lerp(playerVelocity, speed, .25f);
-        }
-        lastPlayerPostion = playerTarget.position;
-    }
+   
 
     private void StartStun()
     {
@@ -336,15 +300,7 @@ public class BossAI : EnemyAI
         }
     }
     public Color GetCurrentColor() { return currentColor; }
-    public LayerMask GetAttackMask(bool _friendlyFire)
-    {
-        int mask = damageableMask;
-        if (_friendlyFire)
-        {
-            mask = mask | otherEnemyMask;
-        }
-        return mask;
-    }
+   
     private float GetPhaseHealthBottom()
     {
         if (currentPhase == BossPhase.Phase1)

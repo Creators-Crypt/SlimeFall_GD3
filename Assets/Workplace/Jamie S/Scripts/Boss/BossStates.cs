@@ -59,8 +59,9 @@ public class BossPhase1State : IEnemyState
 
             if (Time.time >= nextMortarTime)
             {
-                yield return MortarAttack();
+                 boss.PreformMortarAttack(stats.mortarDamage); 
                 nextMortarTime = Time.time + stats.mortarCooldown;
+                yield return null;
             }
             else
             {
@@ -120,98 +121,9 @@ public class BossPhase1State : IEnemyState
         float randomY = Random.Range(-_degrees, _degrees);
 
         return Quaternion.Euler(randomX, randomY, 0) * _dir;
-    }
+    }  
 
-    private IEnumerator MortarAttack()
-    {
-        Transform muzzle = boss.mortarFirePoint;
-        if (muzzle == null) muzzle = boss.transform;
-
-        for (int i = 0; i < stats.mortarShellsPreSalvo; i++)
-        {
-            if (boss.playerTarget == null) break;
-
-            Vector3 impactPoint = PickImpactPoint(i);
-
-            Vector3 horizontalOffset = impactPoint - muzzle.position;
-            horizontalOffset.y = 0;
-            float flightTime = horizontalOffset.magnitude / stats.mortarSpeed;
-
-            SpawnTelegraph(impactPoint, flightTime);
-
-            GameObject mortarShellObj = Object.Instantiate(stats.mortarPrefab, muzzle.position, Quaternion.identity);
-
-            BossMortarProjectile mortarShell = mortarShellObj.GetComponent<BossMortarProjectile>();
-            if (mortarShell != null)
-            {
-                LayerMask splashHits = boss.GetAttackMask(boss.mortarFriendlyFire);
-
-                mortarShell.Launch(impactPoint, stats.mortarSpeed, stats.mortarArcHeight, stats.mortarDamage, stats.mortarSplashRadius, boss.groundMask, splashHits);
-            }
-            else
-            {
-                Debug.LogWarning("Check the mortarPrefab anb make sure it has the BossMortarProjectile script :)");
-                Object.Destroy(mortarShellObj);
-            }
-            boss.lastAttackTime = Time.time;
-
-            yield return new WaitForSeconds(stats.mortarTimeBetweenShells);
-        }
-    }
-
-    private Vector3 PickImpactPoint(int _shellNumber)
-    {
-        Vector3 lead = boss.playerVelocity;
-        lead.y = 0f;
-
-        Vector3 aimPoint = boss.playerTarget.position + boss.playerVelocity * stats.mortarAimAheadOfPlayer;
-
-        if (_shellNumber > 0)
-        {
-            Vector2 randomCircle = Random.insideUnitCircle * stats.mortarScatter;
-            aimPoint = aimPoint + new Vector3(randomCircle.x, 0f, randomCircle.y);
-        }
-
-        Vector3 groundPoint = GetGroundPoint(aimPoint);
-
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(groundPoint, out hit, 3f, NavMesh.AllAreas))
-        {
-            groundPoint = hit.position;
-        }
-        return groundPoint;
-    }
-
-    private Vector3 GetGroundPoint(Vector3 _point)
-    {
-        Vector3 start = _point + Vector3.up * 5f;
-
-        RaycastHit hit;
-        if (Physics.Raycast(start, Vector3.down, out hit, 35f, boss.groundMask, QueryTriggerInteraction.Ignore))
-        {
-            return hit.point;
-        }
-        return _point;
-    }
-
-    private void SpawnTelegraph(Vector3 _impactPoint, float _flightTime)
-    {
-        if (stats.mortarHitPosDisplayPrefab == null) return;
-
-        Vector3 spawnPoint = _impactPoint + Vector3.up * .05f;
-
-        GameObject marker = Object.Instantiate(stats.mortarHitPosDisplayPrefab, spawnPoint, Quaternion.identity);
-
-        BossTelegraph telegraph = marker.GetComponentInParent<BossTelegraph>();
-        if (telegraph != null)
-        {
-            telegraph.Play(stats.mortarSplashRadius, _flightTime);
-        }
-        else
-        {
-            Object.Destroy(marker, _flightTime + .1f);
-        }
-    }
+   
 }
 
 public class BossTransitionState : IEnemyState

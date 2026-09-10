@@ -44,6 +44,7 @@ public class BossMortarProjectile : Projectile
         RaycastHit hit;
         if (Physics.Linecast(transform.position, nextPos, out hit, groundMask)) 
         {
+            Debug.Log("Mortar Flight Hit " + hit.collider.name);
             Explode(hit.point);
             return;
         }
@@ -127,6 +128,7 @@ public class BossMortarProjectile : Projectile
 
     public override void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Mortar trigger hit" + other.name);
         if (exploded) return;
         Explode(other.ClosestPoint(transform.position));
     }

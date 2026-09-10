@@ -12,18 +12,32 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
     
 
     [SerializeField] public Transform firePoint;
+    [SerializeField] public Transform mortarFirePoint;
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] public Transform playerTarget;
     [SerializeField] public Renderer model;
+    
+    [Header("Layers")]
+    public LayerMask playerLayer;    
+    public LayerMask groundMask = ~0;
+    public LayerMask damageableMask = 0; 
+    public LayerMask otherEnemyMask = 0;
 
-    [SerializeField] private LayerMask playerLayer; 
+    [Header("Friendly Fire - hurt other slimes")]
+    public bool mortarFriendlyFire = false;
+    public bool landingShockFriendlyFire = false;
+    public bool meleeFriendlyFire = false;
+    public bool aoeWaveFriendlyFire = false;
+    public bool detonationFriendlyFire = true;
+
 
     public Vector3 spawnPostion;    
     public float faceTargetRotSpeed = 10;
     public float timeSinceLastSawPlayer;
     public float lastAttackTime;
     public Color origColor;
-
+    public Vector3 playerVelocity;
+    public Vector3 lastPlayerPostion;
 
     public EnemyStateMachine stateMachine;
     public EnemyIdleState idleState;
@@ -74,6 +88,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
    public virtual void Update()
     {
         stateMachine.Tick();
+        MeasurePlayerSpeed();
     }
 
     protected void InitializeEnemyHealth()
@@ -154,9 +169,133 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
             case EnemyType.Bomber:
                 PreforeBomberAttack();
                 break;
+            case EnemyType.Mortar:
+                PreformMortarAttack(stats.attackDamage);
+                break;
             case EnemyType.Boss:
                 break;
         }
+    }
+
+    public virtual void PreformMortarAttack(float _damage)
+    {
+        if(IsDead || playerTarget == null || stats == null) return;
+        if(stats.mortarPrefab == null) return;
+
+        StartCoroutine(MortarAttack(_damage));
+    }
+    private IEnumerator MortarAttack(float _damage)
+    {
+        Transform muzzle = mortarFirePoint;
+        if (muzzle == null) muzzle = transform;
+
+        for (int i = 0; i < stats.mortarShellsPreSalvo; i++)
+        {
+            if (playerTarget == null) break;
+
+            Vector3 impactPoint = PickImpactPoint(i);
+
+            Vector3 horizontalOffset = impactPoint - muzzle.position;
+            horizontalOffset.y = 0;
+            float flightTime = horizontalOffset.magnitude / stats.mortarSpeed;
+
+            SpawnTelegraph(impactPoint, flightTime);
+
+            GameObject mortarShellObj = Instantiate(stats.mortarPrefab, muzzle.position, Quaternion.identity);
+
+            BossMortarProjectile mortarShell = mortarShellObj.GetComponent<BossMortarProjectile>();
+            if (mortarShell != null)
+            {
+                LayerMask splashHits = GetAttackMask(mortarFriendlyFire);
+
+                mortarShell.Launch(impactPoint, stats.mortarSpeed, stats.mortarArcHeight,_damage, stats.mortarSplashRadius, stats.mortarGroundMask, splashHits);
+            }
+            else
+            {
+                Debug.LogWarning("Check the mortarPrefab anb make sure it has the BossMortarProjectile script :)");
+                Destroy(mortarShellObj);
+            }
+           lastAttackTime = Time.time;
+
+            yield return new WaitForSeconds(stats.mortarTimeBetweenShells);
+        }
+    }
+    public virtual LayerMask GetAttackMask(bool _friendlyFire)
+    {
+        int mask = damageableMask;
+        if (_friendlyFire)
+        {
+            mask = mask | otherEnemyMask;
+        }
+        return mask;
+    }
+    public virtual Vector3 PickImpactPoint(int _shellNumber)
+    {
+        Vector3 lead = playerVelocity;
+        lead.y = 0f;
+
+        Vector3 aimPoint = playerTarget.position + playerVelocity * stats.mortarAimAheadOfPlayer;
+
+        if (_shellNumber > 0)
+        {
+            Vector2 randomCircle = UnityEngine.Random.insideUnitCircle * stats.mortarScatter;
+            aimPoint = aimPoint + new Vector3(randomCircle.x, 0f, randomCircle.y);
+        }
+
+        Vector3 groundPoint = GetGroundPoint(aimPoint);
+
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(groundPoint, out hit, 3f, NavMesh.AllAreas))
+        {
+            groundPoint = hit.position;
+        }
+        return groundPoint;
+    }
+    public virtual Vector3 GetGroundPoint(Vector3 _point)
+    {
+        Vector3 start = _point + Vector3.up * 5f;
+
+        RaycastHit hit;
+        if (Physics.Raycast(start, Vector3.down, out hit, 35f, stats.mortarGroundMask, QueryTriggerInteraction.Ignore))
+        {
+            return hit.point;
+        }
+        return _point;
+    }
+   public virtual void SpawnTelegraph(Vector3 _impactPoint, float _flightTime)
+    {
+        if (stats.mortarHitPosDisplayPrefab == null) return;
+
+        Vector3 spawnPoint = _impactPoint + Vector3.up * .05f;
+
+        GameObject marker = Instantiate(stats.mortarHitPosDisplayPrefab, spawnPoint, Quaternion.identity);
+
+        BossTelegraph telegraph = marker.GetComponentInParent<BossTelegraph>();
+        if (telegraph != null)
+        {
+            telegraph.Play(stats.mortarSplashRadius, _flightTime);
+        }
+        else
+        {
+            Destroy(marker, _flightTime + .1f);
+        }
+    }
+    public virtual void MeasurePlayerSpeed()
+    {
+        if (playerTarget == null)
+        {
+            playerVelocity = Vector3.zero;
+            return;
+        }
+
+        if (Time.deltaTime > 0f)
+        {
+            Vector3 movedThisFrame = playerTarget.position - lastPlayerPostion;
+            Vector3 speed = movedThisFrame / Time.deltaTime;
+
+            playerVelocity = Vector3.Lerp(playerVelocity, speed, .25f);
+        }
+        lastPlayerPostion = playerTarget.position;
     }
 
     public virtual void PreformRangedAttack()
