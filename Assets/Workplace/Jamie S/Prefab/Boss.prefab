@@ -408,25 +408,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BossAI
   stats: {fileID: 0}
   firePoint: {fileID: 8593816816623713062}
+  mortarFirePoint: {fileID: 652725577148388152}
   agent: {fileID: 5381804928126210787}
   playerTarget: {fileID: 0}
   model: {fileID: 2566930387724663771}
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
-  spawnPostion: {x: 0, y: 0, z: 0}
-  currentHealth: 0
-  faceTargetRotSpeed: 10
-  timeSinceLastSawPlayer: 0
-  lastAttackTime: 0
-  origColor: {r: 0, g: 0, b: 0, a: 0}
-  mortarFirePoint: {fileID: 652725577148388152}
   groundMask:
     serializedVersion: 2
     m_Bits: 8
   damageableMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1048576
   otherEnemyMask:
     serializedVersion: 2
     m_Bits: 512
@@ -435,6 +429,14 @@ MonoBehaviour:
   meleeFriendlyFire: 0
   aoeWaveFriendlyFire: 0
   detonationFriendlyFire: 1
+  spawnPostion: {x: 0, y: 0, z: 0}
+  faceTargetRotSpeed: 10
+  timeSinceLastSawPlayer: 0
+  lastAttackTime: 0
+  origColor: {r: 0, g: 0, b: 0, a: 0}
+  playerVelocity: {x: 0, y: 0, z: 0}
+  lastPlayerPostion: {x: 0, y: 0, z: 0}
+  jumpLanded: 0
   bossStats: {fileID: 11400000, guid: e6940a01c18a32f4f9aec47c94707908, type: 2}
   currentPhase: 0
   isInvulnerable: 0
@@ -442,7 +444,6 @@ MonoBehaviour:
   stunTimeleft: 0
   detonationTimeLeft: 0
   eyeHitCount: 0
-  playerVelocity: {x: 0, y: 0, z: 0}
   colorBlendSpeed: 0
   eyeHitExpireTime: 0
   stunLockout: 0

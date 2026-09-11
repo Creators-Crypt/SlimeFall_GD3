@@ -55,11 +55,11 @@ public class BossStatsSO : EnemyStatsSO
     public float p2MeleeWindup = .35f;
 
     [Header("Phase 2 AoE Wave")]
-    public GameObject aoeWavePrefab;
+    //public GameObject aoeWavePrefab;
     public float aoeWaveCooldown = 7f;
     public float aoeWaveWarnintTime = 1f;
-    public float aoeWaveRadius = 9f;
-    public float aoeWaveSpeed = 11f;
+    //public float aoeWaveRadius = 9f;
+    //public float aoeWaveSpeed = 11f;
     public float aoeWaveDmg = 7f;
 
     [Header("Phase 3 Detonation BOOOOOM!!!")]

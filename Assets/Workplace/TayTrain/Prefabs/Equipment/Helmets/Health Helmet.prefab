@@ -14,8 +14,7 @@ GameObject:
   - component: {fileID: 1703255834673388539}
   - component: {fileID: 6341107710735487749}
   - component: {fileID: 5349634101017338656}
-  - component: {fileID: 6067394989020086048}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Health Helmet
   m_TagString: Equipment
   m_Icon: {fileID: 0}
@@ -109,7 +108,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -128,10 +127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentPickup
   equipment: {fileID: 11400000, guid: 2da6b02955c6c3549b983e248c57a0b8, type: 2}
-  modelRenderer: {fileID: 7718901204822636190}
-  dropForce: 6
-  upwardForce: 5
-  pickupCooldown: 0.5
 --- !u!54 &5349634101017338656
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -154,29 +149,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &6067394989020086048
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6755716232860097712}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
