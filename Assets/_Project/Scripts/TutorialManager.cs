@@ -9,7 +9,7 @@ public class TutorialManager : MonoBehaviour {
 
     [Header("Tutorial State")]
     private bool tutorialActive = true;
-    [SerializeField] private int tutorialPhase = 1;
+    [SerializeField] private int tutorialPhase = 0;
 
     [Header("Phase 1 Checklist")]
     private int equipmentPickedUp = 0;
@@ -35,41 +35,23 @@ public class TutorialManager : MonoBehaviour {
         GameManager.OnStageChanged += HandleStageChanged;
         GameManager.OnPlayerAction += HandlePlayerAction;
         NarrationManager.OnDialogueFinished += HandleDialogueFinished;
+        StageTrigger.OnPhaseUpdate += HandleTutorialPhaseUpdate;
     }
     private void OnDisable() {
         GameManager.OnStageChanged -= HandleStageChanged;
         GameManager.OnPlayerAction -= HandlePlayerAction;
         NarrationManager.OnDialogueFinished -= HandleDialogueFinished;
+        StageTrigger.OnPhaseUpdate -= HandleTutorialPhaseUpdate;
     }
     private void HandleStageChanged(GameStage newStage) {
         switch (newStage) {
-            case GameStage.HomeBase_Tut_Spawn:
-                HandleIntro();
-                break;
-
-            case GameStage.HomeBase_Tut_Entryway:
-                HandleEntryway();
-                break;
-
-            case GameStage.HomeBase_Tut_Equipment:
-                HandleEquipment();
-                break;
-
-            case GameStage.HomeBase_Tut_WeaponsMagic:
-                HandleWeaponsAndMagic();
-                break;
-
-            case GameStage.HomeBase_Tut_Abilities:
-                HandleAbilities();
-                break;
-
-            case GameStage.HomeBase_Tut_Combat:
-                HandleCombat();
-                break;
-
-            case GameStage.HomeBase_Tut_Complete:
-                HandleTutorialComplete();
-                break;
+            case GameStage.HomeBase_Tut_Spawn:          HandleIntro(); break;
+            case GameStage.HomeBase_Tut_Entryway:       HandleEntryway(); break;
+            case GameStage.HomeBase_Tut_Equipment:      HandleEquipment(); break;
+            case GameStage.HomeBase_Tut_WeaponsMagic:   HandleWeaponsAndMagic(); break;
+            case GameStage.HomeBase_Tut_Abilities:      HandleAbilities(); break;
+            case GameStage.HomeBase_Tut_Combat:         HandleCombat(); break;
+            case GameStage.HomeBase_Tut_Complete:       HandleTutorialComplete(); break;
         }
     }
     private void HandleIntro() {
@@ -139,7 +121,7 @@ public class TutorialManager : MonoBehaviour {
             case "EquipmentPickedUp":
                 if (equipmentPickedUp < neededEquipmentPickedUp) { equipmentPickedUp++; }
                 break;
-            case "WeaponPickedUp":
+            case "WeaponPickup":
                 if (weaponPickedUp < neededWeaponPickedUp) { weaponPickedUp++; }
                 break;
             case "TargetDefeated":
@@ -200,5 +182,8 @@ public class TutorialManager : MonoBehaviour {
             ObjectiveManager.Instance.SetObjective("Proceed to your office.");
             Debug.Log("Tutorial completely cleared!");
         }
+    }
+    private void HandleTutorialPhaseUpdate(int value) {
+        tutorialPhase = value;
     }
 }
