@@ -53,7 +53,7 @@ MonoBehaviour:
   damage: 10
   targetMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1048576
 --- !u!1 &7512882781393302148
 GameObject:
   m_ObjectHideFlags: 0

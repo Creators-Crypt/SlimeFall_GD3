@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Drawing;
+
 
 
 public class BossMortarProjectile : Projectile
@@ -9,6 +9,8 @@ public class BossMortarProjectile : Projectile
     public GameObject explosionVfxPrefab;
     public AudioClip explosionSound;
     public TrailRenderer trail;
+    [Range(0f, 1f)]public float explosionVolume = 1f;
+    public float explosionSoundDist = 3f;
 
     [Header("Mortar")]
     [SerializeField] public float arcHeight = 6f;
@@ -44,6 +46,7 @@ public class BossMortarProjectile : Projectile
         RaycastHit hit;
         if (Physics.Linecast(transform.position, nextPos, out hit, groundMask)) 
         {
+            Debug.Log("Mortar Flight Hit " + hit.collider.name);
             Explode(hit.point);
             return;
         }
@@ -74,6 +77,7 @@ public class BossMortarProjectile : Projectile
         totalFlatDist = flat.magnitude;
 
         travelled = 0;
+        exploded = false;
         launched = true;
     }
 
@@ -105,16 +109,13 @@ public class BossMortarProjectile : Projectile
             target.OnDamage(finalDamage);
         }
 
-        if (explosionVfxPrefab != null)
-        {
-            GameObject vfx = Instantiate(explosionVfxPrefab, _point, Quaternion.identity);
-            Destroy(vfx, 5f);
-        }
-
-        if (explosionSound != null)
-        {
-            AudioSource.PlayClipAtPoint(explosionSound, _point);
-        }
+        AttackFeedback explosion = new AttackFeedback();
+        explosion.vfxPrefab = explosionVfxPrefab;
+        explosion.sound = explosionSound;
+        explosion.vfxLifetime = 5f;
+        explosion.volume = explosionVolume;
+        explosion.soundDist = explosionSoundDist;
+        explosion.Play(_point);       
 
         if (trail != null)
         {
@@ -127,6 +128,7 @@ public class BossMortarProjectile : Projectile
 
     public override void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Mortar trigger hit" + other.name);
         if (exploded) return;
         Explode(other.ClosestPoint(transform.position));
     }

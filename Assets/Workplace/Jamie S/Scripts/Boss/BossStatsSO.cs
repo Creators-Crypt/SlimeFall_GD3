@@ -32,18 +32,10 @@ public class BossStatsSO : EnemyStatsSO
     public float p1ProjectileDamage = 6f;
     public float bulletAimAheadOfPlayer = .6f;
 
-    [Header("Phase1 Slime Mortars")]
-    public GameObject mortarPrefab;
-    public GameObject mortarHitPosDisplayPrefab;
+    [Header("Phase1 Slime Mortars")]  
     public float mortarCooldown = 6f;
-    public int mortarShellsPreSalvo = 4;
-    public float mortarTimeBetweenShells = .35f;
-    public float mortarSpeed = 14f;
-    public float mortarArcHeight = 6f;
-    public float mortarSplashRadius = 4f;
-    public float mortarDamage = 14f;
-    public float mortarScatter = 3f;
-    public float mortarAimAheadOfPlayer = 1f;
+    public float mortarDamage = 14f;    
+   
 
     [Header("Phase Changes")]
     public float transitionWindup = 1f;
@@ -63,11 +55,11 @@ public class BossStatsSO : EnemyStatsSO
     public float p2MeleeWindup = .35f;
 
     [Header("Phase 2 AoE Wave")]
-    public GameObject aoeWavePrefab;
+    //public GameObject aoeWavePrefab;
     public float aoeWaveCooldown = 7f;
     public float aoeWaveWarnintTime = 1f;
-    public float aoeWaveRadius = 9f;
-    public float aoeWaveSpeed = 11f;
+    //public float aoeWaveRadius = 9f;
+    //public float aoeWaveSpeed = 11f;
     public float aoeWaveDmg = 7f;
 
     [Header("Phase 3 Detonation BOOOOOM!!!")]

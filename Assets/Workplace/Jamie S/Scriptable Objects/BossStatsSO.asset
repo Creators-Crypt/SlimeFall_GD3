@@ -32,6 +32,21 @@ MonoBehaviour:
   projectileSpeed: 30
   explosionRadius: 15
   explosionVFX: {fileID: 0}
+  mortarPrefab: {fileID: 9088488918856700192, guid: 466ea04b990663b4fbbb7ac281251852, type: 3}
+  mortarHitPosDisplayPrefab: {fileID: 4962518280841777773, guid: 6194df4a2f503be4996a1de72e362c5c, type: 3}
+  mortarSpeed: 19.9
+  mortarShellsPreSalvo: 4
+  mortarTimeBetweenShells: 0.35
+  mortarScatter: 3
+  mortarArcHeight: 8
+  mortarSplashRadius: 8.48
+  mortarAimAheadOfPlayer: 1
+  mortarGroundMask:
+    serializedVersion: 2
+    m_Bits: 152
+  mortarDamageMask:
+    serializedVersion: 2
+    m_Bits: 1048576
   splitChance: 0
   splitPrefab: {fileID: 0}
   splitCount: 2
@@ -59,17 +74,8 @@ MonoBehaviour:
   p1ProjectileSpeed: 20
   p1ProjectileDamage: 6
   bulletAimAheadOfPlayer: 0.45
-  mortarPrefab: {fileID: 9088488918856700192, guid: 466ea04b990663b4fbbb7ac281251852, type: 3}
-  mortarHitPosDisplayPrefab: {fileID: 4962518280841777773, guid: 6194df4a2f503be4996a1de72e362c5c, type: 3}
   mortarCooldown: 6
-  mortarShellsPreSalvo: 4
-  mortarTimeBetweenShells: 0.35
-  mortarSpeed: 19.9
-  mortarArcHeight: 8
-  mortarSplashRadius: 8.48
   mortarDamage: 14
-  mortarScatter: 3
-  mortarAimAheadOfPlayer: 1
   transitionWindup: 1
   leapTime: 1.1
   leapHeight: 6

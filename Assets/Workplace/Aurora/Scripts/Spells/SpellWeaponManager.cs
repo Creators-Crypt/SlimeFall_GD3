@@ -72,6 +72,7 @@ public class SpellWeaponManager : MonoBehaviour {
         activeSlotIndex = (activeSlotIndex == 1) ? 0 : 1;
 
         swapTimer = swapCooldown;
+        GameManager.Instance.PlayerPerformAction("WeaponCycle");
         UpdateCasterWeapon();
     }
 

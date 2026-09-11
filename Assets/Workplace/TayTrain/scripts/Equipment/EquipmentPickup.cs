@@ -1,86 +1,71 @@
 using UnityEngine;
 
-public class EquipmentPickup : MonoBehaviour
+public class EquipmentPickup : MonoBehaviour, IInteractable
 {
     [SerializeField] EquipmentData equipment;
-    [SerializeField] MeshRenderer modelRenderer;
 
-    [Header("Swap Drop")]
-    [SerializeField] float dropForce = 6f;
-    [SerializeField] float upwardForce = 5f;
-    [SerializeField] float pickupCooldown = 0.5f;
-
-    Rigidbody rb;
-    bool canPickup = true;
-    float pickupTimer;
-
-    private void Start()
+    private bool pickedUp = false;
+   
+    public string InteractionPrompt
     {
-        rb = GetComponent<Rigidbody>();
-        UpdateVisual();
-    }
-
-    private void Update()
-    {
-        if(!canPickup)
+        get
         {
-            pickupTimer -= Time.deltaTime;
+            if (equipment == null)
+                return "Pick up Equipment";
 
-            if(pickupTimer <= 0 )
-            {
-                canPickup = true;
-            }
+            return "Pick up " + equipment.itemName;
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void Interact()
     {
-        if (!canPickup)
+        if (pickedUp)
             return;
 
-        IEquipmentPickup pickup = other.GetComponentInParent<IEquipmentPickup>();
-
-        if (pickup != null)
+        if(equipment == null)
         {
-            EquipmentData oldEquipment = pickup.GetEquipment(equipment);
-
-            if (oldEquipment != null)
-            {
-                equipment = oldEquipment;
-
-                UpdateVisual();
-
-                canPickup = false;
-                pickupTimer = pickupCooldown;
-
-                //To make the old object fall back to the ground
-                rb.isKinematic = false;
-                rb.useGravity = true;
-
-                //Reset the old movement to throw after every swap
-                rb.linearVelocity = Vector3.zero;
-                rb.angularVelocity = Vector3.zero;
-
-                Debug.Log("Throwing old Equipment");
-
-                rb.AddForce(other.transform.forward * dropForce + Vector3.up * upwardForce, ForceMode.Impulse);
-            }
-            else
-            {
-                gameObject.SetActive(false);
-            }
+            Debug.LogWarning("No equipmentData assigned to pickup.");
+            return;
         }
+        if(InventorySystem.Instance == null)
+        {
+            Debug.LogWarning("No InventorySystem found.");
+            return;
+        }
+        pickedUp = true;
+        InventorySystem.Instance.AddEquipment(equipment);
+        Debug.Log("Picked up equipment: " + equipment.itemName);
+        gameObject.SetActive(false);
     }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (pickedUp)
+    //        return;
+
+    //    if (!other.CompareTag("Player"))
+    //        return;
+
+    //    if(InventorySystem.Instance == null)
+    //    {
+    //        Debug.LogWarning("No InventroySystem found. ");
+    //        return;
+    //    }
+
+    //    pickedUp = true;
+
+    //    InventorySystem.Instance.AddEquipment(equipment);
+
+    //    Debug.Log($"Picked up equipment: {equipment.itemName}");
+
+    //    gameObject.SetActive(false);
+    //}
     public string GetEquipmentName()
     {
+        if (equipment == null)
+            return "";
+
         return equipment.itemName;
     }
-  
-    void UpdateVisual()
-    {
-        if(modelRenderer != null && equipment != null && equipment.pickupMaterial != null)
-        {
-            modelRenderer.material = equipment.pickupMaterial;
-        }
-    }
+
+
 }

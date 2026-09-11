@@ -59,8 +59,9 @@ public class BossPhase1State : IEnemyState
 
             if (Time.time >= nextMortarTime)
             {
-                yield return MortarAttack();
+                 boss.PreformMortarAttack(stats.mortarDamage); 
                 nextMortarTime = Time.time + stats.mortarCooldown;
+                yield return null;
             }
             else
             {
@@ -100,6 +101,7 @@ public class BossPhase1State : IEnemyState
 
                 if (bullet != null)
                 {
+                    boss.PlayVFXandSFX(stats.randedLaunch, muzzle.position);
                     bullet.Fire(dir, stats.p1ProjectileSpeed, stats.p1ProjectileDamage);
                 }
 
@@ -120,98 +122,9 @@ public class BossPhase1State : IEnemyState
         float randomY = Random.Range(-_degrees, _degrees);
 
         return Quaternion.Euler(randomX, randomY, 0) * _dir;
-    }
+    }  
 
-    private IEnumerator MortarAttack()
-    {
-        Transform muzzle = boss.mortarFirePoint;
-        if (muzzle == null) muzzle = boss.transform;
-
-        for (int i = 0; i < stats.mortarShellsPreSalvo; i++)
-        {
-            if (boss.playerTarget == null) break;
-
-            Vector3 impactPoint = PickImpactPoint(i);
-
-            Vector3 horizontalOffset = impactPoint - muzzle.position;
-            horizontalOffset.y = 0;
-            float flightTime = horizontalOffset.magnitude / stats.mortarSpeed;
-
-            SpawnTelegraph(impactPoint, flightTime);
-
-            GameObject mortarShellObj = Object.Instantiate(stats.mortarPrefab, muzzle.position, Quaternion.identity);
-
-            BossMortarProjectile mortarShell = mortarShellObj.GetComponent<BossMortarProjectile>();
-            if (mortarShell != null)
-            {
-                LayerMask splashHits = boss.GetAttackMask(boss.mortarFriendlyFire);
-
-                mortarShell.Launch(impactPoint, stats.mortarSpeed, stats.mortarArcHeight, stats.mortarDamage, stats.mortarSplashRadius, boss.groundMask, splashHits);
-            }
-            else
-            {
-                Debug.LogWarning("Check the mortarPrefab anb make sure it has the BossMortarProjectile script :)");
-                Object.Destroy(mortarShellObj);
-            }
-            boss.lastAttackTime = Time.time;
-
-            yield return new WaitForSeconds(stats.mortarTimeBetweenShells);
-        }
-    }
-
-    private Vector3 PickImpactPoint(int _shellNumber)
-    {
-        Vector3 lead = boss.playerVelocity;
-        lead.y = 0f;
-
-        Vector3 aimPoint = boss.playerTarget.position + boss.playerVelocity * stats.mortarAimAheadOfPlayer;
-
-        if (_shellNumber > 0)
-        {
-            Vector2 randomCircle = Random.insideUnitCircle * stats.mortarScatter;
-            aimPoint = aimPoint + new Vector3(randomCircle.x, 0f, randomCircle.y);
-        }
-
-        Vector3 groundPoint = GetGroundPoint(aimPoint);
-
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(groundPoint, out hit, 3f, NavMesh.AllAreas))
-        {
-            groundPoint = hit.position;
-        }
-        return groundPoint;
-    }
-
-    private Vector3 GetGroundPoint(Vector3 _point)
-    {
-        Vector3 start = _point + Vector3.up * 5f;
-
-        RaycastHit hit;
-        if (Physics.Raycast(start, Vector3.down, out hit, 35f, boss.groundMask, QueryTriggerInteraction.Ignore))
-        {
-            return hit.point;
-        }
-        return _point;
-    }
-
-    private void SpawnTelegraph(Vector3 _impactPoint, float _flightTime)
-    {
-        if (stats.mortarHitPosDisplayPrefab == null) return;
-
-        Vector3 spawnPoint = _impactPoint + Vector3.up * .05f;
-
-        GameObject marker = Object.Instantiate(stats.mortarHitPosDisplayPrefab, spawnPoint, Quaternion.identity);
-
-        BossTelegraph telegraph = marker.GetComponentInParent<BossTelegraph>();
-        if (telegraph != null)
-        {
-            telegraph.Play(stats.mortarSplashRadius, _flightTime);
-        }
-        else
-        {
-            Object.Destroy(marker, _flightTime + .1f);
-        }
-    }
+   
 }
 
 public class BossTransitionState : IEnemyState
@@ -272,8 +185,10 @@ public class BossTransitionState : IEnemyState
 
     private IEnumerator LeapDownToPlayer()
     {
+        boss.PlayVFXandSFX(stats.bossLeapWindup, boss.transform.position);
         yield return new WaitForSeconds(stats.transitionWindup);
 
+        boss.PlayVFXandSFX(stats.bossLeapTakeoff,boss.transform.position);
         Vector3 startPos = boss.transform.position;
         Vector3 landingPos = PickLandingSpot();
 
@@ -303,6 +218,7 @@ public class BossTransitionState : IEnemyState
         boss.transform.position = landingPos;
         boss.WarpToNavMesh(landingPos);
 
+        boss.PlayVFXandSFX(stats.bossLanding, boss.transform.position);
         LayerMask shotHits = boss.GetAttackMask(boss.landingShockFriendlyFire);
         boss.DealRadialDamage(boss.transform.position, stats.landingShockRad, stats.landingShockDmg, shotHits);
 
@@ -347,7 +263,6 @@ public class BossTransitionState : IEnemyState
         return spot;
     }
 }
-
 
 public class BossPhase2State : IEnemyState
 {
@@ -438,7 +353,7 @@ public class BossPhase2State : IEnemyState
     {
         busy = true;
         boss.SetMovementEnabled(false);
-
+        boss.PlayVFXandSFX(stats.bossMeleeWindup, boss.transform.position);
         float timer = 0f;
         while (timer < stats.p2MeleeWindup)
         {
@@ -447,6 +362,7 @@ public class BossPhase2State : IEnemyState
             yield return null;
         }
 
+        boss.PlayVFXandSFX(stats.bossMeleeSwing, boss.transform.position);
         HitAllInFront();
 
         boss.lastAttackTime = Time.time;
@@ -483,6 +399,7 @@ public class BossPhase2State : IEnemyState
 
             alreadyHit.Add(target);
             target.OnDamage(stats.p2MelleDmg);
+            boss.PlayVFXandSFX(stats.bossMeleeHit, hit.ClosestPoint(boss.transform.position));
         }
     }
 
@@ -596,6 +513,7 @@ public class BossPhase3State : IEnemyState
         boss.SetMovementEnabled(false);
         boss.SetPhaseColor(stats.phase3Material);
 
+        boss.PlayVFXandSFX(stats.bossDetonationWindup,boss.transform.position);
         timer = stats.detonationTime;
         boss.detonationTimeLeft = timer;
         pullEndTime = Time.time + pullDuration;
@@ -695,6 +613,7 @@ public class BossPhase3State : IEnemyState
         }
 
         LayerMask blastHits = boss.GetAttackMask(boss.detonationFriendlyFire);
+        boss.PlayVFXandSFX(stats.bossDetonationBlast, center);
         boss.DealRadialDamage(center, stats.detonationKillRad, stats.detonationDmg, blastHits);
 
         boss.Die();

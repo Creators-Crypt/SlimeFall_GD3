@@ -7,8 +7,12 @@ public class Projectile : MonoBehaviour
     public Vector3 direction;
     public float speed;
     public float damage;
- 
-    
+
+    [Header("Bullet impact")]
+    public AttackFeedback impactFeedback = new AttackFeedback();
+
+    public LayerMask sceneryImpactMask;
+    private bool hitSomething;
 
     // Update is called once per frame
    public virtual void Update()
@@ -26,12 +30,18 @@ public class Projectile : MonoBehaviour
 
     public virtual void OnTriggerEnter(Collider other)
     {
+        if (hitSomething) return;
 
         if (other.TryGetComponent<HealthSystem>(out var health))
         {
+            hitSomething = true;
+
             health.OnDamage(damage);
             Debug.Log($"I've collided with {other.gameObject.name} and dealt {damage} damage.");
-
+            if(impactFeedback != null)
+            {
+                impactFeedback.Play(other.ClosestPoint(transform.position));
+            }
             Destroy(this.gameObject);
             return;
         }
@@ -39,9 +49,14 @@ public class Projectile : MonoBehaviour
        
         if (other.TryGetComponent<IDamageable>(out var damagable))
         {
+            hitSomething = true;
+
             damagable.OnDamage(damage);
             Debug.Log($"I've collided with {other.gameObject.name} and dealt {damage} damage.");
-            Destroy(this.gameObject);
+            if (impactFeedback != null)
+            {
+                impactFeedback.Play(other.ClosestPoint(transform.position));
+            }            Destroy(this.gameObject);
 
         }
     }

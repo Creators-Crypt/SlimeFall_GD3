@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1319157215863334114}
   - component: {fileID: 1103241594124447817}
   - component: {fileID: 1270769084415709469}
-  m_Layer: 13
+  m_Layer: 12
   m_Name: Mortar
   m_TagString: Enemy Projectile
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59a49946f6bac3648b06dc409c337295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossMortarProjectile
-  bulletLifetime: 5
+  bulletLifetime: 0
   direction: {x: 0, y: 0, z: 0}
   speed: 15
   damage: 10
@@ -61,7 +61,7 @@ MonoBehaviour:
     m_Bits: 8
   damagebleMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1048704
 --- !u!33 &1319157215863334114
 MeshFilter:
   m_ObjectHideFlags: 0
