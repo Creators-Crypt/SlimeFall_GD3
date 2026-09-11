@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91ed46f2e35663a4899748da965190d9, type: 3}
-  m_Name: MeleeSlime
+  m_Name: JumpNdWave
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStatsSO
-  enemyType: 0
+  enemyType: 6
   maxHealth: 30
   patrolSpeed: 2
   chaseSpeed: 5
@@ -60,21 +60,21 @@ MonoBehaviour:
   aoeWavePrefab: {fileID: 3563498644967845075, guid: 90b365e0f2a425e4ba07ecf2baebf395, type: 3}
   aoeWaveWaringTime: 1
   aoeWaveRadius: 9
-  aoeWaveSpeed: 10
+  aoeWaveSpeed: 5
   jumpToWaveDelay: 0.25
   jumpWaveDamage: 10
   jumpWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
+    vfxPrefab: {fileID: 4406393109996900277, guid: 2035a6ef9134896499e235cd12484a1c, type: 3}
+    sound: {fileID: 8300000, guid: f4afbf17cfaca2b488530d2162d7d2eb, type: 3}
+    vfxLifetime: 0.4
+    volume: 0.7
+    soundDist: 22
   jumpTakeOff:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
+    vfxPrefab: {fileID: 7963845113487687317, guid: 2bdcc196fc3192444b943c48150fa327, type: 3}
+    sound: {fileID: 8300000, guid: 85b1d0b7953a92545baa08f1d7235d13, type: 3}
+    vfxLifetime: 0.8
+    volume: 0.75
+    soundDist: 26
   jumpHit:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}
@@ -82,11 +82,11 @@ MonoBehaviour:
     volume: 1
     soundDist: 25
   jumpLanding:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
+    vfxPrefab: {fileID: 4085713738250179142, guid: 68181d3ed682c2b47a14498e467378bc, type: 3}
+    sound: {fileID: 8300000, guid: 267dcd73c1a30154994ea19989807de4, type: 3}
+    vfxLifetime: 2.5
+    volume: 0.5
+    soundDist: 30
   waveWindup:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}

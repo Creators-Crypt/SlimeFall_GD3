@@ -528,7 +528,7 @@ GameObject:
   - component: {fileID: 152201418958783638}
   - component: {fileID: 7242434049416401185}
   m_Layer: 9
-  m_Name: Slime_Melee
+  m_Name: Slime_JumpNdWave
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -568,20 +568,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f739a5649b1ab479ab1aababf7eb57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  stats: {fileID: 11400000, guid: d54506179f373ed4c89904adb1ce5830, type: 2}
+  stats: {fileID: 11400000, guid: f85ddbc0d826bd741b7db24c9caebf76, type: 2}
   firePoint: {fileID: 230003085462281643}
+  mortarFirePoint: {fileID: 0}
   agent: {fileID: 152201418958783638}
   playerTarget: {fileID: 0}
   model: {fileID: 6347676189373725668}
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  damageableMask:
+    serializedVersion: 2
+    m_Bits: 0
+  otherEnemyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  mortarFriendlyFire: 0
+  landingShockFriendlyFire: 0
+  meleeFriendlyFire: 0
+  aoeWaveFriendlyFire: 0
+  detonationFriendlyFire: 1
   spawnPostion: {x: 0, y: 0, z: 0}
-  currentHealth: 0
   faceTargetRotSpeed: 10
   timeSinceLastSawPlayer: 0
   lastAttackTime: 0
   origColor: {r: 0, g: 0, b: 0, a: 0}
+  playerVelocity: {x: 0, y: 0, z: 0}
+  lastPlayerPostion: {x: 0, y: 0, z: 0}
+  jumpLanded: 0
 --- !u!95 &2465582576490915417
 Animator:
   serializedVersion: 7
