@@ -14,8 +14,7 @@ GameObject:
   - component: {fileID: 154167847583620949}
   - component: {fileID: 670509485310419030}
   - component: {fileID: 1549162137794439052}
-  - component: {fileID: 5947006264782159655}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Jump boots pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +108,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -128,10 +127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentPickup
   equipment: {fileID: 11400000, guid: 782c38c4f5ab81548b7205193d7eda40, type: 2}
-  modelRenderer: {fileID: 8749333226443805077}
-  dropForce: 8
-  upwardForce: 8
-  pickupCooldown: 0.5
 --- !u!54 &1549162137794439052
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -159,24 +154,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &5947006264782159655
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4165138853040521110}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

@@ -14,8 +14,7 @@ GameObject:
   - component: {fileID: 693648035219403019}
   - component: {fileID: 5021081759610025240}
   - component: {fileID: 7367119868428193689}
-  - component: {fileID: 7043909417192362014}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Speed boots pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -109,7 +108,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -128,10 +127,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentPickup
   equipment: {fileID: 11400000, guid: 9678f86ca38394b45a0394cf06c309b1, type: 2}
-  modelRenderer: {fileID: 6666279209584925455}
-  dropForce: 8
-  upwardForce: 8
-  pickupCooldown: 0.5
 --- !u!54 &7367119868428193689
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -159,24 +154,3 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &7043909417192362014
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7384773071343224276}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
