@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour {
@@ -6,42 +7,61 @@ public class TutorialManager : MonoBehaviour {
     [Header("Tutorial Barriers")]
     [SerializeField] private GameObject introBarrier;
     [SerializeField] private GameObject entrywayBarrier;
+    [SerializeField] private GameObject kitchenBarrier;
+    [SerializeField] private GameObject officeBarrier;
+
+    [Header("Scene Lighting Setup")]
+    [SerializeField] private Light sunLight;
+    [SerializeField] private float transitionDuration = 2.0f;
+
+    [Header("Day Settings")]
+    [SerializeField] private Color daySunColor = Color.white;
+    [SerializeField] private float daySunIntensity = 1.0f;
+    [SerializeField] private float dayAmbientIntensity = 1.0f;
+    [SerializeField] private float daySkyboxExposure = 1.0f;
+
+    [Header("Night Settings")]
+    [SerializeField] private Color nightSunColor = new(0.2f, 0.3f, 0.5f);
+    [SerializeField] private float nightSunIntensity = 0.05f;
+    [SerializeField] private float nightAmbientIntensity = 0.2f;
+    [SerializeField] private float nightSkyboxExposure = 0.1f;
+
+    private Coroutine LightingTransitionCO;
 
     [Header("Tutorial State")]
     private bool tutorialActive = true;
-    [SerializeField] private int tutorialPhase = 0;
+    [SerializeField] private int tutorialPhase = 1;
 
-    [Header("Phase 1 Checklist")]
+    [Header("Phase 1 Checklist (Equipment)")]
     private int equipmentPickedUp = 0;
     [SerializeField] private int neededEquipmentPickedUp = 3;
 
-    [Header("Phase 2 Checklist")]
+    [Header("Phase 2 Checklist (Weapons)")]
     private int weaponPickedUp = 0;
     [SerializeField] private int neededWeaponPickedUp = 1;
     private bool weaponCycled, weaponFired, magicCycled;
 
-    [Header("Phase 3 Checklist")]
-    private bool jumped, teleported;
+    [Header("Phase 3 Checklist (Abilities & Atmosphere)")]
+    private bool flashlightUsed;
+    private bool jumped; 
+    private bool teleported;
+    private bool isPlayerAtPlatforms;
+    private bool reachedLastPlatforms;
 
-    [Header("Phase 4 Checklist")]
+    [Header("Phase 4 Checklist (Combat Arena)")]
     private int targetsDefeated = 0;
     [SerializeField] private int neededTargetsDefeated = 3;
     private bool dodged, concentrated;
-
-    [Header("Phase 5 Checklist")]
-    private bool flashlightUsed;
 
     private void OnEnable() {
         GameManager.OnStageChanged += HandleStageChanged;
         GameManager.OnPlayerAction += HandlePlayerAction;
         NarrationManager.OnDialogueFinished += HandleDialogueFinished;
-        StageTrigger.OnPhaseUpdate += HandleTutorialPhaseUpdate;
     }
     private void OnDisable() {
         GameManager.OnStageChanged -= HandleStageChanged;
         GameManager.OnPlayerAction -= HandlePlayerAction;
         NarrationManager.OnDialogueFinished -= HandleDialogueFinished;
-        StageTrigger.OnPhaseUpdate -= HandleTutorialPhaseUpdate;
     }
     private void HandleStageChanged(GameStage newStage) {
         switch (newStage) {
@@ -55,17 +75,12 @@ public class TutorialManager : MonoBehaviour {
         }
     }
     private void HandleIntro() {
-        Debug.Log("Tutorial: Intro started.");
-
         ObjectiveManager.Instance.SetObjective("Listen to the Archmage");
     }
     private void HandleEntryway() {
-        Debug.Log("Tutorial: Entryway started.");
-
         ObjectiveManager.Instance.SetObjective("Head into the Entryway");
     }
     private void HandleEquipment() {
-        Debug.Log("Tutorial: Equipment started.");
         tutorialPhase = 1;
         UpdateTutorialUI();
     }
@@ -77,6 +92,9 @@ public class TutorialManager : MonoBehaviour {
     private void HandleAbilities() {
         Debug.Log("Tutorial: Abilities started.");
         tutorialPhase = 3;
+
+        DimGlobalLightsToNight(true);
+
         UpdateTutorialUI();
     }
     private void HandleCombat() {
@@ -89,6 +107,61 @@ public class TutorialManager : MonoBehaviour {
         tutorialPhase = 5;
         UpdateTutorialUI();
     }
+    private void DimGlobalLightsToNight(bool state) {
+        
+        if (LightingTransitionCO != null) {
+            StopCoroutine(LightingTransitionCO);
+        }
+        LightingTransitionCO = StartCoroutine(TransitionLightingRoutine(state));
+    }
+    private IEnumerator TransitionLightingRoutine(bool toNight) {
+
+        float elapsedTime = 0f;
+
+        Color startSunColor = sunLight != null ? sunLight.color : daySunColor;
+        float startSunIntensity = sunLight != null ? sunLight.intensity : daySunIntensity;
+        float startAmbient = RenderSettings.ambientIntensity;
+
+        float startSkybox = 1f;
+        if (RenderSettings.skybox != null && RenderSettings.skybox.HasProperty("_Exposure")) {
+            startSkybox = RenderSettings.skybox.GetFloat("_Exposure");
+        }
+
+        Color targetSunColor = toNight ? nightSunColor : daySunColor;
+        float targetSunIntensity = toNight ? nightSunIntensity : daySunIntensity;
+        float targetAmbient = toNight ? nightAmbientIntensity : dayAmbientIntensity;
+        float targetSkybox = toNight ? nightSkyboxExposure : daySkyboxExposure;
+
+        Debug.Log(toNight ? "<color=purple>LIGHTING: Transitioning to Night...</color>"
+                          : "<color=yellow>LIGHTING: Restoring Day...</color>");
+
+        while (elapsedTime < transitionDuration) {
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / transitionDuration;
+
+            // Smoothly interpolate between values using Lerp
+            if (sunLight != null) {
+                sunLight.color = Color.Lerp(startSunColor, targetSunColor, t);
+                sunLight.intensity = Mathf.Lerp(startSunIntensity, targetSunIntensity, t);
+            }
+
+            RenderSettings.ambientIntensity = Mathf.Lerp(startAmbient, targetAmbient, t);
+
+            if (RenderSettings.skybox != null && RenderSettings.skybox.HasProperty("_Exposure")) {
+                RenderSettings.skybox.SetFloat("_Exposure", Mathf.Lerp(startSkybox, targetSkybox, t));
+            }
+
+            yield return null;
+        }
+        if (sunLight != null) {
+            sunLight.color = targetSunColor;
+            sunLight.intensity = targetSunIntensity;
+        }
+        RenderSettings.ambientIntensity = targetAmbient;
+        if (RenderSettings.skybox != null && RenderSettings.skybox.HasProperty("_Exposure")) {
+            RenderSettings.skybox.SetFloat("_Exposure", targetSkybox);
+        }
+    }
     private void HandleDialogueFinished(DialogueData data) {
         
         if (GameManager.Instance.GameStage == GameStage.HomeBase_Tut_Spawn) {
@@ -97,8 +170,10 @@ public class TutorialManager : MonoBehaviour {
         if (GameManager.Instance.GameStage == GameStage.HomeBase_Tut_Entryway) {
             HandleEntrywayDialogueFinished();
         }
+        if (GameManager.Instance.GameStage == GameStage.HomeBase_Tut_Kitchen) {
+            HandleKitchenEntranceDialogueFinished();
+        }
     }
-
     private void HandleIntroDialogueFinished() {
         
         if (introBarrier != null) {
@@ -113,6 +188,20 @@ public class TutorialManager : MonoBehaviour {
         }
         Debug.Log("Tutorial: Entryway dialogue finished. Barrier removed.");
     }
+    private void HandleKitchenEntranceDialogueFinished() {
+
+        if (kitchenBarrier != null) {
+            kitchenBarrier.SetActive(false);
+        }
+        Debug.Log("Tutorial: Kitchen Entryway dialogue finished. Barrier removed.");
+    }
+    private void HandleOfficeEntranceDialogueFinished() {
+
+        if (officeBarrier != null) {
+            officeBarrier.SetActive(false);
+        }
+        Debug.Log("Tutorial: Office Entryway dialogue finished. Barrier removed.");
+    }
     private void HandlePlayerAction(string actionKey) {
         if (!tutorialActive) return;
 
@@ -124,17 +213,23 @@ public class TutorialManager : MonoBehaviour {
             case "WeaponPickup":
                 if (weaponPickedUp < neededWeaponPickedUp) { weaponPickedUp++; }
                 break;
-            case "TargetDefeated":
-                if (targetsDefeated < neededTargetsDefeated) { targetsDefeated++; }
-                break;
             case "WeaponCycle":     weaponCycled = true; break;
             case "WeaponFire":      weaponFired = true; break;
             case "MagicCycle":      magicCycled = true; break;
+            #region Phase 3
+            case "Flashlight":      flashlightUsed = true; break;   
             case "Jump":            jumped = true; break;
+            case "PlayerReachedPlatforms": isPlayerAtPlatforms = true; break;
+            case "NeedToCrossLastPlatforms": reachedLastPlatforms = true; break;
             case "Teleport":        teleported = true; break;
+            #endregion
+            #region Phase 4
             case "Dodge":           dodged = true; break;
             case "Concentrate":     concentrated = true; break;
-            case "Flashlight":      flashlightUsed = true; break;   
+            case "TargetDefeated":
+                if (targetsDefeated < neededTargetsDefeated) { targetsDefeated++; }
+                break;
+                #endregion
         }
         UpdateTutorialUI();
         CheckTutorialProgress();
@@ -143,22 +238,33 @@ public class TutorialManager : MonoBehaviour {
         string tutorialText = "TUTORIAL\n";
 
         if (tutorialPhase == 1) {
+            
             tutorialText += $"Gather Armor & Gear ({equipmentPickedUp}/{neededEquipmentPickedUp})";
         } else if (tutorialPhase == 2) {
+            
             tutorialText += weaponPickedUp >= neededWeaponPickedUp ? " [X] Claim a Weapon\n" : " [ ] Claim a Weapon\n";
             tutorialText += weaponCycled ? " [X] Swap Weapons [Scrollwheel]\n" : " [ ] Swap Weapons [Scrollwheel]\n";
-            tutorialText += magicCycled ? " [X] Cycle Elements [R]\n" : " [ ] Cycle Elements [R]\n";
+            tutorialText += magicCycled ? " [X] Cycle Elements [1,2,3,4]\n" : " [ ] Cycle Elements [1,2,3,4]\n";
             tutorialText += weaponFired ? " [X] Fire Weapon [RMB]" : " [ ] Fire Weapon [RMB]";
         } else if (tutorialPhase == 3) {
-            tutorialText += jumped ? " [X] Jump [SPACE]\n" : " [ ] Jump [SPACE]\n";
-            tutorialText += teleported ? " [X] Teleport [E]" : " [ ] Teleport [E]";
+
+            if (!flashlightUsed && tutorialPhase == 3) {
+                tutorialText += flashlightUsed ? " [X] Use Flashlight [F]\n" : " [ ] Use Flashlight [F] (It's Dark!)\n";
+            }else if (!isPlayerAtPlatforms) {
+                tutorialText += jumped ? " [X] Jump [SPACE]\n" : " [ ] Jump [SPACE]\n";
+                tutorialText += "Proceed through the Platform Section.";
+            } else {
+                tutorialText += teleported ? " [X] Teleport [T]" : " [ ] Teleport [T]";
+                tutorialText += "Traverse toward the last two platforms.";
+            }        
         } else if (tutorialPhase == 4) {
+            
             tutorialText += dodged ? " [X] Dodge [L ALT]\n" : " [ ] Dodge [L ALT]\n";
             tutorialText += concentrated ? " [X] Concentrate [C]\n" : " [ ] Concentrate [C]\n";
             tutorialText += $"Defeat Training Targets ({targetsDefeated}/{neededTargetsDefeated})";
         } else if (tutorialPhase == 5) {
-            tutorialText += flashlightUsed ? " [X] Use Flashlight [F]\n" : " [ ] Use Flashlight [F]\n";
-            tutorialText += "Congrats, now please head to your office!";
+            
+            tutorialText += "Congrats, now please head to the Kitchen!";
         }
         ObjectiveManager.Instance.SetObjective(tutorialText);
     }
@@ -167,23 +273,15 @@ public class TutorialManager : MonoBehaviour {
 
         if (tutorialPhase == 1 && equipmentPickedUp >= neededEquipmentPickedUp) {
             GameManager.Instance.SetStage(GameStage.HomeBase_Tut_WeaponsMagic);
-        }
-        else if (tutorialPhase == 2 && weaponPickedUp >= neededWeaponPickedUp && weaponCycled && weaponFired && magicCycled) {
+        } else if (tutorialPhase == 2 && weaponPickedUp >= neededWeaponPickedUp && weaponCycled && weaponFired && magicCycled) {
             GameManager.Instance.SetStage(GameStage.HomeBase_Tut_Abilities);
-        }
-        else if (tutorialPhase == 3 && jumped && teleported) {
+        } else if (tutorialPhase == 3 && flashlightUsed) {
+            DimGlobalLightsToNight(false);
+        } else if (tutorialPhase == 3 & jumped && isPlayerAtPlatforms && reachedLastPlatforms && teleported) {
             GameManager.Instance.SetStage(GameStage.HomeBase_Tut_Combat);
-        }
+        } 
         else if (tutorialPhase == 4 && dodged && concentrated && targetsDefeated >= neededTargetsDefeated) {
             GameManager.Instance.SetStage(GameStage.HomeBase_Tut_Complete);
         }
-        else if (tutorialPhase == 5 && flashlightUsed) {
-            tutorialActive = false;
-            ObjectiveManager.Instance.SetObjective("Proceed to your office.");
-            Debug.Log("Tutorial completely cleared!");
-        }
-    }
-    private void HandleTutorialPhaseUpdate(int value) {
-        tutorialPhase = value;
     }
 }
