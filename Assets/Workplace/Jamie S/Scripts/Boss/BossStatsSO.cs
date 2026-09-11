@@ -32,18 +32,10 @@ public class BossStatsSO : EnemyStatsSO
     public float p1ProjectileDamage = 6f;
     public float bulletAimAheadOfPlayer = .6f;
 
-    [Header("Phase1 Slime Mortars")]
-    public GameObject mortarPrefab;
-    public GameObject mortarHitPosDisplayPrefab;
+    [Header("Phase1 Slime Mortars")]  
     public float mortarCooldown = 6f;
-    public int mortarShellsPreSalvo = 4;
-    public float mortarTimeBetweenShells = .35f;
-    public float mortarSpeed = 14f;
-    public float mortarArcHeight = 6f;
-    public float mortarSplashRadius = 4f;
-    public float mortarDamage = 14f;
-    public float mortarScatter = 3f;
-    public float mortarAimAheadOfPlayer = 1f;
+    public float mortarDamage = 14f;    
+   
 
     [Header("Phase Changes")]
     public float transitionWindup = 1f;

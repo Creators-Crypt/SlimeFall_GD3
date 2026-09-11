@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyStatsSO : ScriptableObject
 {
    
-    public enum EnemyType { Melee,Ranged,Bomber, Boss};
+    public enum EnemyType { Melee,Ranged,Bomber,Mortar, Boss};
 
     [Header("Type")]
     public EnemyType enemyType;
@@ -36,6 +36,19 @@ public class EnemyStatsSO : ScriptableObject
     [Header("Bomber Attack")]
     public float explosionRadius = 3f;
     public GameObject explosionVFX;
+
+    [Header("Mortar Attack")]
+    public GameObject mortarPrefab;
+    public GameObject mortarHitPosDisplayPrefab;
+    public float mortarSpeed = 15f;
+    public int mortarShellsPreSalvo = 1;
+    public float mortarTimeBetweenShells = .35f;
+    public float mortarScatter = 3f;
+    public float mortarArcHeight = 10f;
+    public float mortarSplashRadius = 5f;
+    public float mortarAimAheadOfPlayer = 1f;
+    public LayerMask mortarGroundMask; //Walls flors or anything else that can trigger a hit
+    public LayerMask mortarDamageMask; //Things that take mortar damage
 
     [Header("Split")]
     [Range(0f, 1f)] public float splitChance = 0.5f;

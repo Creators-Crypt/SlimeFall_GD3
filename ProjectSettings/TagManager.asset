@@ -25,13 +25,13 @@ TagManager:
   - Boss
   - Boss Bullet
   - HideFromMiniMap
+  - BossEncounterTrigger
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
+  - Player
   - 
   - 
   - 

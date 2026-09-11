@@ -16,5 +16,21 @@ public enum GameStage {
     Challenge_LabyrinthNav,
     Challenge_ObjectiveRoom,
     Challenge_BossRoom,
-    GameEnd
+    GameEnd,
+
+
+
+
+
+
+
+    HomeBase_Tut_Spawn,
+    HomeBase_Tut_Entryway,
+    HomeBase_Tut_Equipment,
+    HomeBase_Tut_WeaponsMagic,
+    HomeBase_Tut_Abilities,
+    HomeBase_Tut_Combat,
+    HomeBase_Tut_Kitchen,
+    HomeBase_Tut_Office,
+    HomeBase_Tut_Complete,
 }

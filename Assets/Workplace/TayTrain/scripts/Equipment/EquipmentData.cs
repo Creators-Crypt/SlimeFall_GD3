@@ -6,6 +6,9 @@ public class EquipmentData : ScriptableObject
     [Header("Equipment Info")]
     public string itemName;
 
+    [Header("Rarity")]
+    public ItemRarity defaultRarity = ItemRarity.Uncommon;
+
     [TextArea]
     public string itemDescription;
 

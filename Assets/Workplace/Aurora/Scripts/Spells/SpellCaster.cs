@@ -83,7 +83,7 @@ public class SpellCaster : MonoBehaviour {
         if (keyboard.digit4Key.wasPressedThisFrame) Equip(3);
 
         // Q: cycle the equipped spell's delivery type at runtime.
-        if (keyboard.qKey.wasPressedThisFrame) CycleDelivery();
+        //if (keyboard.qKey.wasPressedThisFrame) CycleDelivery();
 
         // Right mouse: cast toward cursor.
         if (mouse.rightButton.wasPressedThisFrame) TryCast();
@@ -93,6 +93,7 @@ public class SpellCaster : MonoBehaviour {
         if (spells == null || index < 0 || index >= spells.Length || spells[index] == null) return;
 
         equippedIndex = index;
+        GameManager.Instance.PlayerPerformAction("MagicCycle");
     }
 
     /// <summary> Cycles Hand -> Projectile -> ArcProjectile -> Ray -> Aoe -> Hand. </summary>
@@ -133,6 +134,8 @@ public class SpellCaster : MonoBehaviour {
 
         Vector3 origin = castPoint.position;
         Vector3 aim = GetAimDirection(origin);
+
+        GameManager.Instance.PlayerPerformAction("WeaponFire");
 
         spell.Cast(this, EquippedWeapon, transform, origin, aim, multiplier);
 

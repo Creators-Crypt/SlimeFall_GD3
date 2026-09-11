@@ -33,11 +33,6 @@ public class EquipmentUI : MonoBehaviour
 
     void Update()
     {
-        EquipmentData helmet = equipmentManager.GetHelmet();
-        EquipmentData amulet = equipmentManager.GetAmulet();
-        EquipmentData armor = equipmentManager.GetArmor();
-        EquipmentData boots = equipmentManager.GetBoots();
-
         updateHelmet();
         updateAmulet();
         updateArmor();

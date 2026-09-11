@@ -12,7 +12,7 @@ public class MiniBossCheck : MonoBehaviour {
     }
     private void Update() {
         
-        if (enemy.currentHealth <= 1) {
+        if (enemy.CurrentHealth <= 1) {
             BossDeath();
         }
     }
