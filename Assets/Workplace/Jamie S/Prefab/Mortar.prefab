@@ -61,7 +61,7 @@ MonoBehaviour:
     m_Bits: 8
   damagebleMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1048704
 --- !u!33 &1319157215863334114
 MeshFilter:
   m_ObjectHideFlags: 0

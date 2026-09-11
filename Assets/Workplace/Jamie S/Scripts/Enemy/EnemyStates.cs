@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class EnemyIdleState : IEnemyState
 {
@@ -190,4 +191,69 @@ public class EnemyAttackState : IEnemyState
     {
         enemy.agent.isStopped=false;
     }
+
+    
+
+
+
+
+
+
+    
+}
+
+public class EnemyJumpState : IEnemyState
+{
+    private EnemyAI enemy;
+    private Coroutine routine;
+    private bool finished;
+    private bool active;
+
+    public EnemyJumpState(EnemyAI _enemy)
+    {
+        enemy = _enemy;
+    }
+
+    public void Enter()
+    {
+        active = true;
+        finished = false;
+        if(enemy.agent != null && enemy.agent.enabled && enemy.agent.isOnNavMesh)
+        {
+            enemy.agent.isStopped = true;
+            enemy.agent.velocity = Vector3.zero;
+        }
+        routine = enemy.StartCoroutine(JumpRoutine());
+    }
+    public void Tick()
+    {
+        if (enemy.IsDead) return;
+        if(finished) enemy.stateMachine.ChangeState(enemy.attackState);
+    }
+    public void Exit()
+    {
+        if (active == false) return;
+        active = false;
+        if(routine!= null) enemy.StopCoroutine(routine);
+        routine = null;
+        enemy.RestoreJumpMovement();
+        enemy.lastAttackTime = Time.time;
+
+        finished = true;
+    }
+
+  
+
+    IEnumerator JumpRoutine()
+    {
+        if (enemy.stats.enemyType == EnemyStatsSO.EnemyType.JumpNdWave)
+            yield return enemy.JumpNdWaveAttack();
+        else
+            yield return enemy.JumpAttack(enemy.stats.jumpdamage);
+
+        yield return new WaitForSeconds(enemy.stats.jumpRecovery);
+        finished = true;
+    }
+
+
 }

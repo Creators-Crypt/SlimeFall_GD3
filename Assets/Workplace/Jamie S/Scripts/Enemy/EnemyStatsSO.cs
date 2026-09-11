@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyStatsSO : ScriptableObject
 {
    
-    public enum EnemyType { Melee,Ranged,Bomber,Mortar, Boss};
+    public enum EnemyType { Melee,Ranged,Bomber,Mortar,Wave,Jump,JumpNdWave};
 
     [Header("Type")]
     public EnemyType enemyType;
@@ -49,6 +49,47 @@ public class EnemyStatsSO : ScriptableObject
     public float mortarAimAheadOfPlayer = 1f;
     public LayerMask mortarGroundMask; //Walls flors or anything else that can trigger a hit
     public LayerMask mortarDamageMask; //Things that take mortar damage
+    
+    [Header("Jump Attack")]
+    public float jumpdamage = 5f;
+    public float jumpWindupTime = .4f;
+    public float jumpDuration = .65f;
+    public float jumpHeight = 1.5f;
+    public float jumpMaxDistance = 5f;
+    public float jumpHitRadius = 0.5f;
+    public float jumpRecovery = 0.4f;
+    public LayerMask jumpObstacleMask;
+    
+    [Header("Slime Wave Attack")]
+    public GameObject aoeWavePrefab;
+    public float aoeWaveWaringTime = 1f;
+    public float aoeWaveRadius = 9f;
+    public float aoeWaveSpeed = 10f;
+
+    [Header("JumpNdWave")]
+    public float jumpToWaveDelay = .25f;
+    public float jumpWaveDamage = 4f;
+
+    [Header("Attack VFX and SFX")]
+    public AttackFeedback jumpWindup = new AttackFeedback();
+    public AttackFeedback jumpTakeOff = new AttackFeedback();
+    public AttackFeedback jumpHit= new AttackFeedback();
+    public AttackFeedback jumpLanding = new AttackFeedback();
+    public AttackFeedback waveWindup = new AttackFeedback();
+    public AttackFeedback waveRelease = new AttackFeedback();
+    public AttackFeedback waveHit = new AttackFeedback();   
+    public AttackFeedback randedLaunch = new AttackFeedback();
+    public AttackFeedback mortarLaunch = new AttackFeedback();
+    public AttackFeedback bomberBlast = new AttackFeedback();
+    public AttackFeedback bossLeapWindup = new AttackFeedback();
+    public AttackFeedback bossMeleeWindup = new AttackFeedback();
+    public AttackFeedback bossMeleeSwing = new AttackFeedback();
+    public AttackFeedback bossMeleeHit = new AttackFeedback();
+    public AttackFeedback bossLeapTakeoff = new AttackFeedback();
+    public AttackFeedback bossLanding = new AttackFeedback();
+    public AttackFeedback bossDetonationWindup = new AttackFeedback();
+    public AttackFeedback bossDetonationBlast = new AttackFeedback();
+
 
     [Header("Split")]
     [Range(0f, 1f)] public float splitChance = 0.5f;

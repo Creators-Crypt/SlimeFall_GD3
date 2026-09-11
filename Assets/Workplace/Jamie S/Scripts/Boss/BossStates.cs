@@ -101,6 +101,7 @@ public class BossPhase1State : IEnemyState
 
                 if (bullet != null)
                 {
+                    boss.PlayVFXandSFX(stats.randedLaunch, muzzle.position);
                     bullet.Fire(dir, stats.p1ProjectileSpeed, stats.p1ProjectileDamage);
                 }
 
@@ -184,8 +185,10 @@ public class BossTransitionState : IEnemyState
 
     private IEnumerator LeapDownToPlayer()
     {
+        boss.PlayVFXandSFX(stats.bossLeapWindup, boss.transform.position);
         yield return new WaitForSeconds(stats.transitionWindup);
 
+        boss.PlayVFXandSFX(stats.bossLeapTakeoff,boss.transform.position);
         Vector3 startPos = boss.transform.position;
         Vector3 landingPos = PickLandingSpot();
 
@@ -215,6 +218,7 @@ public class BossTransitionState : IEnemyState
         boss.transform.position = landingPos;
         boss.WarpToNavMesh(landingPos);
 
+        boss.PlayVFXandSFX(stats.bossLanding, boss.transform.position);
         LayerMask shotHits = boss.GetAttackMask(boss.landingShockFriendlyFire);
         boss.DealRadialDamage(boss.transform.position, stats.landingShockRad, stats.landingShockDmg, shotHits);
 
@@ -259,7 +263,6 @@ public class BossTransitionState : IEnemyState
         return spot;
     }
 }
-
 
 public class BossPhase2State : IEnemyState
 {
@@ -350,7 +353,7 @@ public class BossPhase2State : IEnemyState
     {
         busy = true;
         boss.SetMovementEnabled(false);
-
+        boss.PlayVFXandSFX(stats.bossMeleeWindup, boss.transform.position);
         float timer = 0f;
         while (timer < stats.p2MeleeWindup)
         {
@@ -359,6 +362,7 @@ public class BossPhase2State : IEnemyState
             yield return null;
         }
 
+        boss.PlayVFXandSFX(stats.bossMeleeSwing, boss.transform.position);
         HitAllInFront();
 
         boss.lastAttackTime = Time.time;
@@ -395,6 +399,7 @@ public class BossPhase2State : IEnemyState
 
             alreadyHit.Add(target);
             target.OnDamage(stats.p2MelleDmg);
+            boss.PlayVFXandSFX(stats.bossMeleeHit, hit.ClosestPoint(boss.transform.position));
         }
     }
 
@@ -508,6 +513,7 @@ public class BossPhase3State : IEnemyState
         boss.SetMovementEnabled(false);
         boss.SetPhaseColor(stats.phase3Material);
 
+        boss.PlayVFXandSFX(stats.bossDetonationWindup,boss.transform.position);
         timer = stats.detonationTime;
         boss.detonationTimeLeft = timer;
         pullEndTime = Time.time + pullDuration;
@@ -607,6 +613,7 @@ public class BossPhase3State : IEnemyState
         }
 
         LayerMask blastHits = boss.GetAttackMask(boss.detonationFriendlyFire);
+        boss.PlayVFXandSFX(stats.bossDetonationBlast, center);
         boss.DealRadialDamage(center, stats.detonationKillRad, stats.detonationDmg, blastHits);
 
         boss.Die();
