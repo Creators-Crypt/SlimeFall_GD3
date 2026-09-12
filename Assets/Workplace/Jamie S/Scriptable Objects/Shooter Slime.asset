@@ -32,6 +32,151 @@ MonoBehaviour:
   projectileSpeed: 20
   explosionRadius: 3
   explosionVFX: {fileID: 0}
+  mortarPrefab: {fileID: 0}
+  mortarHitPosDisplayPrefab: {fileID: 0}
+  mortarSpeed: 15
+  mortarShellsPreSalvo: 1
+  mortarTimeBetweenShells: 0.35
+  mortarScatter: 3
+  mortarArcHeight: 10
+  mortarSplashRadius: 5
+  mortarAimAheadOfPlayer: 1
+  mortarGroundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  mortarDamageMask:
+    serializedVersion: 2
+    m_Bits: 0
+  jumpdamage: 5
+  jumpWindupTime: 0.4
+  jumpDuration: 0.65
+  jumpHeight: 1.5
+  jumpMaxDistance: 5
+  jumpHitRadius: 0.5
+  jumpRecovery: 0.4
+  jumpObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  aoeWavePrefab: {fileID: 0}
+  aoeWaveWaringTime: 1
+  aoeWaveRadius: 9
+  aoeWaveSpeed: 10
+  jumpToWaveDelay: 0.25
+  jumpWaveDamage: 4
+  jumpWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  jumpTakeOff:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  jumpHit:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  jumpLanding:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  waveWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  waveRelease:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  waveHit:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  projectileLaunch:
+    vfxPrefab: {fileID: 4657287752871689871, guid: 20bf09f8c79fbc5498c77a712f2efbb9, type: 3}
+    sound: {fileID: 8300000, guid: c1dc913d066f2a54bbd87db92d272fab, type: 3}
+    vfxLifetime: 3
+    volume: 0.7
+    soundDist: 25
+  projectileHit:
+    vfxPrefab: {fileID: 1887492736218357856, guid: 28e43cb587142724b84cbacb4b725214, type: 3}
+    sound: {fileID: 8300000, guid: bb393d09f293dfb48b3f7ad134a9ca28, type: 3}
+    vfxLifetime: 3
+    volume: 0.7
+    soundDist: 25
+  mortarLaunch:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bomberBlast:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossLeapWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossMeleeWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossMeleeSwing:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossMeleeHit:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossLeapTakeoff:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossLanding:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossDetonationWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossDetonationBlast:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
   splitChance: 1
   splitPrefab: {fileID: 8849678851245949963, guid: 722e50717483894479156f0de3d076ac, type: 3}
   splitCount: 2

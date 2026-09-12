@@ -1,3 +1,4 @@
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -7,12 +8,14 @@ public class Projectile : MonoBehaviour
     public Vector3 direction;
     public float speed;
     public float damage;
+    public EnemyAI owner;
 
     [Header("Bullet impact")]
     public AttackFeedback impactFeedback = new AttackFeedback();
 
     public LayerMask sceneryImpactMask;
     private bool hitSomething;
+
 
     // Update is called once per frame
    public virtual void Update()
@@ -21,11 +24,21 @@ public class Projectile : MonoBehaviour
     }
 
     public virtual void Fire(Vector3 _direction, float _speed, float _Damage)
-    {
+    {       
         direction = _direction;
         speed = _speed;
         damage = _Damage;
         Destroy(this.gameObject, bulletLifetime);
+    }
+
+    public virtual void Fire(Vector3 _direction, float _speed, float _Damage, EnemyAI _owner)
+    {
+        owner = _owner;
+        if(_owner != null && _owner.stats != null)
+        {
+            impactFeedback = _owner.stats.projectileHit;
+        }
+       Fire(_direction, _speed, _Damage);
     }
 
     public virtual void OnTriggerEnter(Collider other)
@@ -56,8 +69,9 @@ public class Projectile : MonoBehaviour
             if (impactFeedback != null)
             {
                 impactFeedback.Play(other.ClosestPoint(transform.position));
-            }            Destroy(this.gameObject);
-
+            }            
+            Destroy(this.gameObject);
+            return;
         }
     }
 }

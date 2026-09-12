@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91ed46f2e35663a4899748da965190d9, type: 3}
   m_Name: MeleeSlime
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStatsSO
-  enemyType: 6
+  enemyType: 0
   maxHealth: 30
   patrolSpeed: 2
   chaseSpeed: 5

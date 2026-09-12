@@ -78,7 +78,8 @@ public class EnemyStatsSO : ScriptableObject
     public AttackFeedback waveWindup = new AttackFeedback();
     public AttackFeedback waveRelease = new AttackFeedback();
     public AttackFeedback waveHit = new AttackFeedback();   
-    public AttackFeedback randedLaunch = new AttackFeedback();
+    public AttackFeedback projectileLaunch = new AttackFeedback();
+    public AttackFeedback projectileHit = new AttackFeedback();
     public AttackFeedback mortarLaunch = new AttackFeedback();
     public AttackFeedback bomberBlast = new AttackFeedback();
     public AttackFeedback bossLeapWindup = new AttackFeedback();
@@ -98,6 +99,22 @@ public class EnemyStatsSO : ScriptableObject
     public float splitRadius = .75f;
     public GameObject splitVFXPrefab;
     public float splitGrowthSpeed;
-   
+
+    [Header("Banshee - Return by Death")]
+    [Tooltip("At zero health, return after death on a delay, Disable for perma death.")]
+    public bool canReturn = true;
+    [Min(.1f)] public float returnDelay = 15f;
+
+    [Header("BAnshee - Scare timeing")]
+    public float appearDelay = .5f;
+    public float lingerAfterScream = 1f;
+    public float scareCooldown = 8f;
+    public float bansheeTurnSpeed;
+
+    [Header("Banshee - Scream")]
+    [Tooltip("Random scream. ")]
+    public AudioClip[] screamClips = new AudioClip[0];
+    [Range(0f, 1f)] public float screamVolume = .8f;
+    public float audibleDist = 25f;
     
 }
