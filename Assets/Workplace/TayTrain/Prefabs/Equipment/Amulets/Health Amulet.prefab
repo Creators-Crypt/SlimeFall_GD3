@@ -14,8 +14,7 @@ GameObject:
   - component: {fileID: 5402015662336839599}
   - component: {fileID: 8676083256882428326}
   - component: {fileID: 7833907197605910873}
-  - component: {fileID: 6994600010276136939}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Health Amulet
   m_TagString: Equipment
   m_Icon: {fileID: 0}
@@ -109,7 +108,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -130,10 +129,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentPickup
   equipment: {fileID: 11400000, guid: cc1eefbc0ccfe534f9253bcfb91f34fe, type: 2}
-  modelRenderer: {fileID: 6418247677894671001}
-  dropForce: 6
-  upwardForce: 5
-  pickupCooldown: 0.5
 --- !u!54 &7833907197605910873
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -156,31 +151,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!136 &6994600010276136939
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5449227572457508554}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}

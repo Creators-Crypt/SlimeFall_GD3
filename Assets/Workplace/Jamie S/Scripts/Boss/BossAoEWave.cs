@@ -14,14 +14,16 @@ public class BossAoEWave : MonoBehaviour
 
     private float currentRadius;
     private bool playing;
+    private AttackFeedback attackFeedback;
     private Transform bossTransfor;
     private List<IDamageable> alreadyHit = new List<IDamageable>();
 
-    public void Play(BossAI _boss, float _radius, float _speed, float _damageAmount, LayerMask _mask)
+    public void Play(EnemyAI _boss, float _radius, float _speed, float _damageAmount, LayerMask _mask)
     {
         if (_boss != null)
         {
             bossTransfor = _boss.transform;
+            attackFeedback =_boss.stats.waveHit;
         }
 
         maxRadius = _radius;
@@ -71,6 +73,7 @@ public class BossAoEWave : MonoBehaviour
 
             alreadyHit.Add(target);
             target.OnDamage(damage);
+            if(attackFeedback != null)attackFeedback.Play(hit.ClosestPoint(transform.position));
         }
     }
 

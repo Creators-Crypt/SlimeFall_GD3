@@ -16,7 +16,7 @@ MonoBehaviour:
   subtitleText: 
   voiceAudio: {fileID: 8300000, guid: 3b0a26d9eb47bce419658a0bba466b90, type: 3}
   displayDuration: 3
-  priority: 2
+  priority: 1
   isSpecialIntroLine: 0
   characterSplashImage: {fileID: 0}
   titleCardText: Founder of DA
