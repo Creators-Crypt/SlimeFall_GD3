@@ -305,10 +305,12 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
 
         GameObject projectileObj = Instantiate(stats.projectilePrefab,firePoint.position, Quaternion.LookRotation(dir));
 
+        PlayVFXandSFX(stats.projectileLaunch, firePoint.position);
+
         Projectile projectile = projectileObj.GetComponent<Projectile>();
         if(projectile != null)
         {
-            projectile.Fire(dir, stats.projectileSpeed, stats.attackDamage);
+            projectile.Fire(dir, stats.projectileSpeed, stats.attackDamage,this);
         }
         else
         {
@@ -433,7 +435,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
             SplitSlime();
         }
 
-        GameManager.Instance.PlayerPerformAction("SlimeKilled");
+        GameManager.Instance.PlayerPerformAction("TargetDefeated");
         Destroy(gameObject, .01f);
     }
     

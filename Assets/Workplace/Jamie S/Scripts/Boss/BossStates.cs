@@ -101,7 +101,7 @@ public class BossPhase1State : IEnemyState
 
                 if (bullet != null)
                 {
-                    boss.PlayVFXandSFX(stats.randedLaunch, muzzle.position);
+                    boss.PlayVFXandSFX(stats.projectileLaunch, muzzle.position);
                     bullet.Fire(dir, stats.p1ProjectileSpeed, stats.p1ProjectileDamage);
                 }
 

@@ -100,9 +100,14 @@ public abstract class SpellDeliveryStrategyBase : ISpellDeliveryStrategy {
 
             var parent = hit.transform.root.gameObject;
 
+            float finalDamage = context.damage * context.multiplier;
+
             if (parent.TryGetComponent<IDamageable>(out IDamageable damage)) {
-                damage.OnDamage(context.damage * context.multiplier);
+                damage.OnDamage(finalDamage);
             }
+
+            Vector3 spawnPoint = parent.transform.position + Vector3.up * 2f;
+            DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, context.element);
 
             if (parent.TryGetComponent<StatusEffectTracker>(out StatusEffectTracker tracker)) {
                 StatusEffect effect = CreateEffectFromElement(context.element);
@@ -192,9 +197,14 @@ public class RayDelivery : SpellDeliveryStrategyBase {
 
                 var parent = hitBuffer[i].transform.root.gameObject;
 
+                float finalDamage = context.damage * context.multiplier;
+
                 if (parent.TryGetComponent<IDamageable>(out IDamageable damage)) {
-                    damage?.OnDamage(context.damage * context.multiplier);
+                    damage?.OnDamage(finalDamage);
                 }
+
+                Vector3 spawnPoint = parent.transform.position + Vector3.up * 2f;
+                DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, context.element);
 
                 if (parent.TryGetComponent<StatusEffectTracker>(out StatusEffectTracker tracker)) {
                     StatusEffect effect = CreateEffectFromElement(context.element);
