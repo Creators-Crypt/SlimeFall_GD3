@@ -20,6 +20,9 @@ public class BurnEffect : StatusEffect {
             damageTimer -= 1f;
             if (target.TryGetComponent<IDamageable>(out IDamageable damage)) {
                 damage.OnDamage(damagePerSecond);
+
+                Vector3 dotSpawnPos = target.transform.position + Vector3.up * 1.8f;
+                DamagePopupManager.SpawnPopup(dotSpawnPos, damagePerSecond, SpellElement.Fire);
             }
         }
     }

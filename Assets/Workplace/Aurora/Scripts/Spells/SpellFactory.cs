@@ -26,7 +26,22 @@ public static class SpellFactory {
         }
         return vfxDatabase != null ? vfxDatabase.GetSettings(element) : default;
     }
+    public static Color GetElementColor(SpellElement element) {
 
+        var settings = GetVFX(element);
+
+        if (settings.primaryColor == Color.clear) {
+
+            return element switch {
+                SpellElement.Fire => new Color(1f, 0.3f, 0f),
+                SpellElement.Ice => new Color(1f, 0.3f, 0f),
+                SpellElement.Wind => new Color(1f, 0.3f, 0f),
+                SpellElement.Void => new Color(1f, 0.3f, 0f),
+                _ => Color.white
+            };
+        }
+        return settings.primaryColor;
+    }
     public static ISpellDeliveryStrategy GetDelivery(SpellDeliveryKind kind) {
 
         switch (kind) {
