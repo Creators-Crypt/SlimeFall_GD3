@@ -9,6 +9,8 @@ public class TutorialManager : MonoBehaviour {
     [SerializeField] private GameObject entrywayBarrier;
     [SerializeField] private GameObject kitchenBarrier;
     [SerializeField] private GameObject officeBarrier;
+    [SerializeField] private GameObject bridge;
+    [SerializeField] private GameObject shield;
 
     [Header("Scene Lighting Setup")]
     [SerializeField] private Light sunLight;
@@ -40,13 +42,15 @@ public class TutorialManager : MonoBehaviour {
     private int weaponPickedUp = 0;
     [SerializeField] private int neededWeaponPickedUp = 1;
     private bool weaponCycled, weaponFired, magicCycled;
+    private bool isChestOpen;
 
     [Header("Phase 3 Checklist (Abilities & Atmosphere)")]
     private bool flashlightUsed;
     private bool jumped; 
     private bool teleported;
-    private bool isPlayerAtPlatforms;
-    private bool reachedLastPlatforms;
+    [SerializeField] private bool isPlayerAtPlatforms;
+    [SerializeField] private bool reachedLastPlatforms;
+    [SerializeField] private bool isOnLastPlatform;
 
     [Header("Phase 4 Checklist (Combat Arena)")]
     private int targetsDefeated = 0;
@@ -72,6 +76,7 @@ public class TutorialManager : MonoBehaviour {
             case GameStage.HomeBase_Tut_Abilities:      HandleAbilities(); break;
             case GameStage.HomeBase_Tut_Combat:         HandleCombat(); break;
             case GameStage.HomeBase_Tut_Complete:       HandleTutorialComplete(); break;
+            case GameStage.HomeBase_Tut_Kitchen:        HandleKitchen(); break;
         }
     }
     private void HandleIntro() {
@@ -106,6 +111,9 @@ public class TutorialManager : MonoBehaviour {
         Debug.Log("Tutorial: Complete!");
         tutorialPhase = 5;
         UpdateTutorialUI();
+    }
+    private void HandleKitchen() {
+        Debug.Log("Kitchen started");
     }
     private void DimGlobalLightsToNight(bool state) {
         
@@ -170,10 +178,15 @@ public class TutorialManager : MonoBehaviour {
         if (GameManager.Instance.GameStage == GameStage.HomeBase_Tut_Entryway) {
             HandleEntrywayDialogueFinished();
         }
+        if (GameManager.Instance.GameStage == GameStage.HomeBase_Tut_Complete) {
+            HandlePlayerActionsDialogueFinished();
+        }
         if (GameManager.Instance.GameStage == GameStage.HomeBase_Tut_Kitchen) {
             HandleKitchenEntranceDialogueFinished();
         }
     }
+
+
     private void HandleIntroDialogueFinished() {
         
         if (introBarrier != null) {
@@ -187,6 +200,11 @@ public class TutorialManager : MonoBehaviour {
             entrywayBarrier.SetActive(false);
         }
         Debug.Log("Tutorial: Entryway dialogue finished. Barrier removed.");
+    }
+    private void HandlePlayerActionsDialogueFinished() {
+        
+        bridge.SetActive(true);
+        shield.SetActive(false);
     }
     private void HandleKitchenEntranceDialogueFinished() {
 
@@ -206,22 +224,28 @@ public class TutorialManager : MonoBehaviour {
         if (!tutorialActive) return;
 
         switch (actionKey) {
-
+            #region Phase 1
             case "EquipmentPickedUp":
                 if (equipmentPickedUp < neededEquipmentPickedUp) { equipmentPickedUp++; }
                 break;
+            #endregion
+            #region Phase 2
             case "WeaponPickup":
                 if (weaponPickedUp < neededWeaponPickedUp) { weaponPickedUp++; }
                 break;
             case "WeaponCycle":     weaponCycled = true; break;
             case "WeaponFire":      weaponFired = true; break;
             case "MagicCycle":      magicCycled = true; break;
+            case "ChestOpen":       isChestOpen = true; break;
+
+            #endregion
             #region Phase 3
             case "Flashlight":      flashlightUsed = true; break;   
             case "Jump":            jumped = true; break;
             case "PlayerReachedPlatforms": isPlayerAtPlatforms = true; break;
             case "NeedToCrossLastPlatforms": reachedLastPlatforms = true; break;
             case "Teleport":        teleported = true; break;
+            case "OnLastPlatform":  isOnLastPlatform = true; break;
             #endregion
             #region Phase 4
             case "Dodge":           dodged = true; break;
@@ -238,37 +262,39 @@ public class TutorialManager : MonoBehaviour {
         string tutorialText = "TUTORIAL\n";
 
         if (tutorialPhase == 1) {
-            
             tutorialText += $"Gather Armor & Gear ({equipmentPickedUp}/{neededEquipmentPickedUp})";
-        } else if (tutorialPhase == 2) {
+        } 
+        else if (tutorialPhase == 2) {
             
             tutorialText += weaponPickedUp >= neededWeaponPickedUp ? " [X] Claim a Weapon\n" : " [ ] Claim a Weapon\n";
             tutorialText += weaponCycled ? " [X] Swap Weapons [Scrollwheel]\n" : " [ ] Swap Weapons [Scrollwheel]\n";
             tutorialText += magicCycled ? " [X] Cycle Elements [1,2,3,4]\n" : " [ ] Cycle Elements [1,2,3,4]\n";
             tutorialText += weaponFired ? " [X] Fire Weapon [RMB]" : " [ ] Fire Weapon [RMB]";
-        } else if (tutorialPhase == 3) {
+        } 
+        else if (tutorialPhase == 3) {
 
             if (!flashlightUsed && tutorialPhase == 3) {
                 tutorialText += flashlightUsed ? " [X] Use Flashlight [F]\n" : " [ ] Use Flashlight [F] (It's Dark!)\n";
-            }else if (!isPlayerAtPlatforms) {
-                tutorialText += jumped ? " [X] Jump [SPACE]\n" : " [ ] Jump [SPACE]\n";
-                tutorialText += "Proceed through the Platform Section.";
-            } else {
-                tutorialText += teleported ? " [X] Teleport [T]" : " [ ] Teleport [T]";
+            } else if (reachedLastPlatforms) {
+                tutorialText += teleported ? " [X] Teleport [T]" : " [ ] Teleport [T]\n";
                 tutorialText += "Traverse toward the last two platforms.";
-            }        
-        } else if (tutorialPhase == 4) {
+            } else if (isPlayerAtPlatforms) {
+                tutorialText += jumped ? " [X] Jump [SPACE]\n" : " [ ] Jump [SPACE]\n";
+            } else {
+                tutorialText += "Proceed through the Platform Section.";
+            }  
+        } 
+        else if (tutorialPhase == 4) {
             
             tutorialText += dodged ? " [X] Dodge [L ALT]\n" : " [ ] Dodge [L ALT]\n";
             tutorialText += concentrated ? " [X] Concentrate [C]\n" : " [ ] Concentrate [C]\n";
             tutorialText += $"Defeat Training Targets ({targetsDefeated}/{neededTargetsDefeated})";
-        } else if (tutorialPhase == 5) {
-            
+        } 
+        else if (tutorialPhase == 5) {
             tutorialText += "Congrats, now please head to the Kitchen!";
         }
         ObjectiveManager.Instance.SetObjective(tutorialText);
     }
-
     private void CheckTutorialProgress() {
 
         if (tutorialPhase == 1 && equipmentPickedUp >= neededEquipmentPickedUp) {
@@ -277,11 +303,13 @@ public class TutorialManager : MonoBehaviour {
             GameManager.Instance.SetStage(GameStage.HomeBase_Tut_Abilities);
         } else if (tutorialPhase == 3 && flashlightUsed) {
             DimGlobalLightsToNight(false);
-        } else if (tutorialPhase == 3 & jumped && isPlayerAtPlatforms && reachedLastPlatforms && teleported) {
+        } else if (tutorialPhase == 3 && isOnLastPlatform) {
             GameManager.Instance.SetStage(GameStage.HomeBase_Tut_Combat);
         } 
         else if (tutorialPhase == 4 && dodged && concentrated && targetsDefeated >= neededTargetsDefeated) {
             GameManager.Instance.SetStage(GameStage.HomeBase_Tut_Complete);
+        } else if (tutorialPhase == 5) {
+            GameManager.Instance.SetStage(GameStage.HomeBase_Tut_Kitchen);
         }
     }
 }

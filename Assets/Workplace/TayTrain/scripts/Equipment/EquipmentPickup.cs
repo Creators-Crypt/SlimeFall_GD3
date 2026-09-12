@@ -34,6 +34,7 @@ public class EquipmentPickup : MonoBehaviour, IInteractable
         }
         pickedUp = true;
         InventorySystem.Instance.AddEquipment(equipment);
+        GameManager.Instance.PlayerPerformAction("EquipmentPickedUp");
         Debug.Log("Picked up equipment: " + equipment.itemName);
         gameObject.SetActive(false);
     }
