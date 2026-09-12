@@ -49,7 +49,7 @@ public class EquipmentPickup : MonoBehaviour, IInteractable
     //    if(InventorySystem.Instance == null)
     //    {
     //        Debug.LogWarning("No InventroySystem found. ");
-    //        return;
+    //       return;
     //    }
 
     //    pickedUp = true;
