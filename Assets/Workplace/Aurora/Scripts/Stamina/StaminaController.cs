@@ -58,5 +58,12 @@ public class StaminaController : MonoBehaviour, IStamina {
         currentStamina = Mathf.Clamp(currentStamina - amount * Time.deltaTime, 0f, stats.maxStamina);
     }
 
-    
+    public void SetStamina(float stamina)
+    {
+        currentStamina = Mathf.Clamp(
+            stamina,
+            0f,
+            stats.maxStamina
+        ); 
+    }
 }
