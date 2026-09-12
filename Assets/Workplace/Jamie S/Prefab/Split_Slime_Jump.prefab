@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 6772522171936329566}
   - component: {fileID: 8740209980117571836}
   m_Layer: 9
-  m_Name: Split_Slime_Melee
+  m_Name: Split_Slime_Jump
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

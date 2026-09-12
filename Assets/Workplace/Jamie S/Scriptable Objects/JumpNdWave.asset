@@ -76,10 +76,10 @@ MonoBehaviour:
     volume: 0.75
     soundDist: 26
   jumpHit:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
+    vfxPrefab: {fileID: 4085713738250179142, guid: 68181d3ed682c2b47a14498e467378bc, type: 3}
+    sound: {fileID: 8300000, guid: bb393d09f293dfb48b3f7ad134a9ca28, type: 3}
+    vfxLifetime: 0.25
+    volume: 0.7
     soundDist: 25
   jumpLanding:
     vfxPrefab: {fileID: 4085713738250179142, guid: 68181d3ed682c2b47a14498e467378bc, type: 3}
@@ -88,23 +88,23 @@ MonoBehaviour:
     volume: 0.5
     soundDist: 30
   waveWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
+    vfxPrefab: {fileID: 4625300385375570540, guid: 641ab7224c115b14f8450097487da9f0, type: 3}
+    sound: {fileID: 8300000, guid: 8241f78fbfab9434b964c3a0ee9e8a3b, type: 3}
+    vfxLifetime: 1
+    volume: 0.7
+    soundDist: 22
   waveRelease:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
+    vfxPrefab: {fileID: 835408528358845537, guid: 2efd63f0e1e1d6141b47d25137a4a0ed, type: 3}
+    sound: {fileID: 8300000, guid: 205b9b7fd639d914383e35813c801921, type: 3}
+    vfxLifetime: 0.5
+    volume: 0.8
+    soundDist: 30
   waveHit:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
+    vfxPrefab: {fileID: 6484922971108967237, guid: 0c91507d0fa13d0418d673bc0ee52ee2, type: 3}
+    sound: {fileID: 8300000, guid: 196ca92f63674de46aca46c76cfd88a4, type: 3}
+    vfxLifetime: 0.6
+    volume: 0.5
+    soundDist: 14
   randedLaunch:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}
