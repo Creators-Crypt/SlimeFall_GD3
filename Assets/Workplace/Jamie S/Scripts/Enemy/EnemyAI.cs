@@ -433,7 +433,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
             SplitSlime();
         }
 
-        GameManager.Instance.PlayerPerformAction("SlimeKilled");
+        GameManager.Instance.PlayerPerformAction("TargetDefeated");
         Destroy(gameObject, .01f);
     }
     

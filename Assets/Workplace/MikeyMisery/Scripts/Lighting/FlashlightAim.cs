@@ -1,16 +1,22 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class FlashlightAim : MonoBehaviour
-{
+public class FlashlightAim : MonoBehaviour {
+
+    [SerializeField] private InputAction flashlightSwitch;
+    
     [SerializeField] private Camera playerCamera;
     [SerializeField] private float aimDistance = 50f;
 
     [SerializeField] private Light flashlight;
 
-    private void LateUpdate()
-    {
-        if (playerCamera == null)
-            return;
+    private bool isOn = false;
+
+    private void OnEnable() { flashlightSwitch.Enable(); }
+    private void OnDisable() { flashlightSwitch.Disable(); }
+    private void LateUpdate() {
+
+        if (playerCamera == null) return;
 
         Ray ray = playerCamera.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
 
@@ -19,9 +25,10 @@ public class FlashlightAim : MonoBehaviour
 
         transform.rotation = Quaternion.LookRotation(direction);
 
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            flashlight.enabled = !flashlight.enabled;
+        if (flashlightSwitch.WasPerformedThisFrame()) {
+
+            isOn = !isOn;
+            flashlight.enabled = isOn;
 
             if(flashlight.enabled)
             {

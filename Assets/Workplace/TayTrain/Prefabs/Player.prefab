@@ -45,6 +45,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca3e943438f3d0046baa51fa308f67c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlashlightAim
+  flashlightSwitch:
+    m_Name: Flashlight Switch
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 6858ac94-b1bd-4723-9fcf-c47c79ab851b
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 9ca5cfb9-49a4-4cd5-926d-4ac9b69ac09b
+      m_Path: <Keyboard>/f
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Flashlight Switch
+      m_Flags: 0
+    m_Flags: 0
   playerCamera: {fileID: 3846213010685191028}
   aimDistance: 50
   flashlight: {fileID: 6924546969228975082}
