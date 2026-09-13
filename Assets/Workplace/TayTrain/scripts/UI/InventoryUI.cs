@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 
 public class InventoryUI : MonoBehaviour
@@ -21,6 +22,11 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private TMP_Dropdown equippedDropdown;
     [SerializeField] private Button unequipButton;
     [SerializeField] private Button dropButton;
+
+    [Header("Weapon Controls")]
+    [SerializeField] private TMP_Dropdown weaponDropdown;
+    [SerializeField] private Button equipWeaponButton;
+    [SerializeField] private SpellWeaponManager weaponManager;
 
     [Header("Rarity Colors")]
     [SerializeField] private Color uncommonColor = Color.white;
@@ -57,8 +63,10 @@ public class InventoryUI : MonoBehaviour
         if(player != null)
         {
             equipmentManager = player.GetComponent<EquipmentManager>();
-            cameraController = player.GetComponent<CameraController>();
+            weaponManager = player.GetComponent<SpellWeaponManager>();
         }
+
+        cameraController = FindFirstObjectByType<CameraController>(FindObjectsInactive.Include);
 
         if(equipButton != null)
         {
@@ -73,6 +81,11 @@ public class InventoryUI : MonoBehaviour
         if(dropButton != null)
         {
             dropButton.onClick.AddListener(DropSelectedItem);
+        }
+
+        if(equipWeaponButton != null)
+        {
+            equipWeaponButton.onClick.AddListener(EquipSelectedWeapon);
         }
     }
 
@@ -101,6 +114,8 @@ public class InventoryUI : MonoBehaviour
             if (cameraController != null)
                 cameraController.enabled = false;
 
+            Time.timeScale = 0f;
+
             RefreshUI();
         }
         else
@@ -110,6 +125,8 @@ public class InventoryUI : MonoBehaviour
 
             if (cameraController != null)
                 cameraController.enabled = true;
+
+            Time.timeScale = 1f;
         }
     }
     public void RefreshUI()
@@ -121,6 +138,7 @@ public class InventoryUI : MonoBehaviour
         UpdateWeapons();
         UpdateEquipmentDropdown();
         UpdateEquippedDropdown();
+        UpdateWeaponDropdown();
     }
 
     private void UpdateQuestItems()
@@ -189,6 +207,14 @@ public class InventoryUI : MonoBehaviour
                    weaponsText = child.GetComponent<TextMeshProUGUI>();
                     break;
 
+                case "EquipmentDropdown":
+                    equipmentDropdown = child.GetComponent<TMP_Dropdown>();
+                    break;
+
+                case "EquipButton":
+                    equipButton = child.GetComponent<Button>();
+                    break;
+
                 case "EquippedDropdown":
                     equippedDropdown = child.GetComponent<TMP_Dropdown>();
                     break;
@@ -199,6 +225,14 @@ public class InventoryUI : MonoBehaviour
 
                 case "DropButton":
                     dropButton = child.GetComponent<Button>();
+                    break;
+
+                case "WeaponDropdown":
+                    weaponDropdown = child.GetComponent<TMP_Dropdown>();
+                    break;
+
+                case "EquipWeaponButton":
+                    equipWeaponButton = child.GetComponent<Button>();
                     break;
             }
         }
@@ -367,5 +401,43 @@ public class InventoryUI : MonoBehaviour
 
             default: return Color.white;
         }
+    }
+
+    private void EquipSelectedWeapon()
+    {
+        if(InventorySystem.Instance == null || weaponManager == null)
+            return;
+
+        if (InventorySystem.Instance.WeaponItems.Count == 0)
+            return;
+
+        int index = weaponDropdown.value;
+
+        if (index < 0 || index >= InventorySystem.Instance.WeaponItems.Count)
+            return;
+
+        SpellWeaponData selectedWeapon = InventorySystem.Instance.WeaponItems[index];
+
+        weaponManager.EquipWeapon(selectedWeapon);
+
+        Debug.Log("Equipped weapon: " + selectedWeapon.weaponName);
+        
+    }
+
+    private void UpdateWeaponDropdown()
+    {
+        if (weaponDropdown == null || InventorySystem.Instance == null)
+            return;
+
+        weaponDropdown.ClearOptions();
+
+        List<string> options = new List<string>();
+
+        foreach (SpellWeaponData weapon in InventorySystem.Instance.WeaponItems)
+        {
+            options.Add(weapon.weaponName);
+        }
+
+        weaponDropdown.AddOptions(options);
     }
 }
