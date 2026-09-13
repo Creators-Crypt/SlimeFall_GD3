@@ -2,6 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 
 public class InventoryUI : MonoBehaviour
@@ -21,6 +22,17 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private TMP_Dropdown equippedDropdown;
     [SerializeField] private Button unequipButton;
     [SerializeField] private Button dropButton;
+
+    [Header("Weapon Controls")]
+    [SerializeField] private TMP_Dropdown weaponDropdown;
+    [SerializeField] private Button equipWeaponButton;
+    [SerializeField] private SpellWeaponManager weaponManager;
+
+    [Header("Rarity Colors")]
+    [SerializeField] private Color uncommonColor = Color.white;
+    [SerializeField] private Color rareColor = Color.blue;
+    [SerializeField] private Color uniqueColor = Color.red;
+    [SerializeField] private Color legendaryColor = Color.yellow;
 
     [SerializeField] private EquipmentManager equipmentManager;
 
@@ -51,8 +63,10 @@ public class InventoryUI : MonoBehaviour
         if(player != null)
         {
             equipmentManager = player.GetComponent<EquipmentManager>();
-            cameraController = player.GetComponent<CameraController>();
+            weaponManager = player.GetComponent<SpellWeaponManager>();
         }
+
+        cameraController = FindFirstObjectByType<CameraController>(FindObjectsInactive.Include);
 
         if(equipButton != null)
         {
@@ -67,6 +81,11 @@ public class InventoryUI : MonoBehaviour
         if(dropButton != null)
         {
             dropButton.onClick.AddListener(DropSelectedItem);
+        }
+
+        if(equipWeaponButton != null)
+        {
+            equipWeaponButton.onClick.AddListener(EquipSelectedWeapon);
         }
     }
 
@@ -95,6 +114,8 @@ public class InventoryUI : MonoBehaviour
             if (cameraController != null)
                 cameraController.enabled = false;
 
+            Time.timeScale = 0f;
+
             RefreshUI();
         }
         else
@@ -104,6 +125,8 @@ public class InventoryUI : MonoBehaviour
 
             if (cameraController != null)
                 cameraController.enabled = true;
+
+            Time.timeScale = 1f;
         }
     }
     public void RefreshUI()
@@ -115,6 +138,7 @@ public class InventoryUI : MonoBehaviour
         UpdateWeapons();
         UpdateEquipmentDropdown();
         UpdateEquippedDropdown();
+        UpdateWeaponDropdown();
     }
 
     private void UpdateQuestItems()
@@ -138,7 +162,10 @@ public class InventoryUI : MonoBehaviour
 
         foreach (EquipmentData item in InventorySystem.Instance.EquipmentItems)
         {
-            equipmentText.text += $"- {item.itemName}\n";
+            Color rarityColor = GetRarityColor(item.defaultRarity);
+            string colorHex = ColorUtility.ToHtmlStringRGB(rarityColor);
+
+            equipmentText.text += "- <color=#" + colorHex + ">" + item.itemName + "</color>\n";
         }
     }
     private void UpdateWeapons()
@@ -147,6 +174,8 @@ public class InventoryUI : MonoBehaviour
             return;
 
         weaponsText.text = "WEAPONS\n";
+
+        //Update the weapons when we have the weapon rarity stored somewhere to match the equipment above
 
         foreach (SpellWeaponData item in InventorySystem.Instance.WeaponItems)
         {
@@ -178,6 +207,14 @@ public class InventoryUI : MonoBehaviour
                    weaponsText = child.GetComponent<TextMeshProUGUI>();
                     break;
 
+                case "EquipmentDropdown":
+                    equipmentDropdown = child.GetComponent<TMP_Dropdown>();
+                    break;
+
+                case "EquipButton":
+                    equipButton = child.GetComponent<Button>();
+                    break;
+
                 case "EquippedDropdown":
                     equippedDropdown = child.GetComponent<TMP_Dropdown>();
                     break;
@@ -188,6 +225,14 @@ public class InventoryUI : MonoBehaviour
 
                 case "DropButton":
                     dropButton = child.GetComponent<Button>();
+                    break;
+
+                case "WeaponDropdown":
+                    weaponDropdown = child.GetComponent<TMP_Dropdown>();
+                    break;
+
+                case "EquipWeaponButton":
+                    equipWeaponButton = child.GetComponent<Button>();
                     break;
             }
         }
@@ -340,5 +385,59 @@ public class InventoryUI : MonoBehaviour
         Debug.Log("Dropped: " + selectedEquipment.itemName);
 
         RefreshUI();
+    }
+
+    private Color GetRarityColor(ItemRarity rarity)
+    {
+        switch (rarity)
+        {
+            case ItemRarity.Uncommon: return uncommonColor;
+
+            case ItemRarity.Rare: return rareColor;
+
+            case ItemRarity.Unique: return uniqueColor;
+
+            case ItemRarity.Legendary: return legendaryColor;
+
+            default: return Color.white;
+        }
+    }
+
+    private void EquipSelectedWeapon()
+    {
+        if(InventorySystem.Instance == null || weaponManager == null)
+            return;
+
+        if (InventorySystem.Instance.WeaponItems.Count == 0)
+            return;
+
+        int index = weaponDropdown.value;
+
+        if (index < 0 || index >= InventorySystem.Instance.WeaponItems.Count)
+            return;
+
+        SpellWeaponData selectedWeapon = InventorySystem.Instance.WeaponItems[index];
+
+        weaponManager.EquipWeapon(selectedWeapon);
+
+        Debug.Log("Equipped weapon: " + selectedWeapon.weaponName);
+        
+    }
+
+    private void UpdateWeaponDropdown()
+    {
+        if (weaponDropdown == null || InventorySystem.Instance == null)
+            return;
+
+        weaponDropdown.ClearOptions();
+
+        List<string> options = new List<string>();
+
+        foreach (SpellWeaponData weapon in InventorySystem.Instance.WeaponItems)
+        {
+            options.Add(weapon.weaponName);
+        }
+
+        weaponDropdown.AddOptions(options);
     }
 }
