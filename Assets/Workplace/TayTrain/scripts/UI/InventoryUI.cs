@@ -22,6 +22,12 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private Button unequipButton;
     [SerializeField] private Button dropButton;
 
+    [Header("Rarity Colors")]
+    [SerializeField] private Color uncommonColor = Color.white;
+    [SerializeField] private Color rareColor = Color.blue;
+    [SerializeField] private Color uniqueColor = Color.red;
+    [SerializeField] private Color legendaryColor = Color.yellow;
+
     [SerializeField] private EquipmentManager equipmentManager;
 
     [SerializeField] private CameraController cameraController;
@@ -138,7 +144,10 @@ public class InventoryUI : MonoBehaviour
 
         foreach (EquipmentData item in InventorySystem.Instance.EquipmentItems)
         {
-            equipmentText.text += $"- {item.itemName}\n";
+            Color rarityColor = GetRarityColor(item.defaultRarity);
+            string colorHex = ColorUtility.ToHtmlStringRGB(rarityColor);
+
+            equipmentText.text += "- <color=#" + colorHex + ">" + item.itemName + "</color>\n";
         }
     }
     private void UpdateWeapons()
@@ -147,6 +156,8 @@ public class InventoryUI : MonoBehaviour
             return;
 
         weaponsText.text = "WEAPONS\n";
+
+        //Update the weapons when we have the weapon rarity stored somewhere to match the equipment above
 
         foreach (SpellWeaponData item in InventorySystem.Instance.WeaponItems)
         {
@@ -340,5 +351,21 @@ public class InventoryUI : MonoBehaviour
         Debug.Log("Dropped: " + selectedEquipment.itemName);
 
         RefreshUI();
+    }
+
+    private Color GetRarityColor(ItemRarity rarity)
+    {
+        switch (rarity)
+        {
+            case ItemRarity.Uncommon: return uncommonColor;
+
+            case ItemRarity.Rare: return rareColor;
+
+            case ItemRarity.Unique: return uniqueColor;
+
+            case ItemRarity.Legendary: return legendaryColor;
+
+            default: return Color.white;
+        }
     }
 }

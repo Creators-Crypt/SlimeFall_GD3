@@ -339,6 +339,7 @@ GameObject:
   - component: {fileID: 5733542144322329335}
   - component: {fileID: 5064682265971215465}
   - component: {fileID: 237129675723485011}
+  - component: {fileID: 1626444116716504394}
   m_Layer: 20
   m_Name: Player
   m_TagString: Player
@@ -437,15 +438,13 @@ MonoBehaviour:
   concentrationLight: {fileID: 516907137128402063}
   teleportTrail: {fileID: 3919352187849786472}
   equipmentLookDistance: 30
-  jumpSpeed: 5
+  jumpSpeed: 15
   jumpMax: 1
-  gravity: 8
+  gravity: 10
   armPivot: {fileID: 8616454463657622074}
   armRotateSpeed: 30
-  currentState: 0
-  teleportTrailTime: 0.2
   teleportCooldown: 2
-  teleportDistance: 20
+  teleportDistance: 26.2
   currentSpeed: 0
   isPlayerSprinting: 0
   staminaTimer: 0
@@ -548,6 +547,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ca0594b1896f0e4e92f7e86b380d9cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDeath
+  audioSource: {fileID: 1626444116716504394}
+  deathSound: {fileID: 8300000, guid: 3c33a16823d62a842bcb9446c8db8c2e, type: 3}
+  fallDuration: 2
+  delayBeforeLoseScreen: 1
 --- !u!114 &4167275286118533494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -815,6 +818,103 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9c6a057b9aabd74ea40c8b84c4ee6e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInputHandler
+--- !u!82 &1626444116716504394
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818594594264804547}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1883817470414989196
 GameObject:
   m_ObjectHideFlags: 0
@@ -2725,7 +2825,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6086
+  m_VersionIndex: 6089
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []

@@ -124,7 +124,8 @@ GameObject:
   - component: {fileID: 5032166020809617166}
   - component: {fileID: 278011187348605636}
   - component: {fileID: 6486304752352633375}
-  m_Layer: 0
+  - component: {fileID: 4574635339757480352}
+  m_Layer: 9
   m_Name: Boss Door Barrier
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,6 +225,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4574635339757480352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 729733239617852258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6354ceb1258aefc45b34ed31059ba291, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LockedDoor
+  doorObject: {fileID: 729733239617852258}
+  lockedPrompt: Collect 3 Gems to unlock Boss fight!
+  unlockedPrompt: Open door
+  startsLocked: 1
+  openOnUnlock: 1
 --- !u!1 &768804033779912069
 GameObject:
   m_ObjectHideFlags: 0

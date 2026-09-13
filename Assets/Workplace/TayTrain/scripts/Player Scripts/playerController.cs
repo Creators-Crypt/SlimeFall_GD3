@@ -34,12 +34,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float armRotateSpeed = 10f;
 
 
-    [Header("Player State")]
-    [SerializeField] private PlayerState currentState;
+    //[Header("Player State")]
+    //[SerializeField] private PlayerState currentState;
 
 
     [Header("Teleport")]
-    [Range(0.05f, 10f)][SerializeField] float teleportTrailTime = 0.2f;
+    //[Range(0.05f, 10f)][SerializeField] float teleportTrailTime = 0.2f;
     [Range(0.1f, 3f)][SerializeField] float teleportCooldown = 1.0f;
     [Range(1f, 100f)][SerializeField] float teleportDistance = 100f;
 
@@ -164,7 +164,7 @@ public class PlayerController : MonoBehaviour
         movement();
         healthRegen();
         lookAtEquipment();
-        updateState();
+        //updateState();
         //updateAnimator();
     }
     private void LateUpdate() {
@@ -484,47 +484,47 @@ void jump() {
         );
     }
 
-    void updateState() {
-        if (healthSystem.IsDead) 
-        {
-            currentState = PlayerState.Dead;
-            return;
-        }
+    //void updateState() {
+    //    if (healthSystem.IsDead) 
+    //    {
+    //        currentState = PlayerState.Dead;
+    //        return;
+    //    }
 
-        if (isDodging) 
-        {
-            currentState = PlayerState.Dodge;
-            return;
-        }
+    //    if (isDodging) 
+    //    {
+    //        currentState = PlayerState.Dodge;
+    //        return;
+    //    }
 
-        if (isTeleporting)
-        {
-            currentState = PlayerState.Teleport;
-            return;
-        }
+    //    if (isTeleporting)
+    //    {
+    //        currentState = PlayerState.Teleport;
+    //        return;
+    //    }
 
-        if (!controller.isGrounded) 
-        {
-            currentState = PlayerState.Jump;
-            return;
-        }
-        if (isPlayerSprinting && moveDir.sqrMagnitude > 0.01f) 
-        {
-            currentState = PlayerState.Sprint;
-            return;
-        }
-        if (moveDir.sqrMagnitude > 0.01f)
-        {
-            currentState = PlayerState.Walk;
-            return;
-        }
-        if(isConcentrating)
-        {
-            currentState = PlayerState.Concentrate;
-            return;
-        }
-        currentState = PlayerState.Idle;
-    }
+    //    if (!controller.isGrounded) 
+    //    {
+    //        currentState = PlayerState.Jump;
+    //        return;
+    //    }
+    //    if (isPlayerSprinting && moveDir.sqrMagnitude > 0.01f) 
+    //    {
+    //        currentState = PlayerState.Sprint;
+    //        return;
+    //    }
+    //    if (moveDir.sqrMagnitude > 0.01f)
+    //    {
+    //        currentState = PlayerState.Walk;
+    //        return;
+    //    }
+    //    if(isConcentrating)
+    //    {
+    //        currentState = PlayerState.Concentrate;
+    //        return;
+    //    }
+    //    currentState = PlayerState.Idle;
+    //}
 
     void lookAtEquipment()
     {
