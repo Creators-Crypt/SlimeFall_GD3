@@ -2700,6 +2700,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4649729862250601113, guid: b74eea77395302f41bd21d0bf6ec6c99, type: 3}
+      propertyPath: sceneToLoad
+      value: Showcase_Homebase
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

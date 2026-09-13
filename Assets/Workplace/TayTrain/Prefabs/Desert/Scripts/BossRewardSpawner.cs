@@ -2,10 +2,29 @@ using UnityEngine;
 
 public class BossRewardSpawner : MonoBehaviour
 {
+    [Header("Boss")]
+    [SerializeField] private EnemyAI boss;
+
     [Header("Reward")]
     [SerializeField] private GameObject rewardChest;
 
     private bool rewardSpawned = false;
+
+    private void OnEnable()
+    {
+        if (boss != null)
+        {
+            boss.OnDeath += SpawnReward;
+        }
+    }
+
+    private void OnDisable()
+    {
+        if(boss != null)
+        {
+            boss.OnDeath -= SpawnReward;
+        }
+    }
 
     public void SpawnReward()
     {
