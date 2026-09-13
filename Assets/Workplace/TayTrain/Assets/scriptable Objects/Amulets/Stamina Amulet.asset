@@ -23,7 +23,7 @@ MonoBehaviour:
   bonusJumps: 0
   speedBonus: 0
   gravityReduction: 0
-  staminaRegenBonus: 0.5
+  staminaRegenBonus: 1
   concentrationTimeReduction: 0
   healthRegenBonus: 0
   healthMaxBonus: 0
