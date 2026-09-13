@@ -19,6 +19,7 @@ MonoBehaviour:
   slot: 3
   pickupPrefabs: {fileID: 2914061923077922225, guid: 7d6781ee73407c74a854560210d8c002, type: 3}
   pickupMaterial: {fileID: 2100000, guid: 429416e2f4bac5b49a21729e90718bfe, type: 2}
+  equippedModelPrefab: {fileID: 1133683681231785853, guid: 04832878ea3c5264aac13269f1be85d1, type: 3}
   bonusJumps: 3
   speedBonus: 2
   gravityReduction: 0.35
