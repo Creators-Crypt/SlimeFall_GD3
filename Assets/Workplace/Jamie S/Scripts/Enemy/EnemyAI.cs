@@ -44,7 +44,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
     public EnemyIdleState idleState;
     public EnemyPatrolState patrolState;
     public EnemyChaseState chaseState;
-    public EnemyAttackState attackState;
+    public EnemyAttackState attackState;  
     public EnemyJumpState jumpState;
 
  
@@ -59,7 +59,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
 
     public float CurrentHealth {  get; protected set; }
     public float MaxHealth { get; private set; }
-    public bool IsDead { get; private set; }
+    public bool IsDead { get; protected set; }
 
     public virtual void Awake()
     {
@@ -156,6 +156,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
         if(playerTarget ==null) return;
 
         Vector3 dir = playerTarget.position - transform.position;
+        dir.y = 0f;
 
         Quaternion targetRot = Quaternion.LookRotation(dir); 
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, faceTargetRotSpeed * Time.deltaTime);
@@ -439,6 +440,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
         Destroy(gameObject, .01f);
     }
     
+    
     public virtual IEnumerator JumpAttack(float _damage)
     {
         jumpLanded = false;
@@ -615,5 +617,27 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
     {
         //Enemies don't heal with time.....Unless????
         yield break;
+    }
+
+    public void OnDrawGizmosSelected()
+    {
+        if(stats == null)return;
+
+        Vector3 origin = transform.position;
+        if(firePoint != null )
+        {
+            origin = firePoint.position;
+        }
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(origin, stats.detectionRadius);
+
+        float halfAngle = stats.detectionAngle / 2f;
+        Vector3 left = Quaternion.AngleAxis(-halfAngle, Vector3.up) * transform.forward;
+        Vector3 right = Quaternion.AngleAxis(halfAngle, Vector3.up) * transform.forward;
+
+        Gizmos.color = Color.crimson;
+        Gizmos.DrawRay(origin, left * stats.detectionRadius);
+        Gizmos.DrawRay(origin, right * stats.detectionRadius);
+
     }
 }
