@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2681466478348404514}
   - component: {fileID: 4649729862250601113}
   m_Layer: 0
-  m_Name: Portal Homebase
+  m_Name: Portal MainArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98344b3d7d2b1d34a9093528c125c227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Portal
-  sceneToLoad: Showcase_Homebase
+  sceneToLoad: Showcase_MainArea
 --- !u!1 &3640579222891713766
 GameObject:
   m_ObjectHideFlags: 0
