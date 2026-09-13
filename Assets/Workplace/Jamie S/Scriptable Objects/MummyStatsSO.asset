@@ -232,8 +232,8 @@ MonoBehaviour:
     vfxLifetime: 3
     volume: 1
     soundDist: 25
-  quicksandPoolPrefab: {fileID: 0}
-  quicksandTelegraphPrefab: {fileID: 0}
+  quicksandPoolPrefab: {fileID: 7054969594124603649, guid: c76f35fce4f4427428badba8689be689, type: 3}
+  quicksandTelegraphPrefab: {fileID: 4286513039540779230, guid: da5e88eeecbcf9f439a5eb1cbfa6ecc8, type: 3}
   quicksandCooldow: 9
   quicksandWarningTime: 1.2
   quicksandRadius: 3.5
@@ -245,20 +245,20 @@ MonoBehaviour:
   quicksandAimAhead: 0.5
   quicksandRecovery: 0.6
   quicksandWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
+    vfxPrefab: {fileID: 4447984755252359090, guid: a9fba31a41cf2184f8a3118350d57ebe, type: 3}
+    sound: {fileID: 8300000, guid: 6e202bc455f025742aaaa037194c031a, type: 3}
     vfxLifetime: 3
     volume: 1
     soundDist: 25
   quicksandSpawn:
-    vfxPrefab: {fileID: 0}
+    vfxPrefab: {fileID: 834602816081524566, guid: 141a4964a6462ae46b0044b18b6089e1, type: 3}
     sound: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 25
   quicksandPool:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
+    vfxPrefab: {fileID: 5925439807226670654, guid: 2dd1bc61269f405418ebc51cc3826e2d, type: 3}
+    sound: {fileID: 8300000, guid: dfefbbdd269efa6449704eef8792f55e, type: 3}
     vfxLifetime: 3
     volume: 1
     soundDist: 25
