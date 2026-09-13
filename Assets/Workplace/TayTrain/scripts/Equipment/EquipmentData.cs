@@ -20,6 +20,9 @@ public class EquipmentData : ScriptableObject
     public GameObject pickupPrefabs;
     public Material pickupMaterial;
 
+    [Header("Equipped Visual")]
+    public GameObject equippedModelPrefab;
+
     //Boots
     [Header("Boots Bonuses")]
     public int bonusJumps;
