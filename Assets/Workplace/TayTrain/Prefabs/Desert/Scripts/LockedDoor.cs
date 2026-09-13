@@ -31,10 +31,26 @@ public class LockedDoor : MonoBehaviour, IInteractable
             if (opened)
                 return "";
 
+            if (locked && requiresGems)
+            {
+                if(GemCollectionManager.Instance != null && GemCollectionManager.Instance.GemsCollected >= requiredGems)
+                {
+                    return unlockedPrompt;
+                }
+            }
+             if(locked && requiresKey)
+            {
+                if(InventorySystem.Instance != null && InventorySystem.Instance.HasQuestItem(requiredKeyName))
+                {
+                    return unlockedPrompt;
+                }
+            }
+
             if (locked)
                 return lockedPrompt;
 
             return unlockedPrompt;
+           
         }
     }
 

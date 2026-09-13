@@ -45,6 +45,11 @@ public class SpellWeaponPickup : MonoBehaviour, IInteractable {
         } 
         else { weaponManager.EquipWeapon(weaponData); }
 
+        if(InventorySystem.Instance != null)
+        {
+            InventorySystem.Instance.AddWeapon(weaponData);
+        }
+
         GameManager.Instance.PlayerPerformAction("WeaponPickup");
 
         Destroy(gameObject);
