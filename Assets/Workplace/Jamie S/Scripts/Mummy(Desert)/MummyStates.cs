@@ -142,7 +142,7 @@ public class MummyBurrowState : IEnemyState
             Vector3 under = sinkStart + Vector3.down * stats.burrowDepth;
             enemy.transform.position = Vector3.Lerp(sinkStart,under, amount);
 
-            if(amount > 1f)
+            if(amount >= 1f)
             {
                 enemy.SetBurrowed(true);
                 enemy.PlayVFXandSFX(stats.burrowtrail, enemy.transform.position);

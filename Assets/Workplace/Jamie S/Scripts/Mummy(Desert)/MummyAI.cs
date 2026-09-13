@@ -58,7 +58,7 @@ public class MummyAI : EnemyAI
     // Update is called once per frame
    public override void Update()
     {
-        if (!initialized == false) return;
+        if (!initialized) return;
         base.Update();
     }
 

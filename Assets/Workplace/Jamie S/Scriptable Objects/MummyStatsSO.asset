@@ -17,10 +17,10 @@ MonoBehaviour:
   patrolSpeed: 5
   chaseSpeed: 8
   patrolRadius: 30
-  patrolWaitTimeMin: 1.5
-  patrolWaitTimeMax: 3.5
+  patrolWaitTimeMin: 0.25
+  patrolWaitTimeMax: 1.5
   detectionRadius: 20
-  detectionAngle: 260
+  detectionAngle: 230
   lostSightTime: 3
   obstacleMask:
     serializedVersion: 2
@@ -177,7 +177,7 @@ MonoBehaviour:
     vfxLifetime: 3
     volume: 1
     soundDist: 25
-  splitChance: 0.5
+  splitChance: 0
   splitPrefab: {fileID: 0}
   splitCount: 2
   splitRadius: 0.75
