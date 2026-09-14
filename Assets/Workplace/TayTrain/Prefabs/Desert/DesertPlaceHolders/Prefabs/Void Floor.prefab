@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4722448507637343343}
   - component: {fileID: 2463914639878714209}
   - component: {fileID: 1139916991268159167}
-  - component: {fileID: 4275187572681304691}
+  - component: {fileID: 3176123551818091015}
   m_Layer: 0
   m_Name: Void Floor
   m_TagString: Untagged
@@ -113,7 +113,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4275187572681304691
+--- !u!114 &3176123551818091015
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1030442068047214117}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaeb38bd65cdb3440996debd166b8770, type: 3}
+  m_Script: {fileID: 11500000, guid: 05baea4b9ba6d094da530857b698ad9c, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Respawn
+  m_EditorClassIdentifier: Assembly-CSharp::VoidFloor
   target: {fileID: 0}
