@@ -102,18 +102,13 @@ public abstract class SpellDeliveryStrategyBase : ISpellDeliveryStrategy {
 
             float finalDamage = context.damage * context.multiplier;
 
-            if (parent.TryGetComponent<IDamageable>(out IDamageable damage)) {
+            if (parent.TryGetComponent(out IDamageable damage)) {
                 damage.OnDamage(finalDamage);
+                Vector3 spawnPoint = parent.transform.position + Vector3.up * 2f;
+                DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, context.element);
             }
-
-            Vector3 spawnPoint = parent.transform.position + Vector3.up * 2f;
-            DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, context.element);
-
-            if (parent.TryGetComponent<StatusEffectTracker>(out StatusEffectTracker tracker)) {
-                StatusEffect effect = CreateEffectFromElement(context.element);
-                if (effect != null) {
-                    tracker.ApplyEffect(effect);
-                }
+            if (parent.TryGetComponent(out StatusEffectTracker tracker)) {
+                tracker.ProcessIncomingElement(context.element);
             }
         }
     }
@@ -199,18 +194,13 @@ public class RayDelivery : SpellDeliveryStrategyBase {
 
                 float finalDamage = context.damage * context.multiplier;
 
-                if (parent.TryGetComponent<IDamageable>(out IDamageable damage)) {
-                    damage?.OnDamage(finalDamage);
+                if (parent.TryGetComponent(out IDamageable damage)) {
+                    damage.OnDamage(finalDamage);
+                    Vector3 spawnPoint = parent.transform.position + Vector3.up * 2f;
+                    DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, context.element);
                 }
-
-                Vector3 spawnPoint = parent.transform.position + Vector3.up * 2f;
-                DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, context.element);
-
-                if (parent.TryGetComponent<StatusEffectTracker>(out StatusEffectTracker tracker)) {
-                    StatusEffect effect = CreateEffectFromElement(context.element);
-                    if (effect != null) {
-                        tracker.ApplyEffect(effect);
-                    }
+                if (parent.TryGetComponent(out StatusEffectTracker tracker)) {
+                    tracker.ProcessIncomingElement(context.element);
                 }
             }
         }
