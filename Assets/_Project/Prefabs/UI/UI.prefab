@@ -1495,6 +1495,13 @@ MonoBehaviour:
   equippedDropdown: {fileID: 7959168079632291757}
   unequipButton: {fileID: 2802663043568073597}
   dropButton: {fileID: 5173829823496404771}
+  weaponDropdown: {fileID: 0}
+  equipWeaponButton: {fileID: 0}
+  weaponManager: {fileID: 0}
+  uncommonColor: {r: 1, g: 1, b: 1, a: 1}
+  rareColor: {r: 0, g: 0, b: 1, a: 1}
+  uniqueColor: {r: 1, g: 0, b: 0, a: 1}
+  legendaryColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   equipmentManager: {fileID: 0}
   cameraController: {fileID: 0}
 --- !u!1 &1011991732055017656
@@ -14677,11 +14684,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7682470198688554758, guid: 62ba5111772bb8a41861d5f3baf794cc, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 44.43274
+      value: 44.43286
       objectReference: {fileID: 0}
     - target: {fileID: 7682470198688554758, guid: 62ba5111772bb8a41861d5f3baf794cc, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -6.154114
+      value: -6.1540527
       objectReference: {fileID: 0}
     - target: {fileID: 7682470198688554758, guid: 62ba5111772bb8a41861d5f3baf794cc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
