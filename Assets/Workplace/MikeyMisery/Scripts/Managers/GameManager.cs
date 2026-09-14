@@ -313,6 +313,7 @@ public class GameManager : Singleton<GameManager>
                     case "RetryButton":
                         button.onClick.RemoveAllListeners();
                         button.onClick.AddListener(RespawnGame);
+                        Debug.Log("Testing button");
                         break;
 
                     case "SettingsButton":
