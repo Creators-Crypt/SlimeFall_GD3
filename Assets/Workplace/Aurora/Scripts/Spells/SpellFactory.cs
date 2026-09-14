@@ -1,3 +1,4 @@
+using UnityEditor.VersionControl;
 using UnityEngine;
 
 /// <summary>
@@ -218,23 +219,36 @@ public class Spell {
         int finalSpawnCount = (weapon != null && weapon.overrideSpawnCount) ? weapon.weaponSpawnCount : SpawnCountOverride;
         float finalSpreadAngle = (weapon != null && weapon.overrideSpawnCount) ? weapon.weaponSpreadAngle : SpreadAngleOverride;
 
+        float finalCalculatedDamage = (this.DamageOverride > 0f) ? this.DamageOverride : AssetData.damage;
+
+        if (finalCalculatedDamage <= 0f) {
+            Debug.LogError($"[Spell System Bug] Base damage evaluated as 0 for '{AssetData.spellName}'! Forcing fallback assignment.", AssetData);
+            finalCalculatedDamage = AssetData.damage; // Absolute fallback safety net
+        }
+
+        Debug.Log($"[CAST PIPELINE] Spell '{AssetData.spellName}' invoked! Delivery={activeDelivery}, CoreDamage={finalCalculatedDamage}, Multiplier={multiplier}");
+
         var context = new SpellCastContext {
             data = AssetData,
             element = Element,
-            damage = this.DamageOverride,
+            damage = finalCalculatedDamage,
             caster = caster,
             origin = origin,
             direction = direction.normalized,
             runner = runner,
             multiplier = multiplier,
-
             spawnCount = finalSpawnCount,
             spreadAngle = finalSpreadAngle,
             spawnInterval = SpawnIntervalOverride
         };
-
         activeStrategy.Cast(context);
-        CooldownRemaining = CooldownOverride;
+
+        if (activeDelivery == SpellDeliveryKind.Ray) {
+            CooldownRemaining = 0.05f;
+        }else {
+            CooldownRemaining = this.CooldownOverride;
+        }
+
         return true;
     }
 }

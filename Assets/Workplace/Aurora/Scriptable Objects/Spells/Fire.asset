@@ -17,12 +17,12 @@ MonoBehaviour:
   element: 1
   delivery: 1
   damage: 15
-  staminaCost: 10
+  staminaCost: 2
   concentrationCost: 25
   cooldown: 0.75
   hitLayers:
     serializedVersion: 2
-    m_Bits: 776
+    m_Bits: 1073748425
   projectilePrefab: {fileID: 3642334240869692671, guid: 281ed31ef61427a4c810e90a8c82b39b, type: 3}
   projectileSpeed: 12
   projectileLifetime: 4
@@ -32,13 +32,13 @@ MonoBehaviour:
   rayWidth: 0.15
   rayVisualDuration: 0.12
   rayMaterial: {fileID: 2100000, guid: a0871421f56b5d443aea99db6a6d73f2, type: 2}
-  rayColor: {r: 0, g: 1, b: 1, a: 1}
+  rayColor: {r: 0.6470588, g: 0.1647059, b: 0.1647059, a: 1}
   aoeRadius: 5
   aoeCastDistance: 5
   aoeVfxPrefab: {fileID: 1053634625239504964, guid: 2d1219a6a7587cf47915192db2b69d4f, type: 3}
-  handRange: 1.4
+  handRange: 3
   handRadius: 0.8
-  handVfxPrefab: {fileID: 0}
+  handVfxPrefab: {fileID: 1984356094668847882, guid: 281ed31ef61427a4c810e90a8c82b39b, type: 3}
   spawnCount: 1
   spreadAngle: 30
   spawnInterval: 0

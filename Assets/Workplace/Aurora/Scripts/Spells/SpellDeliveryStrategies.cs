@@ -98,18 +98,19 @@ public abstract class SpellDeliveryStrategyBase : ISpellDeliveryStrategy {
         var hits = Physics.OverlapSphere(center, radius, context.data.hitLayers);
         foreach (var hit in hits) {
 
-            var parent = hit.transform.root.gameObject;
+            if (hit == null) continue;
+
+            var damageable = hit.GetComponentInParent<IDamageable>();
 
             float finalDamage = context.damage * context.multiplier;
 
-            if (parent.TryGetComponent(out IDamageable damage)) {
-                damage.OnDamage(finalDamage);
-                Vector3 spawnPoint = parent.transform.position + Vector3.up * 2f;
+            if (damageable != null) {
+                damageable.OnDamage(finalDamage);
+                Vector3 spawnPoint = hit.transform.position + Vector3.up * 2f;
                 DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, context.element);
             }
-            if (parent.TryGetComponent(out StatusEffectTracker tracker)) {
-                tracker.ProcessIncomingElement(context.element);
-            }
+            var trackerScript = hit.GetComponentInParent<StatusEffectTracker>();
+            if (trackerScript != null) { trackerScript.ProcessIncomingElement(context.element); }
         }
     }
 }
@@ -169,18 +170,25 @@ public class RayDelivery : SpellDeliveryStrategyBase {
 
     protected override void Execute(SpellCastContext context, Vector3 direction) {
 
+        Array.Clear(hitBuffer, 0, hitBuffer.Length);
+        
         var vfxSettings = SpellFactory.GetVFX(context.element);
         
-        Vector3 endPosition = context.origin + direction * context.data.rayDistance;
+        Vector3 origin = context.origin + direction * 0.25f;
+        Vector3 endPosition = origin + direction * context.data.rayDistance;
+
+        Debug.Log($"[RAY TRACE] Firing Laser: Start={origin}, Direction={direction}, MaxDist={context.data.rayDistance}, TargetLayers={context.data.hitLayers.value}");
 
         int hitCount = Physics.RaycastNonAlloc(
             
-            context.origin,
+            origin,
             direction,
             hitBuffer,
             context.data.rayDistance,
             context.data.hitLayers
         );
+
+        Debug.Log($"[RAY TRACE] Physics Engine returned {hitCount} raw colliders hit.");
 
         if (hitCount > 0) {
             
@@ -190,19 +198,31 @@ public class RayDelivery : SpellDeliveryStrategyBase {
 
             for (int i = 0; i < hitCount; i++) {
 
-                var parent = hitBuffer[i].transform.root.gameObject;
+                if (hitBuffer[i].collider == null) continue;
 
-                float finalDamage = context.damage * context.multiplier;
+                GameObject hitCollider = hitBuffer[i].collider.gameObject;
+                var damageable = hitCollider.GetComponentInParent<IDamageable>();
 
-                if (parent.TryGetComponent(out IDamageable damage)) {
-                    damage.OnDamage(finalDamage);
-                    Vector3 spawnPoint = parent.transform.position + Vector3.up * 2f;
+                Debug.Log($"[RAY TRACE] Element [{i}]: Struck object '{hitCollider.gameObject.name}' on Layer '{LayerMask.LayerToName(hitCollider.gameObject.layer)}'. Root parent is '{damageable}'. Distance={hitBuffer[i].distance}");
+
+                if (damageable != null) {
+                    float finalDamage = context.damage * context.multiplier;
+
+                    Debug.Log($"[RAY TRACE] SUCCESS: '{damageable}' possesses IDamageable! Sending {finalDamage} damage. (Multiplier={context.multiplier})");
+
+                    damageable.OnDamage(finalDamage);
+                    Vector3 spawnPoint = hitBuffer[i].point + Vector3.up * 0.5f;
                     DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, context.element);
+                } else {
+                    Debug.LogWarning($"[RAY TRACE] FAILED: Hit object '{damageable}', but neither it nor its parents contain an IDamageable script component.");
                 }
-                if (parent.TryGetComponent(out StatusEffectTracker tracker)) {
+                var trackerScript = hitCollider.GetComponentInParent<StatusEffectTracker>();
+                if (trackerScript.TryGetComponent(out StatusEffectTracker tracker)) {
                     tracker.ProcessIncomingElement(context.element);
                 }
             }
+        } else {
+            Debug.LogWarning("[RAY TRACE] Laser passed cleanly through the scene hitting absolutely nothing matching its LayerMask constraints.");
         }
         // Beam visual - short-lived LineRenderer.
         var beam = new GameObject();
