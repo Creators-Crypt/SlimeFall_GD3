@@ -6,6 +6,8 @@ public class EquipmentPickup : MonoBehaviour, IInteractable
 
     private bool pickedUp = false;
    
+    
+
     public string InteractionPrompt
     {
         get

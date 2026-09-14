@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Far Tele Armor
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
   itemName: TD Armor
+  defaultRarity: 0
   itemDescription: 
   icon: {fileID: 21300000, guid: 567fdd2e557fefc478f8aaa7ae56fb11, type: 3}
   slot: 2
   pickupPrefabs: {fileID: 575386554567673299, guid: eec0d2e7ec2ccb8468b1a6e7f4c12ea4, type: 3}
   pickupMaterial: {fileID: 2100000, guid: 250b9c61208128e4db4d77378e46bad2, type: 2}
+  equippedModelPrefab: {fileID: 8338599950933067581, guid: e97c6adddd298294fa7d827cd07ae8a2, type: 3}
   bonusJumps: 0
   speedBonus: 0
   gravityReduction: 0

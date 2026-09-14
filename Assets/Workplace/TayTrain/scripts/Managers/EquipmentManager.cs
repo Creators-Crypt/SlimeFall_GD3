@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.ProBuilder.AutoUnwrapSettings;
 
 public class EquipmentManager : MonoBehaviour, IEquipmentPickup
 {
@@ -7,10 +9,21 @@ public class EquipmentManager : MonoBehaviour, IEquipmentPickup
     [SerializeField] EquipmentData amulet;
     [SerializeField] EquipmentData armor;
     [SerializeField] EquipmentData boots;
-
-
+    
     [Header("Player")]
     [SerializeField] EquipStatsMods stats;
+
+    [UnitHeaderInspectable("Equipment Visuals")]
+    [SerializeField] private Transform helmetAnchor;
+    [SerializeField] private Transform amuletAnchor;
+    [SerializeField] private Transform armorAnchor;
+    [SerializeField] private Transform bootsAnchor;
+    [SerializeField] private GameObject wizardHat;
+
+    private GameObject currentHelmetModel;
+    private GameObject currentAmuletModel;
+    private GameObject currentArmorModel;
+    private GameObject currentBootsModel;
 
     //Equipment types
     public enum EquipmentSlot
@@ -78,6 +91,7 @@ public class EquipmentManager : MonoBehaviour, IEquipmentPickup
         }
 
         newEquipment.Equip(stats);
+        UpdateEquipmentVisual(newEquipment);
         Debug.Log("Equipped: " + newEquipment.itemName);
         return oldEquipment;
     }
@@ -109,6 +123,12 @@ public class EquipmentManager : MonoBehaviour, IEquipmentPickup
                 break;
 
         }
+        if(equipmentToRemove != null)
+        {
+            equipmentToRemove.Unequip(stats);
+            RemoveEquipmentVisual(slot);
+        }
+        
         return equipmentToRemove;
     }
 
@@ -130,5 +150,127 @@ public class EquipmentManager : MonoBehaviour, IEquipmentPickup
     public EquipmentData GetBoots()
     {
         return boots;
+    }
+
+    private void UpdateEquipmentVisual(EquipmentData equipment)
+    {
+        if (equipment == null)
+            return;
+        switch(equipment.slot)
+        {
+            case EquipmentSlot.Helmet:
+
+                if (currentHelmetModel != null)
+                     Destroy(currentHelmetModel);
+
+                if(equipment.equippedModelPrefab != null && helmetAnchor != null)
+                {
+                    currentHelmetModel = Instantiate(equipment.equippedModelPrefab, helmetAnchor);
+
+                    currentHelmetModel.transform.localPosition = Vector3.zero;
+                    currentHelmetModel.transform.localRotation = Quaternion.identity;
+
+                    if (wizardHat != null)
+                        wizardHat.SetActive(false);
+                }
+                    break;
+
+            case EquipmentSlot.Amulet:
+
+                if (currentAmuletModel != null)
+                    Destroy(currentAmuletModel);
+
+                if (equipment.equippedModelPrefab != null && amuletAnchor != null)
+                {
+                    currentAmuletModel = Instantiate(equipment.equippedModelPrefab, amuletAnchor);
+
+                    currentAmuletModel.transform.localPosition = Vector3.zero;
+                    currentAmuletModel.transform.localRotation = Quaternion.identity;
+
+                }
+                break;
+
+            case EquipmentSlot.Armor:
+
+                if (currentArmorModel != null)
+                    Destroy(currentArmorModel);
+
+                if (equipment.equippedModelPrefab != null && armorAnchor != null)
+                {
+                    currentArmorModel = Instantiate(equipment.equippedModelPrefab, armorAnchor);
+
+                    currentArmorModel.transform.localPosition = Vector3.zero;
+                    currentArmorModel.transform.localRotation = Quaternion.identity;
+
+                }
+                break;
+
+            case EquipmentSlot.Boots:
+
+                if (currentBootsModel != null)
+                    Destroy(currentBootsModel);
+
+                if (equipment.equippedModelPrefab != null && bootsAnchor != null)
+                {
+                    currentBootsModel = Instantiate(equipment.equippedModelPrefab, bootsAnchor);
+
+                    currentBootsModel.transform.localPosition = Vector3.zero;
+                    currentBootsModel.transform.localRotation = Quaternion.identity;
+
+                }
+                break;
+
+        }
+
+}
+
+    private void RemoveEquipmentVisual(EquipmentSlot slot)
+    {
+        switch (slot)
+        {
+            case EquipmentSlot.Helmet:
+
+
+                if (currentHelmetModel != null)
+                {
+                    Destroy(currentHelmetModel);
+                    currentHelmetModel = null;
+                }
+
+                if (wizardHat != null)
+                    wizardHat.SetActive(true);
+
+                break;
+
+            case EquipmentSlot.Amulet:
+
+
+                if (currentAmuletModel != null)
+                {
+                    Destroy(currentAmuletModel);
+                    currentAmuletModel = null;
+                }
+                break;
+
+            case EquipmentSlot.Armor:
+
+
+                if (currentArmorModel != null)
+                {
+                    Destroy(currentArmorModel);
+                    currentArmorModel = null;
+                }
+                break;
+
+            case EquipmentSlot.Boots:
+
+
+                if (currentBootsModel != null)
+                {
+                    Destroy(currentBootsModel);
+                    currentBootsModel = null;
+                }
+                break;
+        }
     }
 }

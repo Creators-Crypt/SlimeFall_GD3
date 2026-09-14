@@ -38,6 +38,11 @@ public class InventorySystem : Singleton<InventorySystem>
         Debug.Log($"Equipment Added: {equipment.itemName}");
     }
 
+    public bool HasQuestItem(string itemName)
+    {
+        return questItems.Contains(itemName);
+    }
+
     public void AddWeapon(SpellWeaponData weapon)
     {
         if (weapon == null)
