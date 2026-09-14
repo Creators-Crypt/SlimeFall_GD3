@@ -203,11 +203,14 @@ public class BossAI : EnemyAI
 
     public override void OnDamage(float amount)
     {
+        Debug.Log($"[Boss] OnDamage {amount}");
         ApplyZoneDamage(amount, 1f, false);
     }
 
     public void ApplyZoneDamage(float _amount, float _zoneMultiplier, bool _isWeakPoint)
     {
+
+        Debug.Log($"[Boss] Zone dmg= {_amount} x{_zoneMultiplier} phase ={currentPhase} invuln={isInvulnerable} HP={CurrentHealth} floor={GetPhaseHealthBottom()}");
         if (currentPhase == BossPhase.Dead) return;
 
         if (isInvulnerable) return;
