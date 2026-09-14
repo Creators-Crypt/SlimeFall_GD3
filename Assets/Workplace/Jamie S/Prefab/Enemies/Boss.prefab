@@ -364,7 +364,7 @@ GameObject:
   - component: {fileID: 1732308838788976385}
   - component: {fileID: 5381804928126210787}
   - component: {fileID: 2631286863734658976}
-  m_Layer: 9
+  m_Layer: 11
   m_Name: Boss
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -423,10 +423,10 @@ MonoBehaviour:
     m_Bits: 1048576
   otherEnemyMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 0
   mortarFriendlyFire: 1
   landingShockFriendlyFire: 0
-  meleeFriendlyFire: 0
+  meleeFriendlyFire: 1
   aoeWaveFriendlyFire: 0
   detonationFriendlyFire: 1
   spawnPostion: {x: 0, y: 0, z: 0}
