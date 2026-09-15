@@ -100,14 +100,21 @@ public abstract class SpellDeliveryStrategyBase : ISpellDeliveryStrategy {
 
             if (hit == null) continue;
 
-            var damageable = hit.GetComponentInParent<IDamageable>();
-
+            if (hit.CompareTag("Player") || (context.caster != null && hit.transform.IsChildOf(context.caster))) {
+                continue;
+            }
             float finalDamage = context.damage * context.multiplier;
 
+            var elementTracker = hit.GetComponentInParent<ElementalTracker>();
+            if (elementTracker != null) {
+                elementTracker.ProcessIncomingDamage(finalDamage, context.element);
+            }
+            //Below this is now a fallback for no elemental reaction.
+            var damageable = hit.GetComponentInParent<IDamageable>();
             if (damageable != null) {
                 damageable.OnDamage(finalDamage);
                 Vector3 spawnPoint = hit.transform.position + Vector3.up * 2f;
-                DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, context.element);
+                DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, SpellElement.None);
             }
             var trackerScript = hit.GetComponentInParent<StatusEffectTracker>();
             if (trackerScript != null) { trackerScript.ProcessIncomingElement(context.element); }
@@ -200,29 +207,28 @@ public class RayDelivery : SpellDeliveryStrategyBase {
 
                 if (hitBuffer[i].collider == null) continue;
 
+                if (hitBuffer[i].collider.CompareTag("Player") || (context.caster != null && hitBuffer[i].collider.transform.IsChildOf(context.caster))) {
+                    continue;
+                }
+
                 GameObject hitCollider = hitBuffer[i].collider.gameObject;
+                var elementTracker = hitCollider.GetComponentInParent<ElementalTracker>();
                 var damageable = hitCollider.GetComponentInParent<IDamageable>();
 
-                Debug.Log($"[RAY TRACE] Element [{i}]: Struck object '{hitCollider.gameObject.name}' on Layer '{LayerMask.LayerToName(hitCollider.gameObject.layer)}'. Root parent is '{damageable}'. Distance={hitBuffer[i].distance}");
+                float finalDamage = context.damage * context.multiplier;
 
-                if (damageable != null) {
-                    float finalDamage = context.damage * context.multiplier;
-
-                    Debug.Log($"[RAY TRACE] SUCCESS: '{damageable}' possesses IDamageable! Sending {finalDamage} damage. (Multiplier={context.multiplier})");
-
+                if (elementTracker != null) {
+                    elementTracker.ProcessIncomingDamage(finalDamage, context.element);
+                } else if (damageable != null) {
                     damageable.OnDamage(finalDamage);
                     Vector3 spawnPoint = hitBuffer[i].point + Vector3.up * 0.5f;
-                    DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, context.element);
-                } else {
-                    Debug.LogWarning($"[RAY TRACE] FAILED: Hit object '{damageable}', but neither it nor its parents contain an IDamageable script component.");
+                    DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, SpellElement.None);
                 }
                 var trackerScript = hitCollider.GetComponentInParent<StatusEffectTracker>();
                 if (trackerScript.TryGetComponent(out StatusEffectTracker tracker)) {
                     tracker.ProcessIncomingElement(context.element);
                 }
             }
-        } else {
-            Debug.LogWarning("[RAY TRACE] Laser passed cleanly through the scene hitting absolutely nothing matching its LayerMask constraints.");
         }
         // Beam visual - short-lived LineRenderer.
         var beam = new GameObject();
