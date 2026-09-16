@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6132216753347538652}
   - component: {fileID: 1802174579534204153}
   - component: {fileID: 5902569821224565589}
+  - component: {fileID: -1799040389331893355}
   m_Layer: 0
   m_Name: BootsTest3DEquip
   m_TagString: Untagged
@@ -115,6 +116,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-1799040389331893355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133683681231785853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ba3c6fda60b9b54da0edba8a8e6297f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RarityGlow
+  rarity: 1
+  glowLight: {fileID: 0}
+  intensity: 1
+  range: 3
 --- !u!1 &4425149654882750138
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4208966392464769997}
   - component: {fileID: 3989949717012325023}
   - component: {fileID: 3651440917816221272}
+  - component: {fileID: -2104081659806236990}
   m_Layer: 9
   m_Name: Far Tele Armor
   m_TagString: Equipment
@@ -156,3 +157,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-2104081659806236990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575386554567673299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ba3c6fda60b9b54da0edba8a8e6297f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RarityGlow
+  rarity: 1
+  glowLight: {fileID: 0}
+  intensity: 1
+  range: 3
