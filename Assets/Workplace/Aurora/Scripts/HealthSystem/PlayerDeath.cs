@@ -9,10 +9,12 @@ public class PlayerDeath : DeathHandler {
     [SerializeField] private float fallDuration;
     [SerializeField] private float delayBeforeLoseScreen;
 
+    private CharacterController controller;
     private bool dying = false;
 
     protected override void Awake() {
         base.Awake();
+        controller = GetComponent<CharacterController>();
     }
     protected override void OnEnable() {
         base.OnEnable();
@@ -33,6 +35,16 @@ public class PlayerDeath : DeathHandler {
     private IEnumerator DeathSequence(){
         if (audioSource != null && deathSound != null)
             audioSource.PlayOneShot(deathSound);
+
+        if(controller != null)
+        {
+            while(!controller.isGrounded)
+            {
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(0.15f);
+        }
 
         Quaternion startRotation = transform.rotation;
         Quaternion endRotation = startRotation * Quaternion.Euler(0f,0f,90f);
