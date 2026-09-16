@@ -88,8 +88,15 @@ public class AudioSettingUI : MonoBehaviour
     private 
         void UpdateMusic(float value)
     {
+        value = Mathf.Clamp01(value);
+
         musicValue.text = Mathf.RoundToInt(value * 100f) + "%";
-        audioMixer.SetFloat("MusicVolume", Mathf.Log10(Mathf.Max(value, 0.0001f)) * 20f);
+
+        float decibels = value <= 0f
+            ? -80f
+            : Mathf.Max(-80f, -14f + Mathf.Log10(value) * 20f);
+
+        audioMixer.SetFloat("MusicVolume", decibels);
         PlayerPrefs.SetFloat("MusicVolume", value);
     }
 
