@@ -9,6 +9,8 @@ public class BossEncounterTrigger : MonoBehaviour
     {
         BoxCollider encounterArea = GetComponent<BoxCollider>();
 
+        Debug.Log($"[Trigger] Awake. isTrigger = {encounterArea.isTrigger} layer = {gameObject.layer}");
+
         if (boss == null || bossHealthBar == null)
         {
             Debug.LogError("Be sure the boss and the Canvas health bar is added to this trigger plz.");
@@ -18,6 +20,8 @@ public class BossEncounterTrigger : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log($"[Trigger] ENTER {other.name}  tag = {other.tag}");
+
         CheckForPlayer(other);
     }
 
@@ -30,11 +34,13 @@ public class BossEncounterTrigger : MonoBehaviour
     {
         if(isActiveAndEnabled == false || boss == null|| bossHealthBar == null)
         {
+            Debug.Log($"[Trigger] fail. enabled= {isActiveAndEnabled} boss={(boss==null?"NULL":boss.name)} bar= {(bossHealthBar ==null?"NULL":bossHealthBar.name)}");
             return;
         }
 
         if (_other.CompareTag("Player"))
         {
+            Debug.Log($"[Trigger] ShowBar ->{bossHealthBar.name}, boss = {boss.GetType().Name}");
             bossHealthBar.ShowBar(boss);
             return;
         }

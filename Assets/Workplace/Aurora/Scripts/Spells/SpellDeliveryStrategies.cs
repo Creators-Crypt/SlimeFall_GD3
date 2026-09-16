@@ -98,23 +98,26 @@ public abstract class SpellDeliveryStrategyBase : ISpellDeliveryStrategy {
         var hits = Physics.OverlapSphere(center, radius, context.data.hitLayers);
         foreach (var hit in hits) {
 
-            var parent = hit.transform.root.gameObject;
+            if (hit == null) continue;
 
+            if (hit.CompareTag("Player") || (context.caster != null && hit.transform.IsChildOf(context.caster))) {
+                continue;
+            }
             float finalDamage = context.damage * context.multiplier;
 
-            if (parent.TryGetComponent<IDamageable>(out IDamageable damage)) {
-                damage.OnDamage(finalDamage);
+            var elementTracker = hit.GetComponentInParent<ElementalTracker>();
+            if (elementTracker != null) {
+                elementTracker.ProcessIncomingDamage(finalDamage, context.element);
             }
-
-            Vector3 spawnPoint = parent.transform.position + Vector3.up * 2f;
-            DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, context.element);
-
-            if (parent.TryGetComponent<StatusEffectTracker>(out StatusEffectTracker tracker)) {
-                StatusEffect effect = CreateEffectFromElement(context.element);
-                if (effect != null) {
-                    tracker.ApplyEffect(effect);
-                }
+            //Below this is now a fallback for no elemental reaction.
+            var damageable = hit.GetComponentInParent<IDamageable>();
+            if (damageable != null) {
+                damageable.OnDamage(finalDamage);
+                Vector3 spawnPoint = hit.transform.position + Vector3.up * 2f;
+                DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, SpellElement.None);
             }
+            var trackerScript = hit.GetComponentInParent<StatusEffectTracker>();
+            if (trackerScript != null) { trackerScript.ProcessIncomingElement(context.element); }
         }
     }
 }
@@ -174,18 +177,25 @@ public class RayDelivery : SpellDeliveryStrategyBase {
 
     protected override void Execute(SpellCastContext context, Vector3 direction) {
 
+        Array.Clear(hitBuffer, 0, hitBuffer.Length);
+        
         var vfxSettings = SpellFactory.GetVFX(context.element);
         
-        Vector3 endPosition = context.origin + direction * context.data.rayDistance;
+        Vector3 origin = context.origin + direction * 0.25f;
+        Vector3 endPosition = origin + direction * context.data.rayDistance;
+
+        Debug.Log($"[RAY TRACE] Firing Laser: Start={origin}, Direction={direction}, MaxDist={context.data.rayDistance}, TargetLayers={context.data.hitLayers.value}");
 
         int hitCount = Physics.RaycastNonAlloc(
             
-            context.origin,
+            origin,
             direction,
             hitBuffer,
             context.data.rayDistance,
             context.data.hitLayers
         );
+
+        Debug.Log($"[RAY TRACE] Physics Engine returned {hitCount} raw colliders hit.");
 
         if (hitCount > 0) {
             
@@ -195,22 +205,28 @@ public class RayDelivery : SpellDeliveryStrategyBase {
 
             for (int i = 0; i < hitCount; i++) {
 
-                var parent = hitBuffer[i].transform.root.gameObject;
+                if (hitBuffer[i].collider == null) continue;
+
+                if (hitBuffer[i].collider.CompareTag("Player") || (context.caster != null && hitBuffer[i].collider.transform.IsChildOf(context.caster))) {
+                    continue;
+                }
+
+                GameObject hitCollider = hitBuffer[i].collider.gameObject;
+                var elementTracker = hitCollider.GetComponentInParent<ElementalTracker>();
+                var damageable = hitCollider.GetComponentInParent<IDamageable>();
 
                 float finalDamage = context.damage * context.multiplier;
 
-                if (parent.TryGetComponent<IDamageable>(out IDamageable damage)) {
-                    damage?.OnDamage(finalDamage);
+                if (elementTracker != null) {
+                    elementTracker.ProcessIncomingDamage(finalDamage, context.element);
+                } else if (damageable != null) {
+                    damageable.OnDamage(finalDamage);
+                    Vector3 spawnPoint = hitBuffer[i].point + Vector3.up * 0.5f;
+                    DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, SpellElement.None);
                 }
-
-                Vector3 spawnPoint = parent.transform.position + Vector3.up * 2f;
-                DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, context.element);
-
-                if (parent.TryGetComponent<StatusEffectTracker>(out StatusEffectTracker tracker)) {
-                    StatusEffect effect = CreateEffectFromElement(context.element);
-                    if (effect != null) {
-                        tracker.ApplyEffect(effect);
-                    }
+                var trackerScript = hitCollider.GetComponentInParent<StatusEffectTracker>();
+                if (trackerScript.TryGetComponent(out StatusEffectTracker tracker)) {
+                    tracker.ProcessIncomingElement(context.element);
                 }
             }
         }

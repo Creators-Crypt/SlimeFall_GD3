@@ -17,7 +17,7 @@ public class BossHealthBarUI : MonoBehaviour
             return;
         }
 
-        HideBar();
+        //HideBar();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,11 +31,13 @@ public class BossHealthBarUI : MonoBehaviour
     {
         if(currentBoss == null)
         {
+            Debug.Log($"[Bar] Hiding because null");
             HideBar();
             return;
         }
         if (bossHealth.IsDead)
         {
+            Debug.Log($"[Bar] Hiding because dead");
             HideBar();
             return;
         }
@@ -45,7 +47,8 @@ public class BossHealthBarUI : MonoBehaviour
 
     public void HideBar()
     {
-        if(bossHealth != null)
+        Debug.Log($"[Bar]hidebar. currentBoss = {(currentBoss == null ? "NULL" : currentBoss.name)} ");
+        if (bossHealth != null)
         {
             bossHealth.OnHealthChanged -= UpdateHealthBar;
             bossHealth.OnDeath -= HideBar;
@@ -56,6 +59,7 @@ public class BossHealthBarUI : MonoBehaviour
     }
     public void ShowBar(MonoBehaviour _boss)
     {
+        gameObject.SetActive(true);
         if(_boss == null)
         {
             return;
@@ -67,6 +71,7 @@ public class BossHealthBarUI : MonoBehaviour
         }
         if(currentBoss == _boss)
         {
+            Debug.Log($"[Bar] some boss showing");
             return;
         }
 
@@ -79,6 +84,7 @@ public class BossHealthBarUI : MonoBehaviour
         bossHealth.OnDeath += HideBar;
         UpdateHealthBar(bossHealth.CurrentHealth, bossHealth.MaxHealth);
         bossBarPanel.SetActive(true);
+        Debug.Log($"[Bar] Shown. activeInHierarchy={bossBarPanel.activeInHierarchy}, fill={healthFill.fillAmount}cur = {bossHealth.CurrentHealth} max {bossHealth.MaxHealth}");
     }
 
     private void UpdateHealthBar(float _currentHealth, float _maxHealth)
@@ -90,5 +96,10 @@ public class BossHealthBarUI : MonoBehaviour
         }
 
         healthFill.fillAmount = Mathf.Clamp01(_currentHealth / _maxHealth);
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("[Bar] DESTROYED",this);
     }
 }

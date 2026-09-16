@@ -24,6 +24,8 @@ public class SpellProjectile : MonoBehaviour {
 
     private GameObject instantiatedTrail;
 
+    private SpellElement projectileElement;
+
     private void Awake() {
 
         rb = GetComponent<Rigidbody>();
@@ -35,35 +37,19 @@ public class SpellProjectile : MonoBehaviour {
     /// <summary>Called by the delivery strategy right after Instantiate.</summary>
     public void Launch(SpellData spellData, SpellElement spellElement, Vector3 direction , float damageMultiplier) {
 
-        var vfxSettings = SpellFactory.GetVFX(spellElement);
-        
-        targetLayers = spellData.hitLayers;
-        baseDamage = spellData.damage;
-        calculatedDamage = damageMultiplier;
+        InitializeProjectile(spellData, spellElement, damageMultiplier);
+
         useCustomGravity = false;
         rb.useGravity = false;
 
-        if (vfxSettings.impactVfxOverride != null) { impactVfxPrefab = vfxSettings.impactVfxOverride; } 
-        else { impactVfxPrefab = spellData.impactVfxPrefab; }
-
-        if (TryGetComponent(out Renderer renderer)) {
-            renderer.material.SetColor("_Color", vfxSettings.primaryColor);
-            renderer.material.SetColor("_EmissionColor", vfxSettings.hdrGlowColor);
-        }
-        if (vfxSettings.projectileTrailPrefab != null) {
-            instantiatedTrail = Instantiate(vfxSettings.projectileTrailPrefab, transform);
-            instantiatedTrail.transform.localPosition = Vector3.zero;
-        }
-
         rb.linearVelocity = direction.normalized * spellData.projectileSpeed;
-        // Face travel direction; arcing shots keep re-facing in Update.
         FaceVelocity(rb.linearVelocity);
+
         Destroy(gameObject, spellData.projectileLifetime);
     }
-    public void Launch(SpellData spellData, SpellElement spellElement, Vector3 direction, bool gravityState, float damageMultiplier) { 
-        
-        targetLayers = spellData.hitLayers;
-        calculatedDamage = damageMultiplier;
+    public void Launch(SpellData spellData, SpellElement spellElement, Vector3 direction, bool gravityState, float damageMultiplier) {
+
+        InitializeProjectile(spellData, spellElement, damageMultiplier);
 
         if (gravityState) {
             
@@ -72,9 +58,32 @@ public class SpellProjectile : MonoBehaviour {
             custonGravityScale = spellData.arcGravityScale;
         }
         rb.linearVelocity = direction.normalized * spellData.projectileSpeed;
-        // Face travel direction; arcing shots keep re-facing in Update.
         FaceVelocity(rb.linearVelocity);
+
         Destroy(gameObject, spellData.projectileLifetime);
+    }
+    private void InitializeProjectile(SpellData spellData, SpellElement spellElement, float damageMultiplier) {
+
+        targetLayers = spellData.hitLayers;
+        baseDamage = spellData.damage;
+        calculatedDamage = damageMultiplier;
+        projectileElement = spellElement;
+
+        var vfxSettings = SpellFactory.GetVFX(spellElement);
+
+        if (vfxSettings.impactVfxOverride != null) {
+            impactVfxPrefab = vfxSettings.impactVfxOverride;
+        } else {
+            impactVfxPrefab = spellData.impactVfxPrefab;
+        }
+        if (TryGetComponent(out Renderer renderer)) {
+            renderer.material.SetColor("_Color", vfxSettings.primaryColor);
+            renderer.material.SetColor("_EmissionColor", vfxSettings.hdrGlowColor);
+        }
+        if (vfxSettings.projectileTrailPrefab != null) {
+            instantiatedTrail = Instantiate(vfxSettings.projectileTrailPrefab, transform);
+            instantiatedTrail.transform.localPosition = Vector3.zero;
+        }
     }
     private void FixedUpdate() {
 
@@ -99,8 +108,12 @@ public class SpellProjectile : MonoBehaviour {
         if (other.TryGetComponent(out IDamageable dmg)) {
             float totalDamage = baseDamage * calculatedDamage;
             dmg.OnDamage(totalDamage);
+            Vector3 spawnPoint = other.transform.position + Vector3.up * 2f;
+            DamagePopupManager.SpawnPopup(spawnPoint, totalDamage, projectileElement);
         }
-
+        if (other.TryGetComponent(out StatusEffectTracker tracker)) {
+            tracker.ProcessIncomingElement(projectileElement);
+        }
         if (impactVfxPrefab != null)
         {
             var vfx = Instantiate(impactVfxPrefab, transform.position, Quaternion.identity);

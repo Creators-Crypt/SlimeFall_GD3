@@ -91,7 +91,7 @@ SpriteRenderer:
   m_Size: {x: 0.64, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 1
 --- !u!114 &2169443612330325390
 MonoBehaviour:
@@ -137,13 +137,14 @@ GameObject:
   - component: {fileID: 6580241315318134583}
   - component: {fileID: 5654815567487398477}
   - component: {fileID: 350378942764932905}
+  - component: {fileID: 1867202978968791425}
   m_Layer: 8
   m_Name: Test Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3359655473885220301
 Transform:
   m_ObjectHideFlags: 0
@@ -265,3 +266,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b21274946eb7db4eb685209da8ad681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DeathHandler
+--- !u!114 &1867202978968791425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8138184557785483740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8522da6beaae6834da9b24f8ccc2fc22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatusEffectTracker

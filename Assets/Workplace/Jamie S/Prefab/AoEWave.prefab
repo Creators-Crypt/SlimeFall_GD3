@@ -80,7 +80,7 @@ VFXRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1261471286457959517}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -280,7 +280,7 @@ MonoBehaviour:
   ringGrow: {fileID: 2303166225645969051}
   radiusScale: 2.63
   fadeOutTime: 1
-  maxRadius: 30
+  maxRadius: 10
   growSpeed: 1
   damage: 10
   targetMask:

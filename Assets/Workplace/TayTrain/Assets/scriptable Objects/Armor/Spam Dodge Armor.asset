@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Spam Dodge Armor
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
   itemName: RD Armor
+  defaultRarity: 0
   itemDescription: 
   icon: {fileID: 21300000, guid: 567fdd2e557fefc478f8aaa7ae56fb11, type: 3}
   slot: 2
   pickupPrefabs: {fileID: 1223065868750889880, guid: e222969fce6cadb41bc2b935fbd8c63b, type: 3}
   pickupMaterial: {fileID: 2100000, guid: fec0e35e01bbecd43a85029178f7a4db, type: 2}
+  equippedModelPrefab: {fileID: 7316073983767407737, guid: 00a23cdc87b6cc14e8a0bbd4cdd4d425, type: 3}
   bonusJumps: 0
   speedBonus: 0
   gravityReduction: 0

@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Moon Boots
   m_EditorClassIdentifier: Assembly-CSharp::EquipmentData
   itemName: Moon Boots
+  defaultRarity: 0
   itemDescription: 
   icon: {fileID: 21300000, guid: 5170e0068a8cf184fb119834fa7ba0f3, type: 3}
   slot: 3
   pickupPrefabs: {fileID: 6403258534566747603, guid: 858756b0a92b60f408b40ccabd7eec5f, type: 3}
   pickupMaterial: {fileID: 2100000, guid: 250b9c61208128e4db4d77378e46bad2, type: 2}
+  equippedModelPrefab: {fileID: 1133683681231785853, guid: 04832878ea3c5264aac13269f1be85d1, type: 3}
   bonusJumps: 0
   speedBonus: 0
   gravityReduction: 0.3

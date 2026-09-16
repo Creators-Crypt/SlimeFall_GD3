@@ -34,6 +34,8 @@ public class Jumpscares : MonoBehaviour
 
         yield return new WaitForSeconds(scareDuration);
 
-        scareObject.SetActive(false); 
+        scareObject.SetActive(false);
+
+        hasTriggered = false; 
     }
 }

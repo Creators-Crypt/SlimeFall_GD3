@@ -1,0 +1,295 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9caffe524dfcee04db4db8ba6c1d2131, type: 3}
+  m_Name: MummyStatsSO
+  m_EditorClassIdentifier: Assembly-CSharp::MummStatsSO
+  enemyType: 0
+  maxHealth: 150
+  patrolSpeed: 5
+  chaseSpeed: 8
+  patrolRadius: 30
+  patrolWaitTimeMin: 0.25
+  patrolWaitTimeMax: 1.5
+  detectionRadius: 20
+  detectionAngle: 230
+  lostSightTime: 3
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
+  attackRange: 10
+  attackCooldown: 1.2
+  attackDamage: 5
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 10
+  explosionRadius: 3
+  explosionVFX: {fileID: 0}
+  mortarPrefab: {fileID: 0}
+  mortarHitPosDisplayPrefab: {fileID: 0}
+  mortarSpeed: 15
+  mortarShellsPreSalvo: 1
+  mortarTimeBetweenShells: 0.35
+  mortarScatter: 3
+  mortarArcHeight: 10
+  mortarSplashRadius: 5
+  mortarAimAheadOfPlayer: 1
+  mortarGroundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  mortarDamageMask:
+    serializedVersion: 2
+    m_Bits: 0
+  jumpdamage: 5
+  jumpWindupTime: 0.4
+  jumpDuration: 0.65
+  jumpHeight: 1.5
+  jumpMaxDistance: 5
+  jumpHitRadius: 0.5
+  jumpRecovery: 0.4
+  jumpObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  aoeWavePrefab: {fileID: 0}
+  aoeWaveWaringTime: 1
+  aoeWaveRadius: 9
+  aoeWaveSpeed: 10
+  jumpToWaveDelay: 0.25
+  jumpWaveDamage: 4
+  jumpWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  jumpTakeOff:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  jumpHit:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  jumpLanding:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  waveWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  waveRelease:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  waveHit:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  projectileLaunch:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  projectileHit:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  mortarLaunch:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bomberBlast:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossLeapWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossMeleeWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossMeleeSwing:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossMeleeHit:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossLeapTakeoff:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossLanding:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossDetonationWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossDetonationBlast:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  splitChance: 0
+  splitPrefab: {fileID: 0}
+  splitCount: 2
+  splitRadius: 0.75
+  splitVFXPrefab: {fileID: 0}
+  splitGrowthSpeed: 0
+  canReturn: 1
+  returnDelay: 15
+  appearDelay: 0.5
+  lingerAfterScream: 1
+  scareCooldown: 8
+  bansheeTurnSpeed: 0
+  screamClips: []
+  screamVolume: 0.8
+  audibleDist: 25
+  fleeDuration: 4
+  fleedistance: 12
+  screamFeedback:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  sandGroundMask:
+    serializedVersion: 2
+    m_Bits: 8
+  bandagePrefab: {fileID: 1681116730024100531, guid: 1260dc117c941dd42a55ba991df3ecf8, type: 3}
+  bandageWindupTime: 0.35
+  bandageSpeed: 15
+  bandageDamage: 6
+  bandagePullDist: 3
+  bandageSlowMultiplier: 0.5
+  bandageSlowDuration: 3
+  bandageLifetime: 3
+  bandageRecovery: 0.5
+  bandageOnPlayerVFX: {fileID: 1026244455916829458, guid: b34c0483ec07e314fa026a335959ae80, type: 3}
+  bandageVfxLifetime: 3
+  bandageWindup:
+    vfxPrefab: {fileID: 3958831665143225882, guid: cb61a5ad2d9da5b4784fe8ff47745a0d, type: 3}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bandageLaunch:
+    vfxPrefab: {fileID: 7531682570667007399, guid: 8cf564f806f9136469be36ddbe93468e, type: 3}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bandageHit:
+    vfxPrefab: {fileID: 6019621858177559768, guid: 03600e2f7741fa84297a03c747caab1e, type: 3}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  quicksandPoolPrefab: {fileID: 7054969594124603649, guid: c76f35fce4f4427428badba8689be689, type: 3}
+  quicksandTelegraphPrefab: {fileID: 4286513039540779230, guid: da5e88eeecbcf9f439a5eb1cbfa6ecc8, type: 3}
+  quicksandCooldow: 9
+  quicksandWarningTime: 1.2
+  quicksandRadius: 3.5
+  quicksandDuration: 6
+  quicksandTickInterval: 0.5
+  quicksandDamagePerTick: 2
+  quicksandPullPerSecond: 1.4
+  quicksandSlowMultiplier: 0.45
+  quicksandAimAhead: 0.5
+  quicksandRecovery: 0.6
+  quicksandWindup:
+    vfxPrefab: {fileID: 4447984755252359090, guid: a9fba31a41cf2184f8a3118350d57ebe, type: 3}
+    sound: {fileID: 8300000, guid: 6e202bc455f025742aaaa037194c031a, type: 3}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  quicksandSpawn:
+    vfxPrefab: {fileID: 834602816081524566, guid: 141a4964a6462ae46b0044b18b6089e1, type: 3}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  quicksandPool:
+    vfxPrefab: {fileID: 5925439807226670654, guid: 2dd1bc61269f405418ebc51cc3826e2d, type: 3}
+    sound: {fileID: 8300000, guid: dfefbbdd269efa6449704eef8792f55e, type: 3}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  burrowCooldown: 12
+  burrowMinDistance: 5
+  burrowDigTime: 0.6
+  burrowTravelTime: 2
+  burrowRiseTime: 0.3
+  burrowRecovery: 0.4
+  burrowEmergeDistance: 2.2
+  burrowDepth: 3
+  burrowInvulnerable: 1
+  burrowEmergeDamage: 5
+  burrowEmergeRadius: 2
+  burrowDown:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  burrowtrail:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  burrowMountPrefab: {fileID: 0}
+  burrowMoundHeightOffset: 2.3
+  burrowUp:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25

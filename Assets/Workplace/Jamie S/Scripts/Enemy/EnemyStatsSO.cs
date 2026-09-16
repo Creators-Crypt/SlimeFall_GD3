@@ -116,5 +116,13 @@ public class EnemyStatsSO : ScriptableObject
     public AudioClip[] screamClips = new AudioClip[0];
     [Range(0f, 1f)] public float screamVolume = .8f;
     public float audibleDist = 25f;
+
+    [Header("Banshee - flee")]
+    [Min(.1f)] public float fleeDuration = 4f;
+    [Min(.1f)] public float fleedistance = 12f;
+
+    [Header("Banshee - Scream VFX")]
+    [Tooltip("Assign the VFX here and it's lifetime. Leave the sound empty as the banshee handles her own screams")]
+    public AttackFeedback screamFeedback = new AttackFeedback();
     
 }

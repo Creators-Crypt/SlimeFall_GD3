@@ -16,7 +16,7 @@ MonoBehaviour:
   weaponKind: 3
   delivery: 3
   weaponModelPrefab: {fileID: 1030983134, guid: e150199a50c861f4aaca05bf2ce6de64, type: 3}
-  damageMultiplier: 1
+  damageMultiplier: 1.2
   cooldownMultiplier: 1
   overrideSpawnCount: 0
   weaponSpawnCount: 3

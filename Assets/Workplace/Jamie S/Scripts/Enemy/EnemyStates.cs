@@ -29,7 +29,7 @@ public class EnemyIdleState : IEnemyState
             return;
         }
 
-        idleTimer = Time.deltaTime;
+        idleTimer += Time.deltaTime;
         if (idleTimer >= idleDuration)
         {
             enemy.stateMachine.ChangeState(enemy.patrolState);
