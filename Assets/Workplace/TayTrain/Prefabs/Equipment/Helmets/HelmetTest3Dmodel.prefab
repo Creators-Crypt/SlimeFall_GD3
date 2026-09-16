@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2326989209586167132}
   - component: {fileID: 1836075559791723309}
   - component: {fileID: 1988689754432587497}
+  - component: {fileID: 8907577091852268095}
   m_Layer: 0
   m_Name: HelmetTest3Dmodel
   m_TagString: Untagged
@@ -211,7 +212,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 15
+  m_VersionIndex: 24
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -319,3 +320,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &8907577091852268095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3446451263195295135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ba3c6fda60b9b54da0edba8a8e6297f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RarityGlow
+  rarity: 1
+  glowLight: {fileID: 0}
+  intensity: 1
+  range: 3

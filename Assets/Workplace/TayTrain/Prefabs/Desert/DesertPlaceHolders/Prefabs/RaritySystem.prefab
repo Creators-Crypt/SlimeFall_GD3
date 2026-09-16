@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8586666130968913324
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8899529536231094286}
+  - component: {fileID: 1985251906620466191}
+  - component: {fileID: 5431692220657895649}
+  m_Layer: 0
+  m_Name: RaritySystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8899529536231094286
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8586666130968913324}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -11.151279, y: 0, z: 43.79785}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1985251906620466191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8586666130968913324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c144964275fb8b54fac58987757ae867, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Raritysystem
+  rarityDef:
+  - {fileID: 11400000, guid: 0997a31841fd1c84fa18204c7dc001db, type: 2}
+  - {fileID: 11400000, guid: f680863b840fe4c47b0c85357f0808ba, type: 2}
+  - {fileID: 11400000, guid: 3a8991adc5d4c9442ad05b8ae2a6fbda, type: 2}
+  - {fileID: 11400000, guid: 2e58f43750eae7a499352a028af81fc5, type: 2}
+--- !u!114 &5431692220657895649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8586666130968913324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 355214cbdee0dc74baf0edbde944a2f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EquipmentInstanceTester
+  testEquipment: {fileID: 11400000, guid: 9678f86ca38394b45a0394cf06c309b1, type: 2}
+  raritySystem: {fileID: 1985251906620466191}

@@ -1769,7 +1769,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"fe603444ea9164e419a8914b42b68917","type":3}}'
+      m_SerializableObject: 
     m_Space: -1
   m_Property:
     name: _MainTex
