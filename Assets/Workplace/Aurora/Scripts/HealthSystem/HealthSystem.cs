@@ -11,7 +11,7 @@ public class HealthSystem : MonoBehaviour, IHealth, IDamageable {
     [Header("Health Data")]
     [SerializeField] private PlayerStats stats;
 
-    private float currentHealth;
+    [SerializeField] private float currentHealth;
     private readonly float maxHP = 100f;
 
     private IInvulnerable invulnerable;

@@ -565,6 +565,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpellWeaponManager
   spellCaster: {fileID: 0}
   carriedWeapons:
+  - {fileID: 0}
   - {fileID: 11400000, guid: c5559565a999c7e49a13c3c525c7ba05, type: 2}
   handAnchor: {fileID: 1559729259802013399}
   swapCooldown: 0.5
@@ -598,6 +599,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   stats: {fileID: 11400000, guid: dfe4fb052dce893488008b0512ccee0f, type: 2}
+  currentHealth: 0
 --- !u!114 &1655807396318687533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,13 +822,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
   playerOrigin: {fileID: 0}
   interactionRange: 5
-  maxCameraAimDistance: 100
+  maxCameraAimDistance: 10
   interactableLayer:
     serializedVersion: 2
     m_Bits: 512
   exclusionLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1074822655
   interact:
     m_Name: Interact
     m_Type: 0
@@ -837,7 +839,7 @@ MonoBehaviour:
     m_SingletonActionBindings:
     - m_Name: 
       m_Id: 4fd6ea01-0d62-4c18-9bee-936fd9713c3e
-      m_Path: <Keyboard>/z
+      m_Path: <Keyboard>/e
       m_Interactions: 
       m_Processors: 
       m_Groups: 
@@ -2894,7 +2896,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6119
+  m_VersionIndex: 6122
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
