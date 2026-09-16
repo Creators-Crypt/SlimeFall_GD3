@@ -12,10 +12,15 @@ public class PlayerInteraction : MonoBehaviour {
 
     [Header("Settings")]
     [SerializeField, Range(1.5f, 5f)] private float interactionRange = 3f;
-    [SerializeField] private float maxCameraAimDistance = 100f;
+    [SerializeField, Range(3f, 50f)] private float maxCameraAimDistance = 10f;
     [SerializeField] private LayerMask interactableLayer;
     [SerializeField] private LayerMask exclusionLayer;
     [SerializeField] private InputAction interact;
+
+    [Tooltip("How many seconds the button must be held down to trigger a swap interaction.")]
+    [SerializeField] private float holdDurationThreshold = 0.4f;
+    private float holdTimer = 0f;
+    private bool isHoldingInteraction = false;
 
     [SerializeField] private IInteractable current;
     private Collider lastCheckedCollider;
@@ -57,12 +62,27 @@ public class PlayerInteraction : MonoBehaviour {
 
             if (lastCheckedCollider != null) ClearCurrentTarget();
         }
-        if (interact.WasPressedThisFrame() && current != null) {
+        if (current != null) {
+            if (interact.WasPressedThisFrame()) {
+                isHoldingInteraction = true;
+                holdTimer = 0f;
+            }
+            if (isHoldingInteraction) {
+                if (interact.IsPressed()) {
+                    holdTimer += Time.deltaTime;
 
-            current.Interact();
-
-            ClearCurrentTarget();
-        }
+                    if (holdTimer >= holdDurationThreshold) {
+                        isHoldingInteraction = false;
+                        current.Interact();
+                        ClearCurrentTarget();
+                    }
+                } else if (interact.WasReleasedThisFrame()) {
+                    isHoldingInteraction = false;
+                    current.Interact();
+                    ClearCurrentTarget();
+                }
+            }
+        } else { isHoldingInteraction = false; }
     }
     private void ClearCurrentTarget() {
         current = null;

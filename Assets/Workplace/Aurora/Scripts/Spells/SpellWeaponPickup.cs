@@ -9,9 +9,11 @@ public class SpellWeaponPickup : MonoBehaviour, IInteractable {
     [SerializeField] private Transform visualAnchor;
 
     [Header("Interaction Settings")]
-    [SerializeField] private string promptMessage = "Press Z to equip ";
+    [SerializeField] private string promptMessage = "Press E to equip ";
 
     public string InteractionPrompt => weaponData != null ? $"{promptMessage}{weaponData.weaponName}" : "Interact";
+
+    private GameObject currentWorldMeshInstance;
 
     private void Awake() {
         if (TryGetComponent(out Collider collider)) {
@@ -19,13 +21,18 @@ public class SpellWeaponPickup : MonoBehaviour, IInteractable {
         }
         SpawnWorldDisplayMesh();
     }
-
+    public void SetWeaponData(SpellWeaponData data) {
+        weaponData = data;
+        SpawnWorldDisplayMesh(); // Refresh the visual display mesh to match the new weapon profiles
+    }
     /// <summary> Spawns a floating preview of the weapon model in the world scene. </summary>
     private void SpawnWorldDisplayMesh() {
+        if (currentWorldMeshInstance != null) Destroy(currentWorldMeshInstance);
         if (weaponData == null || weaponData.weaponModelPrefab == null || visualAnchor == null) return;
 
-        var worldMesh = Instantiate(weaponData.weaponModelPrefab, visualAnchor);
-        worldMesh.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        currentWorldMeshInstance = Instantiate(weaponData.weaponModelPrefab, visualAnchor);
+        currentWorldMeshInstance.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+        currentWorldMeshInstance.transform.localScale = Vector3.one;
     }
     public void Interact() {
         if (weaponData == null) return;
@@ -35,20 +42,17 @@ public class SpellWeaponPickup : MonoBehaviour, IInteractable {
             Debug.LogError($"[Pickup] Failed to find a valid SpellWeaponManager on the object tagged 'Player'!");
             return;
         }
-        int targetSlot = DetermineBestPlacementSlot(weaponManager);
+        /*int targetSlot = DetermineBestPlacementSlot(weaponManager);
 
         if (targetSlot == -1) {
 
             int activeSlot = GetActiveSlotIndexFromManager(weaponManager);
-            weaponManager.EquipWeapon(weaponData);
+            weaponManager.EquipOrSwapWeapon(weaponData);
             Debug.Log($"[Interaction] Inventory full. Overwrote active slot {activeSlot} with '{weaponData.weaponName}'.");
         } 
-        else { weaponManager.EquipWeapon(weaponData); }
+        else { weaponManager.EquipOrSwapWeapon(weaponData); }*/
 
-        if(InventorySystem.Instance != null)
-        {
-            InventorySystem.Instance.AddWeapon(weaponData);
-        }
+        weaponManager.ProcessIncomingPickup(weaponData);
 
         GameManager.Instance.PlayerPerformAction("WeaponPickup");
 

@@ -428,6 +428,7 @@ Transform:
   - {fileID: 65719181446917458}
   - {fileID: 1484677499562603440}
   - {fileID: 1785700254696889530}
+  - {fileID: 1406101112673834826}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &3008289139750706588
@@ -568,6 +569,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 11400000, guid: c5559565a999c7e49a13c3c525c7ba05, type: 2}
   handAnchor: {fileID: 1559729259802013399}
+  dropPoint: {fileID: 1406101112673834826}
   swapCooldown: 0.5
   scrollAction:
     m_Name: Scroll
@@ -846,6 +848,7 @@ MonoBehaviour:
       m_Action: Interact
       m_Flags: 0
     m_Flags: 0
+  holdDurationThreshold: 0.4
 --- !u!114 &5064682265971215465
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2984,6 +2987,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5983392291710692026}
   m_Mesh: {fileID: 0}
+--- !u!1 &6042769703114549632
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1406101112673834826}
+  m_Layer: 20
+  m_Name: WeaponDropPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1406101112673834826
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6042769703114549632}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8662077439358633456}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6179923772591570721
 GameObject:
   m_ObjectHideFlags: 0

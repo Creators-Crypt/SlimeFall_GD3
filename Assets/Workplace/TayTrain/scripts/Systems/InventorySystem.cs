@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ public class InventorySystem : Singleton<InventorySystem>
     [SerializeField] private List<string> questItems = new List<string>();
     [SerializeField] private List<EquipmentData> equipmentItems = new List<EquipmentData>();
     [SerializeField] private List<SpellWeaponData> weaponItems = new List<SpellWeaponData>();
+
+    [SerializeField] private int maxBackpackCapacity = 20;
 
     public IReadOnlyList<string> QuestItems => questItems;
     public IReadOnlyList<EquipmentData> EquipmentItems => equipmentItems;
@@ -61,5 +64,9 @@ public class InventorySystem : Singleton<InventorySystem>
     public bool RemoveWeapon(SpellWeaponData weapon)
     {
         return weaponItems.Remove(weapon);
+    }
+
+    public bool IsBackpackFull() {
+        return weaponItems.Count >= maxBackpackCapacity;
     }
 }
