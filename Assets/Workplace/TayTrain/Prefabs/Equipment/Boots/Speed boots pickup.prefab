@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 693648035219403019}
   - component: {fileID: 5021081759610025240}
   - component: {fileID: 7367119868428193689}
+  - component: {fileID: 6038071927584788172}
   m_Layer: 9
   m_Name: Speed boots pickup
   m_TagString: Untagged
@@ -154,3 +155,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &6038071927584788172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7384773071343224276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ba3c6fda60b9b54da0edba8a8e6297f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RarityGlow
+  rarity: 1
+  glowLight: {fileID: 0}
+  intensity: 1
+  range: 3

@@ -16,6 +16,7 @@ MonoBehaviour:
   weaponKind: 1
   delivery: 0
   weaponModelPrefab: {fileID: 1030983134, guid: 1260d885965ddad47add56dbba9c928d, type: 3}
+  worldPickupPrefab: {fileID: 2410132479784300229, guid: 4b00476f2cfbb424fa088d9b7063f80a, type: 3}
   damageMultiplier: 1
   cooldownMultiplier: 1
   overrideSpawnCount: 0

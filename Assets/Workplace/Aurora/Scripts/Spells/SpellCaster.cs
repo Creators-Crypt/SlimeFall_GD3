@@ -25,13 +25,15 @@ public class SpellCaster : MonoBehaviour {
     private Spell[] spells;
     private int equippedIndex;
 
+    private bool isPressingCast = false;
+
     [SerializeField] private SpellWeaponData equippedWeapon;
     public SpellWeaponData EquippedWeapon => equippedWeapon;
 
     public Spell EquippedSpell =>
         (spells != null && spells.Length > 0) ? spells[equippedIndex] : null;
 
-    private void Awake() {
+    private void Start() {
 
         if (castPoint == null) castPoint = transform;
 
@@ -86,7 +88,8 @@ public class SpellCaster : MonoBehaviour {
         //if (keyboard.qKey.wasPressedThisFrame) CycleDelivery();
 
         // Right mouse: cast toward cursor.
-        if (mouse.rightButton.wasPressedThisFrame) TryCast();
+        isPressingCast = mouse.rightButton.isPressed;
+        if (isPressingCast) TryCast();
     }
     public void Equip(int index) {
 
@@ -112,16 +115,17 @@ public class SpellCaster : MonoBehaviour {
         if (!weaponManager.CanSwap) return;
 
         var spell = EquippedSpell;
-
         if (spell == null || !spell.IsReady) return;
 
-        if (EquippedWeapon == null) {
-            spell.SetDelivery(spell.AssetData.delivery);
-        } else {
-            spell.SetDelivery(EquippedWeapon.delivery);
+        SpellDeliveryKind targetedDelivery = (EquippedWeapon != null) ?
+            EquippedWeapon.delivery :
+            spell.AssetData.delivery;
+
+        if (spell.Delivery.Kind != targetedDelivery) {
+            spell.SetDelivery(targetedDelivery);
         }
 
-            float requiredStamina = spell.StaminaCostOverride;
+        float requiredStamina = spell.StaminaCostOverride;
         if (stamina != null && !stamina.TrySpend(requiredStamina)) return;
 
         float multiplier = 1f;
@@ -132,7 +136,7 @@ public class SpellCaster : MonoBehaviour {
             concentration.spend(spell.ConcentrationCostOverride);
         }
 
-        Vector3 origin = castPoint.position;
+        Vector3 origin = (weaponManager != null) ? weaponManager.ActiveCastPoint.position : castPoint.position;
         Vector3 aim = GetAimDirection(origin);
 
         GameManager.Instance.PlayerPerformAction("WeaponFire");
