@@ -1,17 +1,21 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class VideoSettingsUI : MonoBehaviour
 {
-    [SerializeField] private TMP_Dropdown resolutionDropdown;
-    [SerializeField] private TMP_Dropdown displayModeDropdown;
-    [SerializeField] private Toggle vSyncToggle;
-    [SerializeField] private TMP_Dropdown frameRateDropdown;
-    [SerializeField] private Slider brightnessSlider;
-    [SerializeField] private TMP_Text brightnessValue;
+    private TMP_Dropdown resolutionDropdown;
+    private TMP_Dropdown displayModeDropdown;
+    private Toggle vSyncToggle;
+    private TMP_Dropdown frameRateDropdown;
+    private Slider brightnessSlider;
+    private TMP_Text brightnessValue;
 
     private Resolution[] resolutions;
+    private Volume brightnessVolume;
+    private ColorAdjustments colorAdjustments;
 
     private void FindUIReferences()
     {
@@ -64,7 +68,11 @@ public class VideoSettingsUI : MonoBehaviour
     private void Start()
     {
         FindUIReferences();
+
         SetupResolution();
+        SetupDisplayMode();
+        SetupFrameRate();
+        SetupBrightness();
 
         int savedResolution = PlayerPrefs.GetInt("Resolution", resolutionDropdown.value);
 
@@ -74,13 +82,25 @@ public class VideoSettingsUI : MonoBehaviour
             resolutionDropdown.RefreshShownValue();
         }
         
-        vSyncToggle.isOn = PlayerPrefs.GetInt("VSync", 1) == 1; // Default to VSync enabled
-        frameRateDropdown.value = PlayerPrefs.GetInt("FrameRate", 0); // Default to platform's default frame rate
+        bool savedVSync = PlayerPrefs.GetInt("VSync", 1) == 1; // Default to VSync enabled
+        int savedFrameRate = PlayerPrefs.GetInt("FrameRate", 1); // Default to 60 FPS
+        int savedDisplayMode = PlayerPrefs.GetInt("DisplayMode", 1); // Default to Borderless
+
+        vSyncToggle.isOn = savedVSync;
+
+        frameRateDropdown.value = savedFrameRate;
         frameRateDropdown.RefreshShownValue();
-        displayModeDropdown.value = PlayerPrefs.GetInt("DisplayMode", 1); // Default to Borderless Fullscreen
+
+        displayModeDropdown.value = savedDisplayMode;
         displayModeDropdown.RefreshShownValue();
-        brightnessSlider.value = PlayerPrefs.GetFloat("Brightness", 100f); // Default to 100% brightness
+
+        SetDisplayMode(savedDisplayMode);
+        SetVSync(savedVSync);
+        SetFrameRate(savedFrameRate);
+
+        brightnessSlider.value = PlayerPrefs.GetFloat("Brightness", 50f); // Default to 50% brightness
         brightnessValue.text = Mathf.RoundToInt(brightnessSlider.value) + "%";
+        SetBrightness(brightnessSlider.value);
 
         resolutionDropdown.onValueChanged.AddListener(SetResolution);
         displayModeDropdown.onValueChanged.AddListener(SetDisplayMode);
@@ -91,28 +111,110 @@ public class VideoSettingsUI : MonoBehaviour
 
     private void SetupResolution()
     {
-        resolutions = Screen.resolutions;
+        Resolution[] availableResolutions = Screen.resolutions;
 
-        resolutionDropdown.ClearOptions();
-
+        var uniqueResolutions = new System.Collections.Generic.List<Resolution>();
         var options = new System.Collections.Generic.List<string>();
 
         int currentResolutionIndex = 0;
 
-        for (int i = 0; i < resolutions.Length; i++)
+        foreach (Resolution resolution in availableResolutions)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
-            options.Add(option);
+            bool alreadyAdded = uniqueResolutions.Exists(r => 
+            r.width == resolution.width && 
+            r.height == resolution.height);
 
-            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            if (alreadyAdded)
+                continue;
+
+            uniqueResolutions.Add(resolution);
+
+            options.Add(resolution.width + " x " + resolution.height);
+
+            if (resolution.width == Screen.width && 
+                resolution.height == Screen.height)
             {
-                currentResolutionIndex = i;
+                currentResolutionIndex = uniqueResolutions.Count - 1;
             }
         }
 
+        resolutions = uniqueResolutions.ToArray();
+
+        resolutionDropdown.ClearOptions();
         resolutionDropdown.AddOptions(options);
+
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
+    }
+
+    private void SetupDisplayMode()
+    {
+        displayModeDropdown.ClearOptions();
+        var options = new System.Collections.Generic.List<string>
+        {
+            "Fullscreen",
+            "Borderless",
+            "Windowed"
+        };
+
+        displayModeDropdown.AddOptions(options);
+        displayModeDropdown.RefreshShownValue();
+    }
+
+    private void SetupFrameRate()
+    {
+        frameRateDropdown.ClearOptions();
+
+        var options = new System.Collections.Generic.List<string>
+        {
+            "30 FPS",
+            "60 FPS",
+            "120 FPS",
+            "144 FPS",
+            "240 FPS"
+        };
+
+        frameRateDropdown.AddOptions(options);
+        frameRateDropdown.RefreshShownValue();
+    }
+
+    private void SetupBrightness()
+    {
+        GameObject brightnessObject =
+        GameObject.Find("RuntimeBrightnessVolume");
+
+        if (brightnessObject == null)
+        {
+            brightnessObject =
+                new GameObject("RuntimeBrightnessVolume");
+        }
+
+        brightnessVolume =
+            brightnessObject.GetComponent<Volume>();
+
+        if (brightnessVolume == null)
+        {
+            brightnessVolume =
+                brightnessObject.AddComponent<Volume>();
+        }
+
+        brightnessVolume.isGlobal = true;
+        brightnessVolume.priority = 100f;
+
+        if (brightnessVolume.profile == null)
+        {
+            brightnessVolume.profile =
+                ScriptableObject.CreateInstance<VolumeProfile>();
+        }
+
+        if (!brightnessVolume.profile.TryGet(out colorAdjustments))
+        {
+            colorAdjustments =
+                brightnessVolume.profile.Add<ColorAdjustments>(true);
+        }
+
+        colorAdjustments.active = true;
+        colorAdjustments.postExposure.overrideState = true;
     }
 
     public void SetResolution(int index)
@@ -125,6 +227,7 @@ public class VideoSettingsUI : MonoBehaviour
             Screen.fullScreenMode);
 
         PlayerPrefs.SetInt("Resolution", index);
+        PlayerPrefs.Save();
     }
 
     public void SetDisplayMode(int index)
@@ -143,12 +246,18 @@ public class VideoSettingsUI : MonoBehaviour
         }
 
         PlayerPrefs.SetInt("DisplayMode", index);
+        PlayerPrefs.Save();
     }
 
     public void SetVSync(bool enabled)
     {
         QualitySettings.vSyncCount = enabled ? 1 : 0;
+
+        if (frameRateDropdown != null)
+            frameRateDropdown.interactable = !enabled;
+
         PlayerPrefs.SetInt("VSync", enabled ? 1 : 0);
+        PlayerPrefs.Save();
     }
 
     public void SetFrameRate(int index)
@@ -176,11 +285,20 @@ public class VideoSettingsUI : MonoBehaviour
         }
 
         PlayerPrefs.SetInt("FrameRate", index);
+        PlayerPrefs.Save();
     }
 
     public void SetBrightness(float value)
     {
         brightnessValue.text = Mathf.RoundToInt(value) + "%";
+
+        if (colorAdjustments != null)
+        {
+            float exposure = Mathf.Lerp(-2f, 2f, value / 100f);
+            colorAdjustments.postExposure.value = exposure;
+        }
+
         PlayerPrefs.SetFloat("Brightness", value);
+        PlayerPrefs.Save();
     }   
 }
