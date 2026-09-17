@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,7 +13,10 @@ public class SpellWeaponManager : MonoBehaviour {
     [SerializeField] private List<SpellWeaponData> carriedWeapons = new();
     private int maxWeapons = 2;
 
+    [Header("Visual Hand Anchors")]
     [SerializeField] private Transform handAnchor;
+    [Tooltip("Where dropped weapons are physically instantiated in 3D space.")]
+    [SerializeField] private Transform dropPoint;
     private GameObject spawnedModel;
 
     [Header("Swap Settings")]
@@ -22,7 +26,7 @@ public class SpellWeaponManager : MonoBehaviour {
     [Header("Input")]
     [SerializeField] private InputAction scrollAction;
 
-    private int activeSlotIndex = 0;
+    private int activeWeaponIndex = 0;
     private float swapTimer = 0f;
 
     private string lastTrackedWeaponID = "";
@@ -31,7 +35,7 @@ public class SpellWeaponManager : MonoBehaviour {
     private Transform runtimeCastPoint;
     public Transform ActiveCastPoint => runtimeCastPoint != null ? runtimeCastPoint : handAnchor;
     //private SpellWeaponData lastWeapon;
-    public SpellWeaponData ActiveWeapon => (carriedWeapons != null && activeSlotIndex < carriedWeapons.Count) ? carriedWeapons[activeSlotIndex] : null;
+    public SpellWeaponData ActiveWeapon => (carriedWeapons != null && activeWeaponIndex < carriedWeapons.Count) ? carriedWeapons[activeWeaponIndex] : null;
     public bool CanSwap => swapTimer <= 0f;
 
     private void Awake() {
@@ -40,7 +44,7 @@ public class SpellWeaponManager : MonoBehaviour {
         carriedWeapons ??= new();
         if (carriedWeapons.Count == 0 && spellCaster != null && spellCaster.EquippedWeapon != null) {
             carriedWeapons.Add(spellCaster.EquippedWeapon);
-            activeSlotIndex = 0;
+            activeWeaponIndex = 0;
             Debug.Log($"[SpellWeaponManager] found weapon successfully for {spellCaster.EquippedWeapon.weaponName} from Caster.");
         }
         if (handAnchor == null) handAnchor = transform;
@@ -80,11 +84,48 @@ public class SpellWeaponManager : MonoBehaviour {
 
         CycleWeapon();
     }
+    public void ProcessIncomingPickup(SpellWeaponData weaponData) {
+        
+        if (weaponData == null) return;
+
+        if (carriedWeapons.Count < maxWeapons) {
+            carriedWeapons.Add(weaponData);
+            activeWeaponIndex = carriedWeapons.Count - 1;
+
+            if (InventorySystem.Instance != null) {
+                InventorySystem.Instance.AddWeapon(weaponData);
+            }
+            UpdateCasterWeapon();
+            return;
+        }
+        //Add an intentional capacity check hook to the Inventory System class next!
+        if (InventorySystem.Instance != null && !InventorySystem.Instance.IsBackpackFull()) {
+            InventorySystem.Instance.AddWeapon(weaponData);
+            Debug.Log($"[Slots Full] Stored '{weaponData.weaponName}' directly inside global inventory backpack storage!");
+            return;
+        }
+        if (ActiveWeapon != null) {
+
+            SpellWeaponData weaponToDiscard = ActiveWeapon;
+
+            if (InventorySystem.Instance != null) {
+                InventorySystem.Instance.RemoveWeapon(weaponToDiscard);
+            }
+            DropWeaponInstance(weaponToDiscard);
+
+            carriedWeapons[activeWeaponIndex] = weaponData;
+
+            if (InventorySystem.Instance != null) {
+                InventorySystem.Instance.AddWeapon(weaponData);
+            }
+            UpdateCasterWeapon();
+        }
+    }
     private void CycleWeapon() {
 
         if (!CanSwap) return;
 
-        activeSlotIndex = (activeSlotIndex == 1) ? 0 : 1;
+        activeWeaponIndex = (activeWeaponIndex == 1) ? 0 : 1;
 
         swapTimer = swapCooldown;
         GameManager.Instance.PlayerPerformAction("WeaponCycle");
@@ -123,19 +164,56 @@ public class SpellWeaponManager : MonoBehaviour {
         var weaponTip = spawnedModel.transform.Find("CastPoint");
         runtimeCastPoint = weaponTip != null ? weaponTip : spawnedModel.transform;
     }
-    public void EquipWeapon(SpellWeaponData newWeapon) {
+    public void EquipOrSwapWeapon(SpellWeaponData newWeapon) {
 
         if (newWeapon == null) return;
 
         if (carriedWeapons.Count < maxWeapons) {
             carriedWeapons.Add(newWeapon);
-            activeSlotIndex = carriedWeapons.Count - 1;
+            activeWeaponIndex = carriedWeapons.Count - 1;
+            UpdateCasterWeapon();
         } else {
-            Debug.Log($"[Inventory Full] Replacing '{carriedWeapons[activeSlotIndex].weaponName}' with '{newWeapon.weaponName}'.");
-            carriedWeapons[activeSlotIndex] = newWeapon;
+            DropWeaponInstance(ActiveWeapon);
+            Debug.Log($"[Inventory Full] Replacing '{carriedWeapons[activeWeaponIndex].weaponName}' with '{newWeapon.weaponName}'.");
+            carriedWeapons[activeWeaponIndex] = newWeapon;
+            UpdateCasterWeapon();
+        }
+    }
+    public void DropActiveWeaponFromInventory() {
+        if (carriedWeapons.Count == 0 || ActiveWeapon == null) return;
+
+        SpellWeaponData weaponToDrop = ActiveWeapon;
+
+        //Evict from global backpack framework tracker lists
+        if (InventorySystem.Instance != null) {
+            InventorySystem.Instance.RemoveWeapon(weaponToDrop);
         }
 
+        //Physical ground instantiation
+        DropWeaponInstance(weaponToDrop);
+
+        //Clear local slots
+        carriedWeapons.RemoveAt(activeWeaponIndex);
+
+        if (activeWeaponIndex >= carriedWeapons.Count) {
+            activeWeaponIndex = Mathf.Max(0, carriedWeapons.Count - 1);
+        }
         UpdateCasterWeapon();
+    }
+    private void DropWeaponInstance(SpellWeaponData weaponToDrop) {
+        if (weaponToDrop == null) return;
+
+        GameObject prefabToSpawn = weaponToDrop.worldPickupPrefab != null ? weaponToDrop.worldPickupPrefab : weaponToDrop.weaponModelPrefab;
+        GameObject droppedItem = Instantiate(prefabToSpawn, dropPoint.position, Quaternion.identity);
+
+        if (droppedItem.TryGetComponent(out SpellWeaponPickup pickupScript)) {
+            pickupScript.SetWeaponData(weaponToDrop);
+        }
+        // Apply a gentle physical pop outward so drops don't stack perfectly flat inside character collision fields
+        if (droppedItem.TryGetComponent(out Rigidbody rb)) {
+            Vector3 randomTossVector = (transform.forward + transform.up * 0.5f + UnityEngine.Random.insideUnitSphere * 0.2f).normalized;
+            rb.AddForce(randomTossVector * 4f, ForceMode.Impulse);
+        }
     }
     public SpellWeaponData GetWeaponInSlot(int index) {
         if (carriedWeapons == null || index < 0 || index >= carriedWeapons.Count) return null;

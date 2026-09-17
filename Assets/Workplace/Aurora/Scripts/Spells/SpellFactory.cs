@@ -1,4 +1,3 @@
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 /// <summary>
@@ -82,6 +81,7 @@ public class SpellBuilder {
     private SpellElement? element;
 
     private float? damage;
+    private float? poiseDamage;
     private float? staminaCost;
     private float? concentrationCost;
     private float? cooldown;
@@ -94,6 +94,7 @@ public class SpellBuilder {
     public SpellBuilder WithDelivery(SpellDeliveryKind kind)       { delivery = kind; return this; }
     public SpellBuilder WithElement(SpellElement elementType)      { element = elementType; return this; }
     public SpellBuilder WithDamage(float dmg)                      { damage = dmg; return this; }
+    public SpellBuilder WithPosieDamage(float poise)               { poiseDamage = poise; return this; }
     public SpellBuilder WithStaminaCost(float stamina)             { staminaCost = stamina; return this; }
     public SpellBuilder WithConcentrationCost(float concentration) { concentrationCost = concentration; return this; }
     public SpellBuilder WithCooldown(float waitTime)               { cooldown = waitTime; return this; }
@@ -152,6 +153,11 @@ public class Spell {
     public float DamageOverride {
         get => damageOverride > 0f ? damageOverride : AssetData.damage;
         set => damageOverride = value;
+    }
+    private float poiseOverride;
+    public float PoiseOverride {
+        get => poiseOverride > 0f ? poiseOverride : AssetData.poiseDamage;
+        set => poiseOverride = value;
     }
     private float staminaCostOverride;
     public float StaminaCostOverride {
@@ -232,6 +238,7 @@ public class Spell {
             data = AssetData,
             element = Element,
             damage = finalCalculatedDamage,
+            poiseDamage = AssetData.poiseDamage,
             caster = caster,
             origin = origin,
             direction = direction.normalized,

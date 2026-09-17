@@ -138,6 +138,10 @@ GameObject:
   - component: {fileID: 5654815567487398477}
   - component: {fileID: 350378942764932905}
   - component: {fileID: 1867202978968791425}
+  - component: {fileID: 8210006335729730868}
+  - component: {fileID: 5266459491513715381}
+  - component: {fileID: 3267507084826196129}
+  - component: {fileID: 353245003723840714}
   m_Layer: 8
   m_Name: Test Enemy
   m_TagString: Untagged
@@ -254,6 +258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
   stats: {fileID: 11400000, guid: dfe4fb052dce893488008b0512ccee0f, type: 2}
+  currentHealth: 0
 --- !u!114 &350378942764932905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,3 +283,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8522da6beaae6834da9b24f8ccc2fc22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatusEffectTracker
+--- !u!114 &8210006335729730868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8138184557785483740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899b5a1a34410b2438b3683b63919a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ElementalTracker
+  resistanceProfile: {fileID: 11400000, guid: 44c8221e996a6ad499bfce2b3c218d12, type: 2}
+--- !u!114 &5266459491513715381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8138184557785483740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 839fe991c8a226043b4cfdd3ddef8cfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PoiseTracker
+  maxPoise: 50
+  recoverySpeed: 10
+  recoveryDelay: 3
+--- !u!114 &3267507084826196129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8138184557785483740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899b5a1a34410b2438b3683b63919a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ElementalTracker
+  resistanceProfile: {fileID: 11400000, guid: 44c8221e996a6ad499bfce2b3c218d12, type: 2}
+--- !u!114 &353245003723840714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8138184557785483740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 839fe991c8a226043b4cfdd3ddef8cfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PoiseTracker
+  maxPoise: 50
+  recoverySpeed: 10
+  recoveryDelay: 3

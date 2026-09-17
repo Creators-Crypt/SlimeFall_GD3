@@ -18,6 +18,7 @@ public class SpellProjectile : MonoBehaviour {
     private Rigidbody rb;
     private LayerMask targetLayers;
     private float baseDamage;
+    private float poiseDamage;
     private float calculatedDamage;
     private float custonGravityScale = 1f;
     private bool useCustomGravity = false;
@@ -66,6 +67,7 @@ public class SpellProjectile : MonoBehaviour {
 
         targetLayers = spellData.hitLayers;
         baseDamage = spellData.damage;
+        poiseDamage = spellData.poiseDamage;
         calculatedDamage = damageMultiplier;
         projectileElement = spellElement;
 
@@ -110,6 +112,9 @@ public class SpellProjectile : MonoBehaviour {
             dmg.OnDamage(totalDamage);
             Vector3 spawnPoint = other.transform.position + Vector3.up * 2f;
             DamagePopupManager.SpawnPopup(spawnPoint, totalDamage, projectileElement);
+        }
+        if (other.TryGetComponent(out PoiseTracker poiseTracker)) {
+            poiseTracker.ReceivePoiseDamage(poiseDamage);
         }
         if (other.TryGetComponent(out StatusEffectTracker tracker)) {
             tracker.ProcessIncomingElement(projectileElement);

@@ -16,6 +16,7 @@ public struct SpellCastContext {
     public SpellData data;
     public SpellElement element;      // May differ from data.element (runtime override)
     public float damage;
+    public float poiseDamage;
     public float multiplier;
     public Transform caster;
     public Vector3 origin;
@@ -116,6 +117,8 @@ public abstract class SpellDeliveryStrategyBase : ISpellDeliveryStrategy {
                 Vector3 spawnPoint = hit.transform.position + Vector3.up * 2f;
                 DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, SpellElement.None);
             }
+            var poiseScript = hit.GetComponentInParent<PoiseTracker>();
+            if (poiseScript != null) { poiseScript.ReceivePoiseDamage(context.poiseDamage); }
             var trackerScript = hit.GetComponentInParent<StatusEffectTracker>();
             if (trackerScript != null) { trackerScript.ProcessIncomingElement(context.element); }
         }
@@ -136,8 +139,6 @@ public class ProjectileDelivery : SpellDeliveryStrategyBase {
             Debug.LogWarning($"[Spell] '{context.data.spellName}' has no projectilePrefab assigned.");
             return;
         }
-
-
         Quaternion spawnRotation = Quaternion.LookRotation(direction, Vector3.up);
 
         var proj = Object.Instantiate(context.data.projectilePrefab, context.origin, Quaternion.identity);
@@ -224,6 +225,8 @@ public class RayDelivery : SpellDeliveryStrategyBase {
                     Vector3 spawnPoint = hitBuffer[i].point + Vector3.up * 0.5f;
                     DamagePopupManager.SpawnPopup(spawnPoint, finalDamage, SpellElement.None);
                 }
+                var poiseScript = hitCollider.GetComponentInParent<PoiseTracker>();
+                if (poiseScript != null) { poiseScript.ReceivePoiseDamage(context.poiseDamage); }
                 var trackerScript = hitCollider.GetComponentInParent<StatusEffectTracker>();
                 if (trackerScript.TryGetComponent(out StatusEffectTracker tracker)) {
                     tracker.ProcessIncomingElement(context.element);

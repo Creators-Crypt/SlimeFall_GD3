@@ -17,6 +17,10 @@ public class SpellWeaponData : ScriptableObject {
 
     public GameObject weaponModelPrefab;
 
+    [Header("Drop Configuration")]
+    [Tooltip("The actual world object prefab (holding the SpellWeaponPickup script) spawned on the ground when dropped.")]
+    public GameObject worldPickupPrefab;
+
     [Header("Power Scales")]
     [Tooltip("Global impact scaling modifier applied to spell parameters")]
     public float damageMultiplier = 1.0f;
