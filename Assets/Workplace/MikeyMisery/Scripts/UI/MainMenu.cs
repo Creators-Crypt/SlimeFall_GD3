@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    [SerializeField] private string gameSceneName;
+    private const string GameSceneName = "Showcase_Homebase";
 
     private GameObject mainPanel;
     private GameObject settingsPanel;
@@ -115,17 +115,11 @@ public class MainMenu : MonoBehaviour
     {
         if (isLoading) return;
 
-        string sceneName = gameSceneName?.Trim();
-
-        if (string.IsNullOrEmpty(sceneName) ||
-            !Application.CanStreamedLevelBeLoaded(sceneName))
-            return;
-
         isLoading = true;
         ShowScreen(loadingPanel);
         Time.timeScale = 1f;
 
-        SceneManager.LoadSceneAsync(sceneName);
+        SceneManager.LoadSceneAsync(GameSceneName);
     }
 
     public void QuitGame()
