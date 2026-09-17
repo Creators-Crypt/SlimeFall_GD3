@@ -81,6 +81,7 @@ public class SpellBuilder {
     private SpellElement? element;
 
     private float? damage;
+    private float? poiseDamage;
     private float? staminaCost;
     private float? concentrationCost;
     private float? cooldown;
@@ -93,6 +94,7 @@ public class SpellBuilder {
     public SpellBuilder WithDelivery(SpellDeliveryKind kind)       { delivery = kind; return this; }
     public SpellBuilder WithElement(SpellElement elementType)      { element = elementType; return this; }
     public SpellBuilder WithDamage(float dmg)                      { damage = dmg; return this; }
+    public SpellBuilder WithPosieDamage(float poise)               { poiseDamage = poise; return this; }
     public SpellBuilder WithStaminaCost(float stamina)             { staminaCost = stamina; return this; }
     public SpellBuilder WithConcentrationCost(float concentration) { concentrationCost = concentration; return this; }
     public SpellBuilder WithCooldown(float waitTime)               { cooldown = waitTime; return this; }
@@ -151,6 +153,11 @@ public class Spell {
     public float DamageOverride {
         get => damageOverride > 0f ? damageOverride : AssetData.damage;
         set => damageOverride = value;
+    }
+    private float poiseOverride;
+    public float PoiseOverride {
+        get => poiseOverride > 0f ? poiseOverride : AssetData.poiseDamage;
+        set => poiseOverride = value;
     }
     private float staminaCostOverride;
     public float StaminaCostOverride {
@@ -218,23 +225,37 @@ public class Spell {
         int finalSpawnCount = (weapon != null && weapon.overrideSpawnCount) ? weapon.weaponSpawnCount : SpawnCountOverride;
         float finalSpreadAngle = (weapon != null && weapon.overrideSpawnCount) ? weapon.weaponSpreadAngle : SpreadAngleOverride;
 
+        float finalCalculatedDamage = (this.DamageOverride > 0f) ? this.DamageOverride : AssetData.damage;
+
+        if (finalCalculatedDamage <= 0f) {
+            Debug.LogError($"[Spell System Bug] Base damage evaluated as 0 for '{AssetData.spellName}'! Forcing fallback assignment.", AssetData);
+            finalCalculatedDamage = AssetData.damage; // Absolute fallback safety net
+        }
+
+        Debug.Log($"[CAST PIPELINE] Spell '{AssetData.spellName}' invoked! Delivery={activeDelivery}, CoreDamage={finalCalculatedDamage}, Multiplier={multiplier}");
+
         var context = new SpellCastContext {
             data = AssetData,
             element = Element,
-            damage = this.DamageOverride,
+            damage = finalCalculatedDamage,
+            poiseDamage = AssetData.poiseDamage,
             caster = caster,
             origin = origin,
             direction = direction.normalized,
             runner = runner,
             multiplier = multiplier,
-
             spawnCount = finalSpawnCount,
             spreadAngle = finalSpreadAngle,
             spawnInterval = SpawnIntervalOverride
         };
-
         activeStrategy.Cast(context);
-        CooldownRemaining = CooldownOverride;
+
+        if (activeDelivery == SpellDeliveryKind.Ray) {
+            CooldownRemaining = 0.05f;
+        }else {
+            CooldownRemaining = this.CooldownOverride;
+        }
+
         return true;
     }
 }

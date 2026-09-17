@@ -2,7 +2,6 @@ using UnityEngine;
 
 /// <summary> How the spell is physically delivered into the world. </summary>
 public enum SpellDeliveryKind {
-
     Hand,           // Melee-range touch burst in front of the caster
     Projectile,     // Straight-flying projectile
     ArcProjectile,  // Gravity-affected lobbed projectile
@@ -33,6 +32,7 @@ public class SpellData : ScriptableObject {
 
     [Header("Core Stats")]
     public float damage = 15f;
+    public float poiseDamage = 20f;
     public float staminaCost = 10f;
     public float concentrationCost = 25f;
     public float cooldown = 0.75f;

@@ -418,7 +418,7 @@ public class InventoryUI : MonoBehaviour
 
         SpellWeaponData selectedWeapon = InventorySystem.Instance.WeaponItems[index];
 
-        weaponManager.EquipWeapon(selectedWeapon);
+        weaponManager.EquipOrSwapWeapon(selectedWeapon);
 
         Debug.Log("Equipped weapon: " + selectedWeapon.weaponName);
         

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +18,8 @@ using UnityEngine;
 
 public class StatusEffectTracker : MonoBehaviour {
 
+    public event Action<ElementalReactionKind> OnElementReaction;
+    
     private readonly List<StatusEffect> activeEffects = new();
     private readonly List<StatusEffect> removalQueue = new();
 
@@ -28,9 +31,7 @@ public class StatusEffectTracker : MonoBehaviour {
             var effect = activeEffects[i];
             effect.Tick(gameObject, dt);
 
-            if (effect.IsExpired) {
-                removalQueue.Add(effect);
-            }
+            if (effect.IsExpired) removalQueue.Add(effect);
         }
 
         // Clean up expired items outside the main loop to avoid collection modification errors
@@ -42,7 +43,71 @@ public class StatusEffectTracker : MonoBehaviour {
             removalQueue.Clear();
         }
     }
+    public bool ProcessIncomingElement(SpellElement incomingElement) {
+        StatusEffectKind activeKind = GetActiveEffectKind();
 
+        // 1. CHILL MATTERS (ICE)
+        if (activeKind == StatusEffectKind.Freeze) {
+            if (incomingElement == SpellElement.Fire) {
+                TriggerReaction(ElementalReactionKind.Vaporize, StatusEffectKind.Freeze);
+                return true;
+            }
+            if (incomingElement == SpellElement.Wind) {
+                TriggerReaction(ElementalReactionKind.Supercharge, StatusEffectKind.Freeze);
+                return true;
+            }
+        }
+
+        // 2. IGNITE MATTERS (FIRE)
+        if (activeKind == StatusEffectKind.Burn) {
+            if (incomingElement == SpellElement.Ice) {
+                TriggerReaction(ElementalReactionKind.Vaporize, StatusEffectKind.Burn);
+                return true;
+            }
+        }
+
+        // 3. Fallthrough: If no reaction triggered, apply the baseline tracking status normally
+        ApplyBaselineStatus(incomingElement);
+        return false;
+    }
+    private void TriggerReaction(ElementalReactionKind reaction, StatusEffectKind statusToRemove) {
+        // Cleanse the conflicting active status instantly
+        StatusEffect existing = activeEffects.Find(e => e.Kind == statusToRemove);
+        if (existing != null) {
+            existing.OnRemove(gameObject);
+            activeEffects.Remove(existing);
+        }
+
+        Debug.Log($"<color=yellow>[REACTION]</color> {gameObject.name} triggered {reaction}!");
+
+        // Execute dynamic visual changes or extra damage loops
+        ExecuteReactionImpact(reaction);
+
+        // Fire the event pipeline to update nearby puzzles or scripting containers
+        OnElementReaction?.Invoke(reaction);
+    }
+    private void ExecuteReactionImpact(ElementalReactionKind reaction) {
+        Vector3 headPosition = transform.position + Vector3.up * 2.2f;
+
+        switch (reaction) {
+            case ElementalReactionKind.Vaporize:
+                // Spawn a big custom steam burst popup number!
+                DamagePopupManager.SpawnPopup(headPosition, 40f, SpellElement.None); // High burst
+                if (TryGetComponent(out IDamageable dmg)) dmg.OnDamage(40f);
+                break;
+
+            case ElementalReactionKind.Supercharge:
+                // Stun the enemy or break their guard structure
+                Debug.Log($"{gameObject.name} guard shattered by Supercharge!");
+                break;
+        }
+    }
+    private void ApplyBaselineStatus(SpellElement element) {
+        switch (element) {
+            case SpellElement.Fire: ApplyEffect(new BurnEffect(5.0f, 3f)); break;
+            case SpellElement.Ice: ApplyEffect(new FreezeEffect(4.0f, 0.5f)); break;
+        }
+    }
     public void ApplyEffect(StatusEffect newEffect) {
         if (newEffect == null) return;
 
@@ -58,4 +123,9 @@ public class StatusEffectTracker : MonoBehaviour {
             newEffect.OnApply(gameObject);
         }
     }
+    private StatusEffectKind GetActiveEffectKind() {
+        if (activeEffects.Count > 0) return activeEffects[0].Kind;
+        return StatusEffectKind.None;
+    }
+    public SpellWeaponData GetWeaponInSlot(int index) => null; // Kept for interface compliance
 }
