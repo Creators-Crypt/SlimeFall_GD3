@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public static class MummySlimeEffects 
@@ -46,6 +47,7 @@ public static class MummySlimeEffects
         CharacterController  controller = _target.GetComponentInParent<CharacterController>();
         if( controller != null )
         {
+           
             controller.Move( move );
             return;
         }

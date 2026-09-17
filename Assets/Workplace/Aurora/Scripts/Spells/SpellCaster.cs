@@ -19,6 +19,11 @@ public class SpellCaster : MonoBehaviour {
     [Tooltip("Where spells originate. Defaults to this transform if unassigned.")]
     [SerializeField] private Transform castPoint;
 
+    [Header("Animation")]
+    [SerializeField] private float castAnimationDuration = 0.4f;
+    private float castAnimationTimer;
+    public bool IsCasting { get; private set;  }
+
     private IStamina stamina;
     private IConcentration concentration;
     private SpellWeaponManager weaponManager;
@@ -66,7 +71,14 @@ public class SpellCaster : MonoBehaviour {
         }
     }
     private void Update() {
-
+        if (castAnimationTimer > 0f)
+        {
+            castAnimationTimer -= Time.deltaTime;
+        }
+        else
+        {
+            IsCasting = false;
+        }
         // Tick every cooldown, not just the equipped spell.
         if (spells != null) { foreach (var spell in spells) spell?.Tick(Time.deltaTime); }
 
@@ -140,6 +152,9 @@ public class SpellCaster : MonoBehaviour {
         Vector3 aim = GetAimDirection(origin);
 
         GameManager.Instance.PlayerPerformAction("WeaponFire");
+
+        IsCasting = true;
+        castAnimationTimer = castAnimationDuration;
 
         spell.Cast(this, EquippedWeapon, transform, origin, aim, multiplier);
 
