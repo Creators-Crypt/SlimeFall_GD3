@@ -64,6 +64,17 @@ public class GameManager : Singleton<GameManager>
 
     private void Update()
     {
+        // TEMPORARY UI TEST KEYS
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            SetWin();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            SetLose();
+        }
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (currentState == GameState.Playing)
@@ -138,7 +149,7 @@ public class GameManager : Singleton<GameManager>
 
     public void QuitToMain()
     {
-        Time.timeScale = 1f;
+        ResetUIForSceneChanges();
         SceneManager.LoadScene("Menus");
     }
 
@@ -208,18 +219,14 @@ public class GameManager : Singleton<GameManager>
 
     public void RespawnGame()
     {        
-        Time.timeScale = 1f;
-        HideCursor();
-
+        ResetUIForSceneChanges();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void PlayAgain()
     {        
-        Time.timeScale = 1f;
-        HideCursor();
-
-        SceneManager.LoadScene("TheOriginalDeveloper");
+        ResetUIForSceneChanges();
+        SceneManager.LoadScene("Showcase_Homebase");
     }
 
     private void FindUIReferences()
@@ -328,6 +335,29 @@ public class GameManager : Singleton<GameManager>
                 }
             }
         }
+    }
+
+    private void ResetUIForSceneChanges()
+    {
+        Time.timeScale = 1f;
+        currentState = GameState.Playing;
+
+        if (pauseMenu != null)
+            pauseMenu.SetActive(false);
+
+        if (settingsMenu != null)
+            settingsMenu.SetActive(false);
+
+        if(winMenu != null)
+            winMenu.SetActive(false);
+
+        if (lossMenu != null)
+            lossMenu.SetActive(false);
+
+        if (hud != null)
+            hud.SetActive(true);
+
+        HideCursor();
     }
 
     private void FindCameraController()

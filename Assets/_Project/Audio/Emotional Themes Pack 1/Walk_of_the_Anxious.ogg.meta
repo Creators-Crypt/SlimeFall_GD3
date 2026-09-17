@@ -1,0 +1,30 @@
+fileFormatVersion: 2
+guid: e239526029ed6fe4ba8a708f0a6f3236
+AudioImporter:
+  externalObjects: {}
+  serializedVersion: 8
+  defaultSettings:
+    serializedVersion: 2
+    loadType: 1
+    sampleRateSetting: 0
+    sampleRateOverride: 0
+    compressionFormat: 1
+    quality: 1
+    conversionMode: 0
+    preloadAudioData: 0
+  platformSettingOverrides: {}
+  forceToMono: 0
+  normalize: 1
+  loadInBackground: 0
+  ambisonic: 0
+  3D: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 20478
+  packageName: Emotional Themes Pack 1
+  packageVersion: 1.0
+  assetPath: Assets/Emotional Themes Pack 1/Walk_of_the_Anxious.ogg
+  uploadId: 9638
