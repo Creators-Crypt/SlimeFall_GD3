@@ -172,7 +172,7 @@ public class MummyAI : EnemyAI
         if(mummyStats.quicksandTelegraphPrefab == null) return;
 
         GameObject marker = Instantiate(mummyStats.quicksandTelegraphPrefab,_point +Vector3.up *.05f,Quaternion.identity);
-
+       
         BossTelegraph telegraph = marker.GetComponentInParent<BossTelegraph>();
         if (telegraph != null) telegraph.Play(mummyStats.quicksandRadius, mummyStats.quicksandWarningTime);
         else Destroy(marker,mummyStats.quicksandWarningTime);      
@@ -183,6 +183,7 @@ public class MummyAI : EnemyAI
         if(mummyStats.quicksandPoolPrefab == null) return;
 
         GameObject spawned = Instantiate(mummyStats.quicksandPoolPrefab, _point, Quaternion.identity);
+        
 
         MummyQuicksandPool pool = spawned.GetComponent<MummyQuicksandPool>();
 

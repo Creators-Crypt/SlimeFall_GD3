@@ -259,7 +259,7 @@ MonoBehaviour:
   quicksandPool:
     vfxPrefab: {fileID: 5925439807226670654, guid: 2dd1bc61269f405418ebc51cc3826e2d, type: 3}
     sound: {fileID: 8300000, guid: dfefbbdd269efa6449704eef8792f55e, type: 3}
-    vfxLifetime: 3
+    vfxLifetime: 6
     volume: 1
     soundDist: 25
   burrowCooldown: 12
