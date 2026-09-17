@@ -72,6 +72,7 @@ public class MummyQuicksandState : IEnemyState
         doneAt = 0;
 
         point = enemy.PickQuicksandPoint();
+        point.y = .01f;
         enemy.SpawnQuicksandTelegraph(point);
         enemy.PlayVFXandSFX(enemy.mummyStats.quicksandWindup, enemy.transform.position);
 

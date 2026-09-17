@@ -83,6 +83,7 @@ public class MummyQuicksandPool : MonoBehaviour
         {
             float size = radius * visualScale;
             visual.localScale = new Vector3(size,visual.localScale.y,size);
+
         }
 
         Destroy(gameObject, duration);
