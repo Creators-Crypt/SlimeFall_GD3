@@ -10,44 +10,44 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91ed46f2e35663a4899748da965190d9, type: 3}
-  m_Name: JumpNdWave
+  m_Name: MortarStatsSO
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStatsSO
-  enemyType: 6
+  enemyType: 3
   maxHealth: 30
-  patrolSpeed: 2
-  chaseSpeed: 5
-  patrolRadius: 20
+  patrolSpeed: 0
+  chaseSpeed: 0
+  patrolRadius: 0
   patrolWaitTimeMin: 1.5
   patrolWaitTimeMax: 3.5
-  detectionRadius: 20
-  detectionAngle: 145
+  detectionRadius: 100
+  detectionAngle: 360
   lostSightTime: 3
   obstacleMask:
     serializedVersion: 2
     m_Bits: 128
-  attackRange: 5
-  attackCooldown: 1.2
-  attackDamage: 25.23
+  attackRange: 100
+  attackCooldown: 4.5
+  attackDamage: 15
   projectilePrefab: {fileID: 0}
   projectileSpeed: 10
   explosionRadius: 3
   explosionVFX: {fileID: 0}
-  mortarPrefab: {fileID: 0}
-  mortarHitPosDisplayPrefab: {fileID: 0}
-  mortarSpeed: 15
+  mortarPrefab: {fileID: 9088488918856700192, guid: 466ea04b990663b4fbbb7ac281251852, type: 3}
+  mortarHitPosDisplayPrefab: {fileID: 7562685562313601198, guid: 4aa20c98fb2a1e14c8392a8fe3665b24, type: 3}
+  mortarSpeed: 25
   mortarShellsPreSalvo: 1
-  mortarTimeBetweenShells: 0.35
+  mortarTimeBetweenShells: 0.035
   mortarScatter: 3
   mortarArcHeight: 10
-  mortarSplashRadius: 5
+  mortarSplashRadius: 10
   mortarAimAheadOfPlayer: 1
   mortarGroundMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   mortarDamageMask:
     serializedVersion: 2
-    m_Bits: 0
-  jumpdamage: 10
+    m_Bits: 1048576
+  jumpdamage: 5
   jumpWindupTime: 0.4
   jumpDuration: 0.65
   jumpHeight: 1.5
@@ -56,55 +56,55 @@ MonoBehaviour:
   jumpRecovery: 0.4
   jumpObstacleMask:
     serializedVersion: 2
-    m_Bits: 128
-  aoeWavePrefab: {fileID: 3563498644967845075, guid: 90b365e0f2a425e4ba07ecf2baebf395, type: 3}
+    m_Bits: 0
+  aoeWavePrefab: {fileID: 0}
   aoeWaveWaringTime: 1
   aoeWaveRadius: 9
-  aoeWaveSpeed: 5
+  aoeWaveSpeed: 10
   jumpToWaveDelay: 0.25
-  jumpWaveDamage: 10
+  jumpWaveDamage: 4
   jumpWindup:
-    vfxPrefab: {fileID: 4406393109996900277, guid: 2035a6ef9134896499e235cd12484a1c, type: 3}
-    sound: {fileID: 8300000, guid: f4afbf17cfaca2b488530d2162d7d2eb, type: 3}
-    vfxLifetime: 0.4
-    volume: 0.7
-    soundDist: 22
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
   jumpTakeOff:
-    vfxPrefab: {fileID: 7963845113487687317, guid: 2bdcc196fc3192444b943c48150fa327, type: 3}
-    sound: {fileID: 8300000, guid: 85b1d0b7953a92545baa08f1d7235d13, type: 3}
-    vfxLifetime: 0.8
-    volume: 0.75
-    soundDist: 26
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
   jumpHit:
-    vfxPrefab: {fileID: 4085713738250179142, guid: 68181d3ed682c2b47a14498e467378bc, type: 3}
-    sound: {fileID: 8300000, guid: bb393d09f293dfb48b3f7ad134a9ca28, type: 3}
-    vfxLifetime: 0.25
-    volume: 0.7
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
     soundDist: 25
   jumpLanding:
-    vfxPrefab: {fileID: 4085713738250179142, guid: 68181d3ed682c2b47a14498e467378bc, type: 3}
-    sound: {fileID: 8300000, guid: 267dcd73c1a30154994ea19989807de4, type: 3}
-    vfxLifetime: 2.5
-    volume: 0.5
-    soundDist: 30
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
   waveWindup:
-    vfxPrefab: {fileID: 4625300385375570540, guid: 641ab7224c115b14f8450097487da9f0, type: 3}
-    sound: {fileID: 8300000, guid: 8241f78fbfab9434b964c3a0ee9e8a3b, type: 3}
-    vfxLifetime: 1
-    volume: 0.7
-    soundDist: 22
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
   waveRelease:
-    vfxPrefab: {fileID: 835408528358845537, guid: 2efd63f0e1e1d6141b47d25137a4a0ed, type: 3}
-    sound: {fileID: 8300000, guid: 205b9b7fd639d914383e35813c801921, type: 3}
-    vfxLifetime: 0.5
-    volume: 0.8
-    soundDist: 30
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
   waveHit:
-    vfxPrefab: {fileID: 6484922971108967237, guid: 0c91507d0fa13d0418d673bc0ee52ee2, type: 3}
-    sound: {fileID: 8300000, guid: 196ca92f63674de46aca46c76cfd88a4, type: 3}
-    vfxLifetime: 0.6
-    volume: 0.5
-    soundDist: 14
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
   projectileLaunch:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}
@@ -177,12 +177,12 @@ MonoBehaviour:
     vfxLifetime: 3
     volume: 1
     soundDist: 25
-  splitChance: 1
-  splitPrefab: {fileID: 4858449309327273670, guid: 614c2b9a88154c045ab679a987b44de2, type: 3}
+  splitChance: 0.5
+  splitPrefab: {fileID: 0}
   splitCount: 2
-  splitRadius: 10
-  splitVFXPrefab: {fileID: 4078941901485021609, guid: 9eac5d095d625cb4684d216c543ebc7e, type: 3}
-  splitGrowthSpeed: 0.25
+  splitRadius: 0.75
+  splitVFXPrefab: {fileID: 0}
+  splitGrowthSpeed: 0
   canReturn: 1
   returnDelay: 15
   appearDelay: 0.5

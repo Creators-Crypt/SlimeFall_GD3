@@ -547,6 +547,15 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
         yield return WaveAttack(stats.jumpWaveDamage);
             
     }
+    public virtual IEnumerator JumpNdWaveAttack(float _jumpDmg, float _waveDmg, float _jumpToWaveDelay)
+    {
+        yield return JumpAttack(_jumpDmg);
+        if (IsDead || jumpLanded == false) yield break;
+        yield return new WaitForSeconds(_jumpToWaveDelay);
+        if (IsDead) yield break;
+        yield return WaveAttack(_waveDmg);
+
+    }
     public virtual IEnumerator FlashRed()
     {
         model.material.SetColor("_BaseColor", Color.red);
@@ -619,7 +628,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
         yield break;
     }
 
-    public void OnDrawGizmosSelected()
+    public  void OnDrawGizmosSelected()
     {
         if(stats == null)return;
 
@@ -630,6 +639,9 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
         }
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(origin, stats.detectionRadius);
+
+        Gizmos.color = Color.darkRed;
+        Gizmos.DrawWireSphere(origin, stats.attackRange);
 
         float halfAngle = stats.detectionAngle / 2f;
         Vector3 left = Quaternion.AngleAxis(-halfAngle, Vector3.up) * transform.forward;

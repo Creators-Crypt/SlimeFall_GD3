@@ -270,7 +270,7 @@ public class BossPhase2State : IEnemyState
     private BossStatsSO stats;
     private Coroutine routine;
 
-    private float nextMeleeTime;
+    private float nextJumpTime;
     private float nextWaveTime;
     private bool busy;
 
@@ -289,13 +289,13 @@ public class BossPhase2State : IEnemyState
         if (boss.agent != null && boss.agent.enabled)
         {
             boss.agent.speed = stats.p2ChaseSpeed;
-            boss.agent.stoppingDistance = stats.p2MeleeRange;
+            boss.agent.stoppingDistance = stats.jumpMaxDistance *.8f;
 
             boss.SetMovementEnabled(true);
 
             busy = false;
             nextWaveTime = Time.time + stats.aoeWaveCooldown;
-            nextMeleeTime = Time.time + .5f;
+            nextJumpTime = Time.time + .5f;
         }
     }
 
@@ -315,9 +315,9 @@ public class BossPhase2State : IEnemyState
             StartRoutine(AoEWave());
             return;
         }
-        if (distance <= stats.p2MeleeRange && Time.time >= nextMeleeTime)
+        if (distance <= stats.jumpMaxDistance && Time.time >= nextJumpTime)
         {
-            StartRoutine(MeleeAttack());
+            StartRoutine(boss.JumpAttack(stats.jumpdamage));
             return;
         }
 
@@ -349,59 +349,59 @@ public class BossPhase2State : IEnemyState
         routine = boss.StartCoroutine(_routineToRun);
     }
 
-    private IEnumerator MeleeAttack()
-    {
-        busy = true;
-        boss.SetMovementEnabled(false);
-        boss.PlayVFXandSFX(stats.bossMeleeWindup, boss.transform.position);
-        float timer = 0f;
-        while (timer < stats.p2MeleeWindup)
-        {
-            timer += Time.deltaTime;
-            boss.FacePlayer();
-            yield return null;
-        }
+    //private IEnumerator MeleeAttack()
+    //{
+    //    busy = true;
+    //    boss.SetMovementEnabled(false);
+    //    boss.PlayVFXandSFX(stats.bossMeleeWindup, boss.transform.position);
+    //    float timer = 0f;
+    //    while (timer < stats.p2MeleeWindup)
+    //    {
+    //        timer += Time.deltaTime;
+    //        boss.FacePlayer();
+    //        yield return null;
+    //    }
 
-        boss.PlayVFXandSFX(stats.bossMeleeSwing, boss.transform.position);
-        HitAllInFront();
+    //    boss.PlayVFXandSFX(stats.bossMeleeSwing, boss.transform.position);
+    //    HitAllInFront();
 
-        boss.lastAttackTime = Time.time;
-        nextMeleeTime = Time.time + stats.p2MeleeCooldown;
+    //    boss.lastAttackTime = Time.time;
+    //    nextMeleeTime = Time.time + stats.p2MeleeCooldown;
 
-        yield return new WaitForSeconds(.3f);
+    //    yield return new WaitForSeconds(.3f);
 
-        boss.SetMovementEnabled(true);
-        busy = false;
-        routine = null;
-    }
+    //    boss.SetMovementEnabled(true);
+    //    busy = false;
+    //    routine = null;
+    //}
 
-    private void HitAllInFront()
-    {
-        LayerMask meleeHits = boss.GetAttackMask(boss.meleeFriendlyFire);
+    //private void HitAllInFront()
+    //{
+    //    LayerMask meleeHits = boss.GetAttackMask(boss.meleeFriendlyFire);
 
-        Collider[] hits = Physics.OverlapSphere(boss.transform.position, stats.p2MeleeRange, meleeHits);
+    //    Collider[] hits = Physics.OverlapSphere(boss.transform.position, stats.p2MeleeRange, meleeHits);
 
-        List<IDamageable> alreadyHit = new List<IDamageable>();
+    //    List<IDamageable> alreadyHit = new List<IDamageable>();
 
-        foreach (Collider hit in hits)
-        {
-            if (hit == null) continue;
-            if (hit.transform.IsChildOf(boss.transform)) continue;
+    //    foreach (Collider hit in hits)
+    //    {
+    //        if (hit == null) continue;
+    //        if (hit.transform.IsChildOf(boss.transform)) continue;
 
-            Vector3 dist = hit.transform.position - boss.transform.position;
+    //        Vector3 dist = hit.transform.position - boss.transform.position;
 
-            float angle = Vector3.Angle(boss.transform.forward, dist);
-            if (angle > stats.p2MeleeRange) continue;
+    //        float angle = Vector3.Angle(boss.transform.forward, dist);
+    //        if (angle > stats.p2MeleeRange) continue;
 
-            IDamageable target = hit.GetComponent<IDamageable>();
-            if (target == null) continue;
-            if (alreadyHit.Contains(target)) continue;
+    //        IDamageable target = hit.GetComponent<IDamageable>();
+    //        if (target == null) continue;
+    //        if (alreadyHit.Contains(target)) continue;
 
-            alreadyHit.Add(target);
-            target.OnDamage(stats.p2MelleDmg);
-            boss.PlayVFXandSFX(stats.bossMeleeHit, hit.ClosestPoint(boss.transform.position));
-        }
-    }
+    //        alreadyHit.Add(target);
+    //        target.OnDamage(stats.p2MelleDmg);
+    //        boss.PlayVFXandSFX(stats.bossMeleeHit, hit.ClosestPoint(boss.transform.position));
+    //    }
+    //}
 
     private IEnumerator AoEWave()
     {

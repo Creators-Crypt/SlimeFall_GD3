@@ -19,8 +19,8 @@ MonoBehaviour:
   patrolRadius: 20
   patrolWaitTimeMin: 1.5
   patrolWaitTimeMax: 3.5
-  detectionRadius: 10
-  detectionAngle: 145
+  detectionRadius: 20
+  detectionAngle: 170
   lostSightTime: 3
   obstacleMask:
     serializedVersion: 2
@@ -177,9 +177,26 @@ MonoBehaviour:
     vfxLifetime: 3
     volume: 1
     soundDist: 25
-  splitChance: 1
+  splitChance: 0.5
   splitPrefab: {fileID: 8849678851245949963, guid: 722e50717483894479156f0de3d076ac, type: 3}
   splitCount: 2
   splitRadius: 10
   splitVFXPrefab: {fileID: 6865101975669719008, guid: d6e9340b6de345a49ab29188122113e4, type: 3}
   splitGrowthSpeed: 0
+  canReturn: 1
+  returnDelay: 15
+  appearDelay: 0.5
+  lingerAfterScream: 1
+  scareCooldown: 8
+  bansheeTurnSpeed: 0
+  screamClips: []
+  screamVolume: 0.8
+  audibleDist: 25
+  fleeDuration: 4
+  fleedistance: 12
+  screamFeedback:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25

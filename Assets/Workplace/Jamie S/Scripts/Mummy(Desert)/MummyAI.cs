@@ -172,7 +172,7 @@ public class MummyAI : EnemyAI
         if(mummyStats.quicksandTelegraphPrefab == null) return;
 
         GameObject marker = Instantiate(mummyStats.quicksandTelegraphPrefab,_point +Vector3.up *.05f,Quaternion.identity);
-       
+        
         BossTelegraph telegraph = marker.GetComponentInParent<BossTelegraph>();
         if (telegraph != null) telegraph.Play(mummyStats.quicksandRadius, mummyStats.quicksandWarningTime);
         else Destroy(marker,mummyStats.quicksandWarningTime);      
@@ -361,4 +361,29 @@ public class MummyAI : EnemyAI
         ClearBurrowMound();
         SetBodyVisible(true);
     }
+    public new void OnDrawGizmosSelected()
+    {
+        if (stats == null) return;
+
+        Vector3 origin = transform.position;
+        if (firePoint != null)
+        {
+            origin = firePoint.position;
+        }
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(origin, mummyStats.detectionRadius);
+
+        Gizmos.color = Color.darkRed;
+        Gizmos.DrawWireSphere(origin, mummyStats.attackRange);
+
+        float halfAngle = mummyStats.detectionAngle / 2f;
+        Vector3 left = Quaternion.AngleAxis(-halfAngle, Vector3.up) * transform.forward;
+        Vector3 right = Quaternion.AngleAxis(halfAngle, Vector3.up) * transform.forward;
+
+        Gizmos.color = Color.crimson;
+        Gizmos.DrawRay(origin, left * mummyStats.detectionRadius);
+        Gizmos.DrawRay(origin, right * mummyStats.detectionRadius);
+
+    }
+
 }
