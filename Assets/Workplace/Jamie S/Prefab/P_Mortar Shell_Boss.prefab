@@ -151,6 +151,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6696764445832873569}
+  - component: {fileID: -5334070456073789453}
   - component: {fileID: 3365050728977763214}
   - component: {fileID: 492002133706213728}
   m_Layer: 0
@@ -176,6 +177,45 @@ Transform:
   - {fileID: 7851181357028141871}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -69.843, y: 0, z: 0}
+--- !u!114 &-5334070456073789453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5986957352150736975}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59a49946f6bac3648b06dc409c337295, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossMortarProjectile
+  bulletLifetime: 5
+  direction: {x: 0, y: 0, z: 0}
+  speed: 20
+  damage: 25
+  owner: {fileID: 0}
+  impactFeedback:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  sceneryImpactMask:
+    serializedVersion: 2
+    m_Bits: 128
+  explosionVfxPrefab: {fileID: 0}
+  explosionSound: {fileID: 0}
+  trail: {fileID: 0}
+  explosionVolume: 1
+  explosionSoundDist: 3
+  arcHeight: 10
+  splachRadius: 8
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  damagebleMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!33 &3365050728977763214
 MeshFilter:
   m_ObjectHideFlags: 0
