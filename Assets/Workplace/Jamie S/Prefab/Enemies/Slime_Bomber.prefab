@@ -202,7 +202,7 @@ GameObject:
   - component: {fileID: 2362966611834131817}
   - component: {fileID: 60301313676581131}
   - component: {fileID: 6494141365742404893}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Slime_Bomber
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -245,18 +245,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   stats: {fileID: 11400000, guid: 670d165b16467864397e3ef97b60523e, type: 2}
   firePoint: {fileID: 7249149623238161459}
+  mortarFirePoint: {fileID: 0}
   agent: {fileID: 60301313676581131}
   playerTarget: {fileID: 0}
   model: {fileID: 7706332113131567506}
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  damageableMask:
+    serializedVersion: 2
+    m_Bits: 0
+  otherEnemyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  mortarFriendlyFire: 0
+  landingShockFriendlyFire: 0
+  meleeFriendlyFire: 0
+  aoeWaveFriendlyFire: 0
+  detonationFriendlyFire: 1
   spawnPostion: {x: 0, y: 0, z: 0}
-  currentHealth: 0
   faceTargetRotSpeed: 10
   timeSinceLastSawPlayer: 0
   lastAttackTime: 0
   origColor: {r: 0, g: 0, b: 0, a: 0}
+  playerVelocity: {x: 0, y: 0, z: 0}
+  lastPlayerPostion: {x: 0, y: 0, z: 0}
+  jumpLanded: 0
 --- !u!95 &2362966611834131817
 Animator:
   serializedVersion: 7

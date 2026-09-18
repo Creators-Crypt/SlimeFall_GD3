@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7386351353437340852}
   - component: {fileID: 2602865175891156592}
   - component: {fileID: 6964716499161557569}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Slime_miniboss
   m_TagString: MiniBoss
   m_Icon: {fileID: 0}
@@ -57,18 +57,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   stats: {fileID: 11400000, guid: bc8840a51947fb744b2593e2f11a4b28, type: 2}
   firePoint: {fileID: 3078258636878766781}
+  mortarFirePoint: {fileID: 0}
   agent: {fileID: 7386351353437340852}
   playerTarget: {fileID: 0}
   model: {fileID: 5802837225810306042}
   playerLayer:
     serializedVersion: 2
     m_Bits: 64
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  damageableMask:
+    serializedVersion: 2
+    m_Bits: 0
+  otherEnemyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  mortarFriendlyFire: 0
+  landingShockFriendlyFire: 0
+  meleeFriendlyFire: 0
+  aoeWaveFriendlyFire: 0
+  detonationFriendlyFire: 1
   spawnPostion: {x: 0, y: 0, z: 0}
-  currentHealth: 0
   faceTargetRotSpeed: 10
   timeSinceLastSawPlayer: 0
   lastAttackTime: 0
   origColor: {r: 0, g: 0, b: 0, a: 0}
+  playerVelocity: {x: 0, y: 0, z: 0}
+  lastPlayerPostion: {x: 0, y: 0, z: 0}
+  jumpLanded: 0
 --- !u!95 &8853291060289645
 Animator:
   serializedVersion: 7

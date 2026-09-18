@@ -14751,6 +14751,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Split_Slime_Jump (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4858449309327273670, guid: 614c2b9a88154c045ab679a987b44de2, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15734,6 +15738,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8628767145a68c649af989e6a7ffbb17, type: 3}
+--- !u!1001 &1594125881
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6851090475026592409, guid: d74d71b9b9588064c808e1cd1cc564ee, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -13.436566
+      objectReference: {fileID: 0}
+    - target: {fileID: 6851090475026592409, guid: d74d71b9b9588064c808e1cd1cc564ee, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.6999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 6851090475026592409, guid: d74d71b9b9588064c808e1cd1cc564ee, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -39.154922
+      objectReference: {fileID: 0}
+    - target: {fileID: 6851090475026592409, guid: d74d71b9b9588064c808e1cd1cc564ee, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6851090475026592409, guid: d74d71b9b9588064c808e1cd1cc564ee, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6851090475026592409, guid: d74d71b9b9588064c808e1cd1cc564ee, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6851090475026592409, guid: d74d71b9b9588064c808e1cd1cc564ee, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6851090475026592409, guid: d74d71b9b9588064c808e1cd1cc564ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6851090475026592409, guid: d74d71b9b9588064c808e1cd1cc564ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6851090475026592409, guid: d74d71b9b9588064c808e1cd1cc564ee, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7741612888949655208, guid: d74d71b9b9588064c808e1cd1cc564ee, type: 3}
+      propertyPath: m_Name
+      value: Banshee (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d74d71b9b9588064c808e1cd1cc564ee, type: 3}
 --- !u!1 &1596323146
 GameObject:
   m_ObjectHideFlags: 0
@@ -19117,3 +19178,4 @@ SceneRoots:
   - {fileID: 248006170}
   - {fileID: 1114978045}
   - {fileID: 1154004627}
+  - {fileID: 1594125881}
