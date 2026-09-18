@@ -32,14 +32,14 @@ MonoBehaviour:
   projectileSpeed: 10
   explosionRadius: 3
   explosionVFX: {fileID: 0}
-  mortarPrefab: {fileID: 9088488918856700192, guid: 466ea04b990663b4fbbb7ac281251852, type: 3}
+  mortarPrefab: {fileID: 7584719884557891038, guid: 8c6012e0c3118c141990eca58403d508, type: 3}
   mortarHitPosDisplayPrefab: {fileID: 7562685562313601198, guid: 4aa20c98fb2a1e14c8392a8fe3665b24, type: 3}
   mortarSpeed: 25
   mortarShellsPreSalvo: 1
   mortarTimeBetweenShells: 0.035
   mortarScatter: 3
   mortarArcHeight: 10
-  mortarSplashRadius: 10
+  mortarSplashRadius: 8
   mortarAimAheadOfPlayer: 1
   mortarGroundMask:
     serializedVersion: 2
@@ -118,11 +118,11 @@ MonoBehaviour:
     volume: 1
     soundDist: 25
   mortarLaunch:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
+    vfxPrefab: {fileID: 311052215279644754, guid: 467207e4eb456844cb5aadba1ac10a89, type: 3}
+    sound: {fileID: 8300000, guid: 52bcef6fe2008044695347a811f02a87, type: 3}
+    vfxLifetime: 1
+    volume: 0.8
+    soundDist: 80
   bomberBlast:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}

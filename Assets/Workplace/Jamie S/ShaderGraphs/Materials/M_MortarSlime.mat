@@ -43,11 +43,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _Ambiant_Occlusion: 0.7
+    - _Jiggle_Amount: 0.1
+    - _Jiggle_Speed: 5
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Woble_Strength: 150
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.8490566, g: 0.4778346, b: 0.11614456, a: 1}
     - _Emmission: {r: 0.9056604, g: 0.44064048, b: 0.046991818, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

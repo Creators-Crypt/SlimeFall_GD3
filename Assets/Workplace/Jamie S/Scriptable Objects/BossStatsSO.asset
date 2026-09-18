@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BossStatsSO
   m_EditorClassIdentifier: Assembly-CSharp::BossStatsSO
   enemyType: 0
-  maxHealth: 250
+  maxHealth: 300
   patrolSpeed: 3.5
   chaseSpeed: 6
   patrolRadius: 20
@@ -28,11 +28,11 @@ MonoBehaviour:
   attackRange: 2.5
   attackCooldown: 1.2
   attackDamage: 5
-  projectilePrefab: {fileID: 7734611303218779850, guid: 471942e24e6ab0847860bd254d3d13c1, type: 3}
+  projectilePrefab: {fileID: 992218716766134841, guid: a7bf19ff2aa2a6a4f9f72d4ed7e2e071, type: 3}
   projectileSpeed: 35
   explosionRadius: 15
   explosionVFX: {fileID: 0}
-  mortarPrefab: {fileID: 9088488918856700192, guid: 466ea04b990663b4fbbb7ac281251852, type: 3}
+  mortarPrefab: {fileID: 5986957352150736975, guid: dd356f2ed5f18314f9c3855a6bdb1c79, type: 3}
   mortarHitPosDisplayPrefab: {fileID: 7562685562313601198, guid: 4aa20c98fb2a1e14c8392a8fe3665b24, type: 3}
   mortarSpeed: 20
   mortarShellsPreSalvo: 4
@@ -56,7 +56,7 @@ MonoBehaviour:
   jumpRecovery: 0.4
   jumpObstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   aoeWavePrefab: {fileID: 3563498644967845075, guid: 946b97f7b78864e41939dd9ccffe81b5, type: 3}
   aoeWaveWaringTime: 1
   aoeWaveRadius: 20
@@ -118,11 +118,11 @@ MonoBehaviour:
     volume: 1
     soundDist: 30
   mortarLaunch:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
+    vfxPrefab: {fileID: 3748373096500058089, guid: 24dc9e903c2b37d418e9f9d1505a8854, type: 3}
+    sound: {fileID: 8300000, guid: 52bcef6fe2008044695347a811f02a87, type: 3}
     vfxLifetime: 3
-    volume: 1
-    soundDist: 25
+    volume: 0.8
+    soundDist: 100
   bomberBlast:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}
@@ -130,8 +130,8 @@ MonoBehaviour:
     volume: 1
     soundDist: 25
   bossLeapWindup:
-    vfxPrefab: {fileID: 4406393109996900277, guid: 2035a6ef9134896499e235cd12484a1c, type: 3}
-    sound: {fileID: 0}
+    vfxPrefab: {fileID: 4406393109996900277, guid: b24229dc2f19880488f1063a4d1da473, type: 3}
+    sound: {fileID: 8300000, guid: f4afbf17cfaca2b488530d2162d7d2eb, type: 3}
     vfxLifetime: 3
     volume: 1
     soundDist: 55
@@ -155,13 +155,13 @@ MonoBehaviour:
     soundDist: 25
   bossLeapTakeoff:
     vfxPrefab: {fileID: 7963845113487687317, guid: 2bdcc196fc3192444b943c48150fa327, type: 3}
-    sound: {fileID: 0}
+    sound: {fileID: 8300000, guid: 85b1d0b7953a92545baa08f1d7235d13, type: 3}
     vfxLifetime: 3
     volume: 1
     soundDist: 55
   bossLanding:
     vfxPrefab: {fileID: 4085713738250179142, guid: 68181d3ed682c2b47a14498e467378bc, type: 3}
-    sound: {fileID: 0}
+    sound: {fileID: 8300000, guid: 267dcd73c1a30154994ea19989807de4, type: 3}
     vfxLifetime: 3
     volume: 1
     soundDist: 55
@@ -200,7 +200,7 @@ MonoBehaviour:
     vfxLifetime: 3
     volume: 1
     soundDist: 25
-  phase2HealthPercent: 0.5
+  phase2HealthPercent: 0.75
   phase3HealthPercent: 0.02
   phase1Material: {fileID: 2100000, guid: 385816ac7a6781e4f933eaa0425cfd8f, type: 2}
   phase2Material: {fileID: 2100000, guid: ed30b6adc0c509548b22534664951f1b, type: 2}

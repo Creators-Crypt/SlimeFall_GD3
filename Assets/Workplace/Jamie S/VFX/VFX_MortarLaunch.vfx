@@ -16,7 +16,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children:
   - {fileID: 8926484042661614539}
-  m_UIPosition: {x: 706, y: -434}
+  m_UIPosition: {x: 706, y: -599}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
@@ -190,9 +190,9 @@ MonoBehaviour:
     position:
       serializedVersion: 2
       x: 681
-      y: -493
+      y: -658
       width: 482
-      height: 1950
+      height: 2223
     contents:
     - model: {fileID: 114023846229194376}
       id: 0
@@ -231,9 +231,9 @@ MonoBehaviour:
   uiBounds:
     serializedVersion: 2
     x: 470
-    y: -518
+    y: -658
     width: 1417
-    height: 2083
+    height: 2223
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -310,7 +310,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}'
+      m_SerializableObject: '{"r":0.7490195631980896,"g":0.20267590880393983,"b":0.0469973124563694,"a":1.0}'
     min: -Infinity
     max: Infinity
     enumValues: []
@@ -326,7 +326,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}'
+      m_SerializableObject: '{"r":0.2833339273929596,"g":0.1259261816740036,"b":0.0251852385699749,"a":1.0}'
     min: -Infinity
     max: Infinity
     enumValues: []
@@ -1151,7 +1151,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 1
+      m_SerializableObject: 26
     m_Space: -1
   m_Property:
     name: Count
@@ -1732,7 +1732,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614564}
   - {fileID: 8926484042661614566}
   dataType: 0
-  capacity: 2
+  capacity: 32
   stripCapacity: 16
   particlePerStripCount: 16
   needsComputeBounds: 0
@@ -2183,7 +2183,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.TArcSphere, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"sphere":{"transform":{"position":{"x":0.0,"y":0.20000000298023225,"z":0.0},"angles":{"x":0.0,"y":0.0,"z":0.0},"scale":{"x":1.0,"y":1.0,"z":1.0}},"radius":1.0},"arc":6.2831854820251469}'
+      m_SerializableObject: '{"sphere":{"transform":{"position":{"x":0.0,"y":1.0983704328536988,"z":0.0},"angles":{"x":0.0,"y":0.0,"z":0.0},"scale":{"x":1.0,"y":1.0,"z":1.0}},"radius":1.0},"arc":6.2831854820251469}'
     m_Space: 0
   m_Property:
     name: arcSphere
@@ -4262,7 +4262,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 0.8
+      m_SerializableObject: 6
     m_Space: -1
   m_Property:
     name: _Size
@@ -4321,7 +4321,7 @@ MonoBehaviour:
   m_Parent: {fileID: 114350483966674976}
   m_Children: []
   m_UIPosition: {x: 0, y: 0}
-  m_UICollapsed: 1
+  m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots: []
   m_OutputSlots:
@@ -4806,7 +4806,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}'
+      m_SerializableObject: '{"r":0.7490195631980896,"g":0.20267590880393983,"b":0.0469973124563694,"a":1.0}'
     m_Space: -1
   m_Property:
     name: o
@@ -5014,7 +5014,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Color, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}'
+      m_SerializableObject: '{"r":0.2833339273929596,"g":0.1259261816740036,"b":0.0251852385699749,"a":1.0}'
     m_Space: -1
   m_Property:
     name: o

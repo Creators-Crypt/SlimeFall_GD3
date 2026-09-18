@@ -63,7 +63,7 @@ Material:
     - _TrailWidth: 0.06
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _CrestColor: {r: 0.627451, g: 4, b: 0.1568628, a: 1}
-    - _TrailColor: {r: 0.5052389, g: 1.188797, b: 0.1188797, a: 1}
+    - _CrestColor: {r: 0.74901956, g: 0.20267591, b: 0.046997312, a: 1}
+    - _TrailColor: {r: 2, g: 0.5667958, b: 0.066037774, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

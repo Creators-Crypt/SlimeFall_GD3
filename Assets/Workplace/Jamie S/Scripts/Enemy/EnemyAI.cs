@@ -580,7 +580,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
             SpawnTelegraph(impactPoint, flightTime);
 
             GameObject mortarShellObj = Instantiate(stats.mortarPrefab, muzzle.position, Quaternion.identity);
-
+            PlayVFXandSFX(stats.mortarLaunch, muzzle.position);
             BossMortarProjectile mortarShell = mortarShellObj.GetComponent<BossMortarProjectile>();
             if (mortarShell != null)
             {
