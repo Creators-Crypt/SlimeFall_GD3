@@ -20,8 +20,8 @@ public class PlayerController : MonoBehaviour
     [Header("Player Visuals")]
     [SerializeField] private TrailRenderer teleportTrail;
 
-    [Header("Equipment Display Name")]
-    [SerializeField] float equipmentLookDistance = 30f;
+    //[Header("Equipment Display Name")]
+    //[SerializeField] float equipmentLookDistance = 30f;
 
     [Header("Jump")]
     [Range(1, 30)][SerializeField] int jumpSpeed = 5;
@@ -30,18 +30,16 @@ public class PlayerController : MonoBehaviour
 
 
     [Header("Animation")]
-    [SerializeField] private Transform armPivot;
-    [SerializeField] private float armRotateSpeed = 10f;
+    [SerializeField] private Animator animator;
+    [SerializeField] private PlayerState currentState;
 
-
-    //[Header("Player State")]
-    //[SerializeField] private PlayerState currentState;
-
-
+    private PlayerState previousState = (PlayerState)(-1);
+    
     [Header("Teleport")]
     //[Range(0.05f, 10f)][SerializeField] float teleportTrailTime = 0.2f;
     [Range(0.1f, 3f)][SerializeField] float teleportCooldown = 1.0f;
     [Range(1f, 100f)][SerializeField] float teleportDistance = 100f;
+    [SerializeField] float teleportAnimationDuration = 0.2f;
 
     //Jumps
     int jumpCount;
@@ -101,6 +99,7 @@ public class PlayerController : MonoBehaviour
         Dodge,
         Teleport,
         Concentrate,
+        Cast,
         Dead
     }
   
@@ -131,6 +130,11 @@ public class PlayerController : MonoBehaviour
         if(teleportTrail != null)
         {
             teleportTrail.emitting = false;
+        }
+
+        if(animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
         }
     }
     // Update is called once per frame
@@ -163,16 +167,12 @@ public class PlayerController : MonoBehaviour
         concentrate();
         movement();
         healthRegen();
-        lookAtEquipment();
-        //updateState();
-        //updateAnimator();
+        //lookAtEquipment();
+        updateState();
+        updateAnimator();
     }
-    private void LateUpdate() {
-        
-        if(moveDir != Vector3.zero)
-        {
-            rotateArm();
-        }
+    private void LateUpdate() 
+    {
     }
   
     void movement() 
@@ -311,7 +311,7 @@ public class PlayerController : MonoBehaviour
                 controller.enabled = false;
                 transform.position = teleportPoint;
                 controller.enabled = true;
-                isTeleporting = false;
+                StartCoroutine(finishTeleport());
                
                if(teleportTrail != null)
                 {
@@ -334,6 +334,11 @@ public class PlayerController : MonoBehaviour
         {
             teleportTrail.emitting = false;
         }
+    }
+    IEnumerator finishTeleport()
+    {
+        yield return new WaitForSeconds(teleportAnimationDuration);
+        isTeleporting = false;
     }
 void jump() {
         if (inputHandler.JumpPressed) 
@@ -447,101 +452,89 @@ void jump() {
         }
     }
 
-    void rotateArm()
+    void updateState()
     {
-        if (armPivot == null || Camera.main == null)
-            return;
-
-        Vector3 screenCenter = new Vector3(
-             Screen.width / 2f,
-             Screen.height / 2f,
-             0f
-         );
-
-        Ray aimRay =
-            Camera.main.ScreenPointToRay(screenCenter);
-
-        Vector3 aimPoint =
-            aimRay.GetPoint(100f);
-
-        Vector3 aimDirection =
-            aimPoint - armPivot.position;
-
-        if (aimDirection.sqrMagnitude < 0.001f)
+        if (healthSystem.IsDead)
         {
-            return;
+            currentState = PlayerState.Dead;
         }
-
-        Quaternion targetRotation =
-            Quaternion.LookRotation(
-                aimDirection.normalized
-            );
-
-        armPivot.rotation = Quaternion.Lerp(
-            armPivot.rotation,
-            targetRotation,
-            armRotateSpeed * Time.deltaTime
-        );
+        else if (isDodging)
+        {
+            currentState = PlayerState.Dodge;
+        }
+        else if (isTeleporting)
+        {
+            currentState = PlayerState.Teleport;
+        }
+        else if (isConcentrating)
+        {
+            currentState = PlayerState.Concentrate;
+        }
+        else if (spellCaster != null && spellCaster.IsCasting)
+        {
+            currentState = PlayerState.Cast;
+        }
+        else if (!controller.isGrounded)
+        {
+            currentState = PlayerState.Jump;
+        }
+        else if (isPlayerSprinting && moveDir.sqrMagnitude > 0.0f)
+        {
+            currentState = PlayerState.Sprint;
+        }
+        else if (moveDir.sqrMagnitude > 0.01f)
+        {
+            currentState = PlayerState.Walk;
+        }
+        else
+        {
+            currentState = PlayerState.Idle;
+        }
     }
 
-    //void updateState() {
-    //    if (healthSystem.IsDead) 
-    //    {
-    //        currentState = PlayerState.Dead;
-    //        return;
-    //    }
+    //void lookAtEquipment()
+    //{
+    //    RaycastHit hit;
 
-    //    if (isDodging) 
-    //    {
-    //        currentState = PlayerState.Dodge;
-    //        return;
-    //    }
+    //    Debug.DrawRay(Camera.main.transform.position,
+    //        armPivot.forward * equipmentLookDistance, Color.green);
 
-    //    if (isTeleporting)
+    //    if (Physics.Raycast(Camera.main.transform.position,
+    //        armPivot.forward, out hit, equipmentLookDistance))
     //    {
-    //        currentState = PlayerState.Teleport;
-    //        return;
-    //    }
+    //        EquipmentPickup pickup = hit.collider.GetComponentInParent<EquipmentPickup>();
 
-    //    if (!controller.isGrounded) 
-    //    {
-    //        currentState = PlayerState.Jump;
-    //        return;
+    //        if(pickup != null)
+    //        {
+    //            Debug.Log(pickup.GetEquipmentName());
+    //        }
     //    }
-    //    if (isPlayerSprinting && moveDir.sqrMagnitude > 0.01f) 
-    //    {
-    //        currentState = PlayerState.Sprint;
-    //        return;
-    //    }
-    //    if (moveDir.sqrMagnitude > 0.01f)
-    //    {
-    //        currentState = PlayerState.Walk;
-    //        return;
-    //    }
-    //    if(isConcentrating)
-    //    {
-    //        currentState = PlayerState.Concentrate;
-    //        return;
-    //    }
-    //    currentState = PlayerState.Idle;
     //}
 
-    void lookAtEquipment()
+    void updateAnimator()
     {
-        RaycastHit hit;
-
-        Debug.DrawRay(Camera.main.transform.position,
-            armPivot.forward * equipmentLookDistance, Color.green);
-
-        if (Physics.Raycast(Camera.main.transform.position,
-            armPivot.forward, out hit, equipmentLookDistance))
+        if(animator == null || currentState == previousState)
         {
-            EquipmentPickup pickup = hit.collider.GetComponentInParent<EquipmentPickup>();
-
-            if(pickup != null)
-            {
-                Debug.Log(pickup.GetEquipmentName());
-            }
+            return;
         }
+
+        string animationName = currentState switch
+        {
+            PlayerState.Idle => "Idle",
+            PlayerState.Walk => "Walk",
+            PlayerState.Sprint => "Running",
+            PlayerState.Jump => "Jump",
+            PlayerState.Dodge => "Dodge",
+            PlayerState.Teleport => "Teleport",
+            PlayerState.Concentrate => "Concentrate",
+            PlayerState.Cast => "Cast",
+            _ => "Idle"
+        };
+
+        float fadeTime = currentState == PlayerState.Cast ? 0.05f : 0.15f;
+
+        animator.CrossFade(animationName, fadeTime);
+
+        previousState = currentState;
     }
 }
