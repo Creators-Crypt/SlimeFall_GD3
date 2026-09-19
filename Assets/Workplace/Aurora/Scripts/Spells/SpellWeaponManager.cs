@@ -168,11 +168,22 @@ public class SpellWeaponManager : MonoBehaviour {
 
         if (newWeapon == null) return;
 
+        int existingIndex = carriedWeapons.IndexOf(newWeapon);
+
+        if(existingIndex >= 0)
+        {
+            activeWeaponIndex = existingIndex;
+            UpdateCasterWeapon();
+            return;
+        }
+
         if (carriedWeapons.Count < maxWeapons) {
             carriedWeapons.Add(newWeapon);
             activeWeaponIndex = carriedWeapons.Count - 1;
             UpdateCasterWeapon();
         } else {
+            //This drop weapon might be what is causing our duplicates. If you equip while both slots are full
+            // it will drop without removing it from the inventory
             DropWeaponInstance(ActiveWeapon);
             Debug.Log($"[Inventory Full] Replacing '{carriedWeapons[activeWeaponIndex].weaponName}' with '{newWeapon.weaponName}'.");
             carriedWeapons[activeWeaponIndex] = newWeapon;

@@ -394,14 +394,14 @@ void jump() {
     void healthRegen()
     {
         if (healthRegenMult <= 1f)
-        {
-            healthRegenTimer += Time.deltaTime;
+            return;
 
-            if (healthRegenTimer >= 1f)
-            {
-                //healthSystem.OnHeal(healthRegenMult);
-                healthRegenTimer = 0f;
-            }
+        healthRegenTimer += Time.deltaTime;
+
+        if(healthRegenTimer >= 1f)
+        {
+            healthSystem.OnHeal(healthRegenMult);
+            healthRegenTimer = 0f;
         }
     }
     //Boots stats

@@ -136,7 +136,7 @@ Material:
     - _TransparentSortPriority: 0
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
-    - _UV_Tiling: 1
+    - _UV_Tiling: 10
     - _UseAlphaClipping: 0
     - _UseDust: 0
     - _UseShadowThreshold: 0

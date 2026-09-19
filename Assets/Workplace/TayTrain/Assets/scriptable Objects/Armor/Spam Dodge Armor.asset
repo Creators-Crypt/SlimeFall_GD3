@@ -31,5 +31,5 @@ MonoBehaviour:
   staminaMaxBonus: 0
   teleportCooldownReduction: 0
   teleportDistanceBonus: 0
-  dodgeCooldownReduction: 0.5
+  dodgeCooldownReduction: 0.1
   dodgeSpeedBonus: 0

@@ -907,13 +907,13 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.215
+  m_Volume: 0.095
   m_Pitch: 1
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 146
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500
@@ -1848,7 +1848,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.03
   far clip plane: 1000
   field of view: 67
   orthographic: 0
@@ -1932,8 +1932,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d9af6ccb07953f48a960e1a0571e9a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraController
-  cameraCollisionOffset: 0.2
-  cameraRayStartOffset: 0.5
+  cameraCollisionOffset: 0.75
+  cameraRayStartOffset: 0
   ignoreCameraLayer:
     serializedVersion: 2
     m_Bits: 72
@@ -8690,6 +8690,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f59961b606706194992bd54dd4939e29, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -5545896204095073868, guid: f59961b606706194992bd54dd4939e29, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.32
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f59961b606706194992bd54dd4939e29, type: 3}
       propertyPath: m_Name

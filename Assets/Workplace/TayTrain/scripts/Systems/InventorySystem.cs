@@ -51,9 +51,13 @@ public class InventorySystem : Singleton<InventorySystem>
         if (weapon == null)
             return;
 
+      if(weaponItems.Contains(weapon))
+        {
+            return;
+        }
+
         weaponItems.Add(weapon);
 
-        Debug.Log($"Weapon Added: {weapon.name}");
     }
 
     public bool RemoveEquipment(EquipmentData equipment)
