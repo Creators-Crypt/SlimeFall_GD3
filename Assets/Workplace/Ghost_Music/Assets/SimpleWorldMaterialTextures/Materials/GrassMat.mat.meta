@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 751c39cad9a99414b92c97a0f5ed63b4
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 196875
+  packageName: Simple World Material Textures
+  packageVersion: 1.0.0
+  assetPath: Assets/SimpleWorldMaterialTextures/Materials/GrassMat.mat
+  uploadId: 499553

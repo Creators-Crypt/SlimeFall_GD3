@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5ec4fd9cba9ca9e4faf7a2620d8d8a1a
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 196875
+  packageName: Simple World Material Textures
+  packageVersion: 1.0.0
+  assetPath: Assets/SimpleWorldMaterialTextures/Materials/WoodMat.mat
+  uploadId: 499553
