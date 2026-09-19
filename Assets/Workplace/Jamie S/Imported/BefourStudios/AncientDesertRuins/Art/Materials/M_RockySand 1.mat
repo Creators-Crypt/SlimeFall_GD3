@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_RockySand
+  m_Name: M_RockySand 1
   m_Shader: {fileID: -6465566751694194690, guid: d3fdd17e093748544b921255511b73e0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -136,7 +136,7 @@ Material:
     - _TransparentSortPriority: 0
     - _TransparentWritingMotionVec: 0
     - _TransparentZWrite: 0
-    - _UV_Tiling: 1
+    - _UV_Tiling: 5
     - _UseAlphaClipping: 0
     - _UseDust: 0
     - _UseShadowThreshold: 0
