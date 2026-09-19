@@ -40,6 +40,10 @@ public class BossRewardSpawner : MonoBehaviour
         rewardSpawned = true;
         rewardChest.SetActive(true);
 
+        if(DesNarManager.Instance != null)
+        {
+            DesNarManager.Instance.PlayLine(DesNarLine.BossDefeatedChestSpawned);
+        }
         Debug.Log("Boss reward chest spawned.");
     }
 
