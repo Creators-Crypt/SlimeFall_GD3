@@ -553,7 +553,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6705a4d1ce4c91e4990f351f0df3f60b, type: 2}
   - {fileID: 11400000, guid: f77c29dd1a08c7e4ba2018ff54b4a001, type: 2}
   - {fileID: 11400000, guid: bd0ab04690f511742876baf5a35be8ed, type: 2}
-  castPoint: {fileID: 1559729259802013399}
+  castPoint: {fileID: 2739620291968616900}
   castAnimationDuration: 0.45
   equippedWeapon: {fileID: 0}
 --- !u!114 &394638518700715224
@@ -571,7 +571,7 @@ MonoBehaviour:
   spellCaster: {fileID: 0}
   carriedWeapons:
   - {fileID: 11400000, guid: c5559565a999c7e49a13c3c525c7ba05, type: 2}
-  handAnchor: {fileID: 1559729259802013399}
+  handAnchor: {fileID: 2739620291968616900}
   dropPoint: {fileID: 1406101112673834826}
   swapCooldown: 0.5
   scrollAction:
@@ -8708,6 +8708,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f59961b606706194992bd54dd4939e29, type: 3}
+--- !u!4 &2739620291968616900 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1852576806548013000, guid: f59961b606706194992bd54dd4939e29, type: 3}
+  m_PrefabInstance: {fileID: 4589373533323671052}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4051554752283759079 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f59961b606706194992bd54dd4939e29, type: 3}
