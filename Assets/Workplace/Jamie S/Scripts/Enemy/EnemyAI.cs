@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using static EnemyStatsSO;
@@ -326,23 +327,23 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
 
         foreach (Collider hit in hits)
         {
-/*            if (hit.gameObject != gameObject)
-            {
-                IDamageable damageable = hit.GetComponent<IDamageable>();
+            //if (hit.gameObject != gameObject)
+            //{
+            //    IDamageable damageable = hit.GetComponent<IDamageable>();
 
-                if (damageable != null)
-                {
-                    damageable.OnDamage(stats.attackDamage);
-                }
-            }*/
+            //    if (damageable != null)
+            //    {
+            //        damageable.OnDamage(stats.attackDamage);
+            //    }
+            //}
             if (hit.TryGetComponent<HealthSystem>(out var playerHealth)) {
                 playerHealth.OnDamage(stats.attackDamage);
             }
 
         }
-        if(stats.explosionVFX != null)
+        if(stats.bomberBlast != null)
         {
-            Instantiate(stats.explosionVFX, transform.position + new Vector3(0,.5f,0), Quaternion.identity);
+            PlayVFXandSFX(stats.bomberBlast, new Vector3(transform.position.x, transform.position.y + .03f, transform.position.z));
         }
         Die();
     }
@@ -402,7 +403,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
                 EnemyAI newEnemyAI = newEnemy.GetComponent<EnemyAI>();
                 if(newEnemyAI != null)
                 {
-                    newEnemyAI.StartCoroutine(GrowSpawn(stats.splitGrowthSpeed));
+                    newEnemyAI.StartCoroutine(newEnemyAI.GrowSpawn(stats.splitGrowthSpeed));
                 }
             }
 
@@ -453,7 +454,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
 
         Vector3 start = transform.position;
         Vector3 aimPoint = playerTarget.position;
-        CapsuleCollider  playerCollider = playerTarget.GetComponent<CapsuleCollider>();
+        CapsuleCollider  playerCollider = playerTarget.GetComponentInChildren<CapsuleCollider>();
         if(playerCollider != null)
         {
             aimPoint = playerCollider.bounds.center;
@@ -547,6 +548,15 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
         yield return WaveAttack(stats.jumpWaveDamage);
             
     }
+    public virtual IEnumerator JumpNdWaveAttack(float _jumpDmg, float _waveDmg, float _jumpToWaveDelay)
+    {
+        yield return JumpAttack(_jumpDmg);
+        if (IsDead || jumpLanded == false) yield break;
+        yield return new WaitForSeconds(_jumpToWaveDelay);
+        if (IsDead) yield break;
+        yield return WaveAttack(_waveDmg);
+
+    }
     public virtual IEnumerator FlashRed()
     {
         model.material.SetColor("_BaseColor", Color.red);
@@ -571,7 +581,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
             SpawnTelegraph(impactPoint, flightTime);
 
             GameObject mortarShellObj = Instantiate(stats.mortarPrefab, muzzle.position, Quaternion.identity);
-
+            PlayVFXandSFX(stats.mortarLaunch, muzzle.position);
             BossMortarProjectile mortarShell = mortarShellObj.GetComponent<BossMortarProjectile>();
             if (mortarShell != null)
             {
@@ -589,7 +599,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
             yield return new WaitForSeconds(stats.mortarTimeBetweenShells);
         }
     }
-    IEnumerator GrowSpawn (float _duration)
+    public virtual IEnumerator GrowSpawn (float _duration)
     {
         Vector3 fullScale = transform.localScale;
         transform.localScale = Vector3.zero;
@@ -619,7 +629,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
         yield break;
     }
 
-    public void OnDrawGizmosSelected()
+    public  void OnDrawGizmosSelected()
     {
         if(stats == null)return;
 
@@ -630,6 +640,9 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
         }
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(origin, stats.detectionRadius);
+
+        Gizmos.color = Color.darkRed;
+        Gizmos.DrawWireSphere(origin, stats.attackRange);
 
         float halfAngle = stats.detectionAngle / 2f;
         Vector3 left = Quaternion.AngleAxis(-halfAngle, Vector3.up) * transform.forward;

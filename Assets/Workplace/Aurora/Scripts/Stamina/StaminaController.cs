@@ -7,11 +7,14 @@ public class StaminaController : MonoBehaviour, IStamina {
     [SerializeField, Range(3f, 25f)] private float fallBackRegenRate = 5f;
     [SerializeField] float regenMult = 1f;
 
+    private float maxStamina;
     public float Current => currentStamina;
-    public float Ratio => stats ? currentStamina / stats.maxStamina : 0f;
+    public float Max => maxStamina;
+    public float Ratio => maxStamina > 0f ? currentStamina / maxStamina : 0f;
     public bool IsConsuming {  get; set; }
     private void Awake() {
-        currentStamina = stats.maxStamina;
+        maxStamina = stats.maxStamina;
+        currentStamina = maxStamina;
     }
     public void setRegenMult(float amount)
     {
@@ -34,7 +37,7 @@ public class StaminaController : MonoBehaviour, IStamina {
         float regenRate = (stats != null && stats.staminaRegenRate > 0) ? stats.staminaRegenRate : fallBackRegenRate;
         if (!IsConsuming) {
 
-            currentStamina = Mathf.Clamp(currentStamina + (regenRate * regenMult * Time.deltaTime), 0f, stats.maxStamina);
+            currentStamina = Mathf.Clamp(currentStamina + (regenRate * regenMult * Time.deltaTime), 0f, maxStamina);
 
         }
     }
@@ -48,14 +51,14 @@ public class StaminaController : MonoBehaviour, IStamina {
         
         //if (stats == null) return;
         
-        currentStamina = Mathf.Clamp(currentStamina + amount * Time.deltaTime, 0f, stats.maxStamina);
+        currentStamina = Mathf.Clamp(currentStamina + amount * Time.deltaTime, 0f, maxStamina);
         
     }
 
     public void ContinousSpent(float amount) {
 
        
-        currentStamina = Mathf.Clamp(currentStamina - amount * Time.deltaTime, 0f, stats.maxStamina);
+        currentStamina = Mathf.Clamp(currentStamina - amount * Time.deltaTime, 0f, maxStamina);
     }
 
     public void SetStamina(float stamina)
@@ -63,7 +66,15 @@ public class StaminaController : MonoBehaviour, IStamina {
         currentStamina = Mathf.Clamp(
             stamina,
             0f,
-            stats.maxStamina
+            maxStamina
         ); 
+    }
+    public void SetMaxBonus(float bonus)
+    {
+        float oldMax = maxStamina;
+
+        float staminaPercentage = oldMax > 0f ? currentStamina / oldMax : 1f;
+        maxStamina = stats.maxStamina + Mathf.Max(0f, bonus);
+        currentStamina = staminaPercentage * maxStamina;
     }
 }

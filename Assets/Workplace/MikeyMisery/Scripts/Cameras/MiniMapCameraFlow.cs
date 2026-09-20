@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MiniMapCameraFlow : MonoBehaviour
 {
-    [SerializeField] private Transform player;
+    private Transform player;
     [SerializeField] private float height = 150f;
 
     private void Start()

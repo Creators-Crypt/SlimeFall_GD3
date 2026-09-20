@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.WSA;
 
 
 public enum BossPhase
@@ -27,6 +28,8 @@ public class BossAI : EnemyAI
     public float stunTimeleft = 0f;
     public float detonationTimeLeft = 0f;
     public int eyeHitCount = 0;
+    [Header("Encounter")]
+    public bool isActive = false;
 
     public BossPhase1State phase1State;
     public BossPhase2State phase2State;
@@ -71,16 +74,24 @@ public class BossAI : EnemyAI
         {
             zone.SetBoss(this);
         }
+
+        isInvulnerable = true;
     }
 
     public override void Start()
     {
-        stateMachine.Initialize(phase1State);
         currentPhase = BossPhase.Phase1;
+        if (isActive)
+        {
+            stateMachine.Initialize(phase1State);
+        }
+        
+       
     }
 
     public override void Update()
-    {        
+    {
+        if (isActive == false) return;
         ClearEyeHIts();
         base.Update();
 
@@ -317,6 +328,16 @@ public class BossAI : EnemyAI
         }
         return 0f;
     }
+    public void ActivateEncounter()
+    {
+        if (isActive) return;
+        if (currentPhase == BossPhase.Dead) return;
+
+        isActive = true;
+        currentPhase = BossPhase.Phase1;
+        stateMachine.Initialize(phase1State);
+    }
+
     public float GetMaxHealth()
     {
         return MaxHealth;
@@ -345,5 +366,10 @@ public class BossAI : EnemyAI
         GameManager.Instance.SetWin();
         base.Die();
     }
+
+    //public override void OnDrawGizmosSelected()
+    //{
+    //    base.OnDrawGizmosSelected();
+    //}
 }
 

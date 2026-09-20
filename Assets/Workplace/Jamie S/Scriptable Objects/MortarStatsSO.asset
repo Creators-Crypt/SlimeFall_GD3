@@ -1,0 +1,202 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91ed46f2e35663a4899748da965190d9, type: 3}
+  m_Name: MortarStatsSO
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyStatsSO
+  enemyType: 3
+  maxHealth: 30
+  patrolSpeed: 0
+  chaseSpeed: 0
+  patrolRadius: 0
+  patrolWaitTimeMin: 1.5
+  patrolWaitTimeMax: 3.5
+  detectionRadius: 100
+  detectionAngle: 360
+  lostSightTime: 3
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 128
+  attackRange: 100
+  attackCooldown: 4.5
+  attackDamage: 15
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 10
+  explosionRadius: 3
+  explosionVFX: {fileID: 0}
+  mortarPrefab: {fileID: 7584719884557891038, guid: 8c6012e0c3118c141990eca58403d508, type: 3}
+  mortarHitPosDisplayPrefab: {fileID: 7562685562313601198, guid: 4aa20c98fb2a1e14c8392a8fe3665b24, type: 3}
+  mortarSpeed: 25
+  mortarShellsPreSalvo: 1
+  mortarTimeBetweenShells: 0.035
+  mortarScatter: 3
+  mortarArcHeight: 10
+  mortarSplashRadius: 8
+  mortarAimAheadOfPlayer: 1
+  mortarGroundMask:
+    serializedVersion: 2
+    m_Bits: 8
+  mortarDamageMask:
+    serializedVersion: 2
+    m_Bits: 1048576
+  jumpdamage: 5
+  jumpWindupTime: 0.4
+  jumpDuration: 0.65
+  jumpHeight: 1.5
+  jumpMaxDistance: 5
+  jumpHitRadius: 0.5
+  jumpRecovery: 0.4
+  jumpObstacleMask:
+    serializedVersion: 2
+    m_Bits: 0
+  aoeWavePrefab: {fileID: 0}
+  aoeWaveWaringTime: 1
+  aoeWaveRadius: 9
+  aoeWaveSpeed: 10
+  jumpToWaveDelay: 0.25
+  jumpWaveDamage: 4
+  jumpWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  jumpTakeOff:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  jumpHit:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  jumpLanding:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  waveWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  waveRelease:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  waveHit:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  projectileLaunch:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  projectileHit:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  mortarLaunch:
+    vfxPrefab: {fileID: 311052215279644754, guid: 467207e4eb456844cb5aadba1ac10a89, type: 3}
+    sound: {fileID: 8300000, guid: 52bcef6fe2008044695347a811f02a87, type: 3}
+    vfxLifetime: 1
+    volume: 0.8
+    soundDist: 80
+  bomberBlast:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossLeapWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossMeleeWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossMeleeSwing:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossMeleeHit:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossLeapTakeoff:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossLanding:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossDetonationWindup:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  bossDetonationBlast:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  splitChance: 0.5
+  splitPrefab: {fileID: 0}
+  splitCount: 2
+  splitRadius: 0.75
+  splitVFXPrefab: {fileID: 0}
+  splitGrowthSpeed: 0
+  canReturn: 1
+  returnDelay: 15
+  appearDelay: 0.5
+  lingerAfterScream: 1
+  scareCooldown: 8
+  bansheeTurnSpeed: 0
+  screamClips: []
+  screamVolume: 0.8
+  audibleDist: 25
+  fleeDuration: 4
+  fleedistance: 12
+  screamFeedback:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25

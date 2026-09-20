@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c19c4b5535c7dd747a7177049e204476
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 196875
+  packageName: Simple World Material Textures
+  packageVersion: 1.0.0
+  assetPath: Assets/SimpleWorldMaterialTextures/Materials/RustedMetalMat.mat
+  uploadId: 499553

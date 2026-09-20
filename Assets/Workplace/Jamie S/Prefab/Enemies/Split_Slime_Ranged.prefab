@@ -473,7 +473,7 @@ Transform:
   m_GameObject: {fileID: 3525642817947160789}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.075, y: 1.012, z: 0.448}
+  m_LocalPosition: {x: 0.075, y: 1.134, z: 0.483}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -685,7 +685,7 @@ GameObject:
   - component: {fileID: 733957257409177405}
   - component: {fileID: 4576431283724450006}
   - component: {fileID: 1975216754229781811}
-  m_Layer: 9
+  m_Layer: 8
   m_Name: Split_Slime_Ranged
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -728,18 +728,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
   stats: {fileID: 11400000, guid: ca9138a9dd776c84eacc13f0e5762e90, type: 2}
   firePoint: {fileID: 4072710239254799050}
+  mortarFirePoint: {fileID: 0}
   agent: {fileID: 4576431283724450006}
   playerTarget: {fileID: 0}
   model: {fileID: 8596723482851448968}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1048576
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  damageableMask:
+    serializedVersion: 2
+    m_Bits: 0
+  otherEnemyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  mortarFriendlyFire: 0
+  landingShockFriendlyFire: 0
+  meleeFriendlyFire: 0
+  aoeWaveFriendlyFire: 0
+  detonationFriendlyFire: 1
   spawnPostion: {x: 0, y: 0, z: 0}
-  currentHealth: 0
   faceTargetRotSpeed: 10
   timeSinceLastSawPlayer: 0
   lastAttackTime: 0
   origColor: {r: 0, g: 0, b: 0, a: 0}
+  playerVelocity: {x: 0, y: 0, z: 0}
+  lastPlayerPostion: {x: 0, y: 0, z: 0}
+  jumpLanded: 0
 --- !u!95 &733957257409177405
 Animator:
   serializedVersion: 7

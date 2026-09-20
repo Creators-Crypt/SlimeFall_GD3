@@ -83,9 +83,6 @@ public class EnemyStatsSO : ScriptableObject
     public AttackFeedback mortarLaunch = new AttackFeedback();
     public AttackFeedback bomberBlast = new AttackFeedback();
     public AttackFeedback bossLeapWindup = new AttackFeedback();
-    public AttackFeedback bossMeleeWindup = new AttackFeedback();
-    public AttackFeedback bossMeleeSwing = new AttackFeedback();
-    public AttackFeedback bossMeleeHit = new AttackFeedback();
     public AttackFeedback bossLeapTakeoff = new AttackFeedback();
     public AttackFeedback bossLanding = new AttackFeedback();
     public AttackFeedback bossDetonationWindup = new AttackFeedback();

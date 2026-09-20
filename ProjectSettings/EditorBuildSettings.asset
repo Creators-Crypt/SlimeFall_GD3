@@ -14,22 +14,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/Game Scenes/Showcase_Homebase.unity
     guid: 568bb63f86690a645b76322ef2f906d4
-  - enabled: 1
-    path: Assets/_Project/Scenes/Game Scenes/Desert Level.unity
-    guid: 8cc64f9af548f9645bae5dd696ec4027
-  - enabled: 1
-    path: Assets/_Project/Scenes/Game Scenes/Showcase_Desert.unity
-    guid: 36e061dc20b966f4caeb8d5f765f5b38
-  - enabled: 1
-    path: Assets/_Project/Scenes/Game Scenes/Showcase_Horror.unity
-    guid: 154493e3c1b5c924ca6f81118930e86b
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Project/Scenes/Game Scenes/Showcase_MainArea.unity
     guid: 7fb7cecae15cdd1489aa130189b62b16
-  - enabled: 1
+  - enabled: 0
+    path: Assets/_Project/Scenes/Game Scenes/Desert Level.unity
+    guid: 8cc64f9af548f9645bae5dd696ec4027
+  - enabled: 0
+    path: Assets/_Project/Scenes/Game Scenes/Showcase_Desert.unity
+    guid: 36e061dc20b966f4caeb8d5f765f5b38
+  - enabled: 0
+    path: Assets/_Project/Scenes/Game Scenes/Showcase_Horror.unity
+    guid: 154493e3c1b5c924ca6f81118930e86b
+  - enabled: 0
     path: Assets/_Project/Scenes/Game Scenes/Showcase_Underwater.unity
     guid: 013a065fed30c864db6461a8dedc7e84
-  - enabled: 1
+  - enabled: 0
     path: Assets/Workplace/Ghost_Music/GretchenDev.unity
     guid: 6b8656404fd67bb418f13b2fcbf81b0a
   m_configObjects:
