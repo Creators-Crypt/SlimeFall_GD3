@@ -159,7 +159,7 @@ MonoBehaviour:
     vfxLifetime: 3
     volume: 1
     soundDist: 25
-  splitChance: 1
+  splitChance: 0.75
   splitPrefab: {fileID: 8849678851245949963, guid: 722e50717483894479156f0de3d076ac, type: 3}
   splitCount: 2
   splitRadius: 10
