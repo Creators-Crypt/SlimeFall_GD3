@@ -18,9 +18,18 @@ public class PlayerStatsUI : MonoBehaviour
     }
     private void Start() {
 
-        staminaController = GameObject.FindGameObjectWithTag("Player").GetComponent<StaminaController>();
+        if(staminaController == null)
+        staminaController = FindFirstObjectByType<StaminaController>();
 
-        concentrationController = GameObject.FindGameObjectWithTag("Player").GetComponent<ConcentrationController>();
+        if(concentrationController == null)
+        concentrationController = FindFirstObjectByType<ConcentrationController>();
+
+        if(staminaController == null || concentrationController == null)
+        {
+            Debug.LogWarning("PlayerstatsUI could not find StaminaConroller or Concentration Controller");
+            enabled = false;
+            return;
+        }
 
         staminaFill.fillAmount = staminaController.Ratio * 0.5f; // Start with half stamina
         manaFill.fillAmount = concentrationController.Ratio * 0.5f; // Start with half mana
@@ -28,9 +37,11 @@ public class PlayerStatsUI : MonoBehaviour
 
     private void Update()
     {
-        
-        staminaFill.fillAmount = staminaController.Ratio * 0.5f; // Update stamina fill amount
-        manaFill.fillAmount = concentrationController.Ratio * 0.5f;
+        if (staminaController != null && staminaFill != null)
+            staminaFill.fillAmount = staminaController.Ratio * 0.5f;
+
+        if (concentrationController != null && manaFill != null)
+            manaFill.fillAmount = concentrationController.Ratio * 0.5f;
     }
     private void UpdateHealthBar(float currentHealth, float maxHealth) {
 
