@@ -76,7 +76,6 @@ Packages/packages-lock.json linguist-generated
 # Exceptions for .asset files such as lightning pre-baking
 LightingData.asset     binary
 TerrainData*.asset     binary
-
 *.fbx filter=lfs diff=lfs merge=lfs -text
 *.obj filter=lfs diff=lfs merge=lfs -text
 *.blend filter=lfs diff=lfs merge=lfs -text
@@ -88,12 +87,10 @@ TerrainData*.asset     binary
 *.mp4 filter=lfs diff=lfs merge=lfs -text
 *.mov filter=lfs diff=lfs merge=lfs -text
 *.dll filter=lfs diff=lfs merge=lfs -text
-
 # Additional 3D Models
 *.dae filter=lfs diff=lfs merge=lfs -text
 *.mb filter=lfs diff=lfs merge=lfs -text
 *.ma filter=lfs diff=lfs merge=lfs -text
-
 # Additional Textures & Images
 *.tga filter=lfs diff=lfs merge=lfs -text
 *.tif filter=lfs diff=lfs merge=lfs -text
@@ -101,14 +98,12 @@ TerrainData*.asset     binary
 *.psd filter=lfs diff=lfs merge=lfs -text
 *.exr filter=lfs diff=lfs merge=lfs -text
 *.hdr filter=lfs diff=lfs merge=lfs -text
-
 # Additional Audio & Video
 *.ogg filter=lfs diff=lfs merge=lfs -text
 *.aif filter=lfs diff=lfs merge=lfs -text
 *.aiff filter=lfs diff=lfs merge=lfs -text
 *.avi filter=lfs diff=lfs merge=lfs -text
 *.webm filter=lfs diff=lfs merge=lfs -text
-
 # Additional Plugins, Archives & Fonts
 *.pdb filter=lfs diff=lfs merge=lfs -text
 *.so filter=lfs diff=lfs merge=lfs -text
