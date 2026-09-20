@@ -1936,7 +1936,7 @@ MonoBehaviour:
   cameraRayStartOffset: 0
   ignoreCameraLayer:
     serializedVersion: 2
-    m_Bits: 72
+    m_Bits: 1048648
   sens: 3
   lockVertMin: -35
   lockVertMax: 60
