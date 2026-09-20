@@ -7,6 +7,8 @@ public class BossRewardSpawner : MonoBehaviour
 
     [Header("Reward")]
     [SerializeField] private GameObject rewardChest;
+    [SerializeField] private GameObject levelKeyPrefab;
+    [SerializeField] private Transform keySpawnPoint;
 
     private bool rewardSpawned = false;
 
@@ -31,14 +33,22 @@ public class BossRewardSpawner : MonoBehaviour
         if (rewardSpawned)
             return;
 
-        if(rewardChest == null)
-        {
-            Debug.LogWarning("No Reward chest assigned.");
-            return;
-        }
-
         rewardSpawned = true;
-        rewardChest.SetActive(true);
+
+        if (rewardChest != null)
+        {
+            rewardChest.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("No reward chest assigned.");
+        }
+        
+        if(levelKeyPrefab != null)
+        {
+            levelKeyPrefab.SetActive(true);
+        }
+      
 
         if(DesNarManager.Instance != null)
         {
@@ -47,12 +57,5 @@ public class BossRewardSpawner : MonoBehaviour
         Debug.Log("Boss reward chest spawned.");
     }
 
-    //private void OnEnable()
-    //{
-    //    BossEvents.OnBossDefeated += SpawnReward();
-    //}
-    //private void OnDisable()
-    //{
-    //    BossEvents.OnBossDefeated -= SpawnReward;
-    //}
+    
 }
