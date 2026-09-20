@@ -14,6 +14,10 @@ public class LootChest : MonoBehaviour, IInteractable
     [SerializeField] private float upwardForce = 2f;
     [SerializeField] private float forwardForce = 1f;
 
+    [Header("Narrator")]
+    [SerializeField] private bool playNarratorOnOpen;
+    [SerializeField] private DesNarLine narratorLineOnOpen;
+
     private bool opened = false;
 
     public string InteractionPrompt
@@ -38,6 +42,11 @@ public class LootChest : MonoBehaviour, IInteractable
         }
 
         opened = true;
+
+        if(playNarratorOnOpen && DesNarManager.Instance != null)
+        {
+            DesNarManager.Instance.PlayLine(narratorLineOnOpen);
+        }
 
         if (equipmentPickupPrefab != null)
             SpawnLoot(equipmentPickupPrefab);
