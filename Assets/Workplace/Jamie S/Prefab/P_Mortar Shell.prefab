@@ -203,11 +203,11 @@ MonoBehaviour:
   sceneryImpactMask:
     serializedVersion: 2
     m_Bits: 0
-  explosionVfxPrefab: {fileID: 0}
-  explosionSound: {fileID: 0}
+  explosionVfxPrefab: {fileID: 7534864516594112586, guid: 843505d42b1ac7b46a3f3ef3176f982f, type: 3}
+  explosionSound: {fileID: 8300000, guid: 718973fae6ccac04e9b0b4f056ae0221, type: 3}
   trail: {fileID: 0}
-  explosionVolume: 1
-  explosionSoundDist: 3
+  explosionVolume: 0.9
+  explosionSoundDist: 35
   arcHeight: 8
   splachRadius: 6
   groundMask:

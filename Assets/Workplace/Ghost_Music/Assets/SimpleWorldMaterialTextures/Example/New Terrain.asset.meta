@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1b550260a2e5c7748af2e476e68220a9
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 15600000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 196875
+  packageName: Simple World Material Textures
+  packageVersion: 1.0.0
+  assetPath: Assets/SimpleWorldMaterialTextures/Example/New Terrain.asset
+  uploadId: 499553

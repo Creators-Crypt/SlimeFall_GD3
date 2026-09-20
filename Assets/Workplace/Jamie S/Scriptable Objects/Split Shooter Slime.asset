@@ -20,7 +20,7 @@ MonoBehaviour:
   patrolWaitTimeMin: 1.5
   patrolWaitTimeMax: 3.5
   detectionRadius: 10
-  detectionAngle: 145
+  detectionAngle: 170
   lostSightTime: 3
   obstacleMask:
     serializedVersion: 2
@@ -106,16 +106,16 @@ MonoBehaviour:
     volume: 1
     soundDist: 25
   projectileLaunch:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
+    vfxPrefab: {fileID: 4657287752871689871, guid: 20bf09f8c79fbc5498c77a712f2efbb9, type: 3}
+    sound: {fileID: 8300000, guid: c1dc913d066f2a54bbd87db92d272fab, type: 3}
     vfxLifetime: 3
-    volume: 1
-    soundDist: 25
+    volume: 0.7
+    soundDist: 35
   projectileHit:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
+    vfxPrefab: {fileID: 1887492736218357856, guid: 28e43cb587142724b84cbacb4b725214, type: 3}
+    sound: {fileID: 8300000, guid: bb393d09f293dfb48b3f7ad134a9ca28, type: 3}
     vfxLifetime: 3
-    volume: 1
+    volume: 0.7
     soundDist: 25
   mortarLaunch:
     vfxPrefab: {fileID: 0}
@@ -130,24 +130,6 @@ MonoBehaviour:
     volume: 1
     soundDist: 25
   bossLeapWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeSwing:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeHit:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}
     vfxLifetime: 3

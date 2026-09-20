@@ -24,14 +24,14 @@ MonoBehaviour:
   lostSightTime: 3
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 0
-  attackRange: 2.01
+    m_Bits: 128
+  attackRange: 5
   attackCooldown: 1.2
-  attackDamage: 15
+  attackDamage: 20
   projectilePrefab: {fileID: 0}
   projectileSpeed: 10
-  explosionRadius: 6
-  explosionVFX: {fileID: 7670540331553907632, guid: 298375910fe563441b8d42194e10010c, type: 3}
+  explosionRadius: 10
+  explosionVFX: {fileID: 0}
   mortarPrefab: {fileID: 0}
   mortarHitPosDisplayPrefab: {fileID: 0}
   mortarSpeed: 15
@@ -124,30 +124,12 @@ MonoBehaviour:
     volume: 1
     soundDist: 25
   bomberBlast:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
+    vfxPrefab: {fileID: 7670540331553907632, guid: 298375910fe563441b8d42194e10010c, type: 3}
+    sound: {fileID: 8300000, guid: 52bcef6fe2008044695347a811f02a87, type: 3}
     vfxLifetime: 3
-    volume: 1
-    soundDist: 25
+    volume: 0.9
+    soundDist: 50
   bossLeapWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeSwing:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeHit:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}
     vfxLifetime: 3
@@ -177,7 +159,7 @@ MonoBehaviour:
     vfxLifetime: 3
     volume: 1
     soundDist: 25
-  splitChance: 1
+  splitChance: 0.75
   splitPrefab: {fileID: 2062379671512809283, guid: 03bd780669ea9f949b3072d79f0c3abb, type: 3}
   splitCount: 2
   splitRadius: 10

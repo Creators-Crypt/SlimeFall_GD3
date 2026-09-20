@@ -677,10 +677,10 @@ MonoBehaviour:
   model: {fileID: 2434645201527539545}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1048576
   groundMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
   damageableMask:
     serializedVersion: 2
     m_Bits: 0
@@ -780,9 +780,9 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_Resource: {fileID: 0}
+  m_Resource: {fileID: 8300000, guid: 3b0724e2156060b4bba2ff72bdefa920, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 0
   Mute: 0

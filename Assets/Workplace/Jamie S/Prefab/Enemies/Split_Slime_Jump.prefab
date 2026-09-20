@@ -412,13 +412,13 @@ MonoBehaviour:
   model: {fileID: 4929684679642423590}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1048576
   groundMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
   damageableMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1048576
   otherEnemyMask:
     serializedVersion: 2
     m_Bits: 0

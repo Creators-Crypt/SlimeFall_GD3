@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91ed46f2e35663a4899748da965190d9, type: 3}
-  m_Name: Split Melee Slime
+  m_Name: Split Jump Slime
   m_EditorClassIdentifier: Assembly-CSharp::EnemyStatsSO
   enemyType: 5
   maxHealth: 15
@@ -25,7 +25,7 @@ MonoBehaviour:
   obstacleMask:
     serializedVersion: 2
     m_Bits: 0
-  attackRange: 2
+  attackRange: 5
   attackCooldown: 1.2
   attackDamage: 5
   projectilePrefab: {fileID: 2002685277281540589, guid: 85faa578e3404a0469553bca229569c0, type: 3}
@@ -47,7 +47,7 @@ MonoBehaviour:
   mortarDamageMask:
     serializedVersion: 2
     m_Bits: 0
-  jumpdamage: 2.5
+  jumpdamage: 5
   jumpWindupTime: 0.4
   jumpDuration: 0.65
   jumpHeight: 1.5
@@ -64,28 +64,28 @@ MonoBehaviour:
   jumpToWaveDelay: 0.25
   jumpWaveDamage: 4
   jumpWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
+    vfxPrefab: {fileID: 4406393109996900277, guid: 2035a6ef9134896499e235cd12484a1c, type: 3}
+    sound: {fileID: 8300000, guid: f4afbf17cfaca2b488530d2162d7d2eb, type: 3}
     vfxLifetime: 3
-    volume: 1
+    volume: 0.5
     soundDist: 25
   jumpTakeOff:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
+    vfxPrefab: {fileID: 7963845113487687317, guid: 2bdcc196fc3192444b943c48150fa327, type: 3}
+    sound: {fileID: 8300000, guid: 85b1d0b7953a92545baa08f1d7235d13, type: 3}
     vfxLifetime: 3
-    volume: 1
+    volume: 0.5
     soundDist: 25
   jumpHit:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
+    vfxPrefab: {fileID: 4085713738250179142, guid: 68181d3ed682c2b47a14498e467378bc, type: 3}
+    sound: {fileID: 8300000, guid: bb393d09f293dfb48b3f7ad134a9ca28, type: 3}
     vfxLifetime: 3
-    volume: 1
+    volume: 0.5
     soundDist: 25
   jumpLanding:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
+    vfxPrefab: {fileID: 4085713738250179142, guid: 68181d3ed682c2b47a14498e467378bc, type: 3}
+    sound: {fileID: 8300000, guid: 267dcd73c1a30154994ea19989807de4, type: 3}
     vfxLifetime: 3
-    volume: 1
+    volume: 0.5
     soundDist: 25
   waveWindup:
     vfxPrefab: {fileID: 0}
@@ -105,7 +105,13 @@ MonoBehaviour:
     vfxLifetime: 3
     volume: 1
     soundDist: 25
-  randedLaunch:
+  projectileLaunch:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  projectileHit:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}
     vfxLifetime: 3
@@ -124,24 +130,6 @@ MonoBehaviour:
     volume: 1
     soundDist: 25
   bossLeapWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeSwing:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeHit:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}
     vfxLifetime: 3
@@ -177,3 +165,20 @@ MonoBehaviour:
   splitRadius: 0.75
   splitVFXPrefab: {fileID: 0}
   splitGrowthSpeed: 0
+  canReturn: 1
+  returnDelay: 15
+  appearDelay: 0.5
+  lingerAfterScream: 1
+  scareCooldown: 8
+  bansheeTurnSpeed: 0
+  screamClips: []
+  screamVolume: 0.8
+  audibleDist: 25
+  fleeDuration: 4
+  fleedistance: 12
+  screamFeedback:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25

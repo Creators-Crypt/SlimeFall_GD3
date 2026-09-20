@@ -47,7 +47,7 @@ Material:
     - _QueueOffset: 0
     - _ScrollSpeed: 0.35
     - _Subtract: 0.5
-    - _TrailWidth: 0.7
+    - _TrailWidth: 0.4
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _CrestColor: {r: 0.74901956, g: 0.20267591, b: 0.046997312, a: 1}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using static EnemyStatsSO;
@@ -326,23 +327,23 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
 
         foreach (Collider hit in hits)
         {
-/*            if (hit.gameObject != gameObject)
-            {
-                IDamageable damageable = hit.GetComponent<IDamageable>();
+            //if (hit.gameObject != gameObject)
+            //{
+            //    IDamageable damageable = hit.GetComponent<IDamageable>();
 
-                if (damageable != null)
-                {
-                    damageable.OnDamage(stats.attackDamage);
-                }
-            }*/
+            //    if (damageable != null)
+            //    {
+            //        damageable.OnDamage(stats.attackDamage);
+            //    }
+            //}
             if (hit.TryGetComponent<HealthSystem>(out var playerHealth)) {
                 playerHealth.OnDamage(stats.attackDamage);
             }
 
         }
-        if(stats.explosionVFX != null)
+        if(stats.bomberBlast != null)
         {
-            Instantiate(stats.explosionVFX, transform.position + new Vector3(0,.5f,0), Quaternion.identity);
+            PlayVFXandSFX(stats.bomberBlast, new Vector3(transform.position.x, transform.position.y + .03f, transform.position.z));
         }
         Die();
     }
@@ -402,7 +403,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
                 EnemyAI newEnemyAI = newEnemy.GetComponent<EnemyAI>();
                 if(newEnemyAI != null)
                 {
-                    newEnemyAI.StartCoroutine(GrowSpawn(stats.splitGrowthSpeed));
+                    newEnemyAI.StartCoroutine(newEnemyAI.GrowSpawn(stats.splitGrowthSpeed));
                 }
             }
 
@@ -453,7 +454,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
 
         Vector3 start = transform.position;
         Vector3 aimPoint = playerTarget.position;
-        CapsuleCollider  playerCollider = playerTarget.GetComponent<CapsuleCollider>();
+        CapsuleCollider  playerCollider = playerTarget.GetComponentInChildren<CapsuleCollider>();
         if(playerCollider != null)
         {
             aimPoint = playerCollider.bounds.center;
@@ -598,7 +599,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
             yield return new WaitForSeconds(stats.mortarTimeBetweenShells);
         }
     }
-    IEnumerator GrowSpawn (float _duration)
+    public virtual IEnumerator GrowSpawn (float _duration)
     {
         Vector3 fullScale = transform.localScale;
         transform.localScale = Vector3.zero;

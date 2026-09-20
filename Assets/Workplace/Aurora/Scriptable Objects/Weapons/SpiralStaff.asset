@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a088f71807047c94cb5dffadccadf377, type: 3}
+  m_Name: SpiralStaff
+  m_EditorClassIdentifier: Assembly-CSharp::SpellWeaponData
+  weaponName: SpiralStaff
+  weaponKind: 3
+  delivery: 3
+  weaponModelPrefab: {fileID: 7201209222095305878, guid: 63a25c3d150fc3043be55c3e095fb6da, type: 3}
+  worldPickupPrefab: {fileID: 7201209222095305878, guid: 6d61c8a8afd54c542bd241369115ed13, type: 3}
+  damageMultiplier: 1
+  cooldownMultiplier: 1
+  overrideSpawnCount: 0
+  weaponSpawnCount: 3
+  weaponSpreadAngle: 30

@@ -59,6 +59,8 @@ public class BossTelegraph : MonoBehaviour
         timer = 0f;
         playing = true;
 
+        VoidParentScale();
+
         if(outline != null)
         {
             float size = radius * scale;
@@ -80,5 +82,23 @@ public class BossTelegraph : MonoBehaviour
 
             cachedMaterial.SetColor("_BaseColor", newColor);
         }
+    }
+
+    private void VoidParentScale()
+    {
+        Transform parent = transform.parent;
+        if(parent == null)
+        {
+            transform.localScale = Vector3.one;
+            return;
+        }
+        Vector3 p = parent.lossyScale;
+        transform.localScale = new Vector3(Mathf.Approximately(p.x, 0f) ? 1f : 1f / p.x, 
+                                           Mathf.Approximately(p.y,0f) ? 1f : 1f /p.y, 
+                                           Mathf.Approximately(p.z,0f)? 1f : 1f/p.z);
+    }
+    private void OnDestroy()
+    {
+        if(cachedMaterial != null) Destroy(cachedMaterial); 
     }
 }

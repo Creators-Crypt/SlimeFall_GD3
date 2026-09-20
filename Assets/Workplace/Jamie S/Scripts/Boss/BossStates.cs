@@ -270,8 +270,8 @@ public class BossPhase2State : IEnemyState
     private BossStatsSO stats;
     private Coroutine routine;
 
-    private float nextJumpTime;
-    private float nextWaveTime;
+    private float nextAttackTime;
+
     private bool busy;
 
     public BossPhase2State(BossAI _boss)
@@ -286,17 +286,15 @@ public class BossPhase2State : IEnemyState
         boss.isInvulnerable = false;
         boss.SetPhaseColor(stats.phase2Material);
 
+        busy = false;
+        nextAttackTime = Time.time + .5f;
+
         if (boss.agent != null && boss.agent.enabled)
         {
             boss.agent.speed = stats.p2ChaseSpeed;
-            boss.agent.stoppingDistance = stats.jumpMaxDistance *.8f;
-
-            boss.SetMovementEnabled(true);
-
-            busy = false;
-            nextWaveTime = Time.time + stats.aoeWaveCooldown;
-            nextJumpTime = Time.time + .5f;
+            boss.agent.stoppingDistance = stats.jumpMaxDistance *.8f;           
         }
+        boss.SetMovementEnabled(true);
     }
 
     public void Tick()
@@ -310,24 +308,17 @@ public class BossPhase2State : IEnemyState
 
         float distance = Vector3.Distance(boss.transform.position, boss.playerTarget.position);
 
-        if (Time.time >= nextWaveTime)
+        if (distance <= stats.jumpMaxDistance && Time.time >= nextAttackTime)
         {
-            StartRoutine(AoEWave());
+            StartRoutine(JumpNdWave());
             return;
         }
-        if (distance <= stats.jumpMaxDistance && Time.time >= nextJumpTime)
-        {
-            StartRoutine(boss.JumpAttack(stats.jumpdamage));
-            return;
-        }
+      
 
         boss.SetMovementEnabled(true);
         boss.MoveTo(boss.playerTarget.position);
 
-        if (distance <= stats.p2MeleeRange)
-        {
-            boss.FacePlayer();
-        }
+       
 
     }
     public void Exit()
@@ -345,6 +336,7 @@ public class BossPhase2State : IEnemyState
         if (routine != null)
         {
             boss.StopCoroutine(routine);
+            boss.RestoreJumpMovement();
         }
         routine = boss.StartCoroutine(_routineToRun);
     }
@@ -403,10 +395,33 @@ public class BossPhase2State : IEnemyState
     //    }
     //}
 
-    private IEnumerator AoEWave()
+    private IEnumerator JumpNdWave()
     {
         busy = true;
+        yield return boss.JumpAttack(stats.jumpdamage);
+
+        if(boss.jumpLanded)
+        {
+            yield return new WaitForSeconds(stats.jumpToWaveDelay);
+            yield return AoEWave();
+        }
+        boss.lastAttackTime = Time.time;
+        nextAttackTime = Time.time + stats.aoeWaveCooldown;
+
+        yield return new WaitForSeconds(stats.jumpRecovery);
+
+        boss.SetMovementEnabled(true) ;
+        busy = false;
+        routine = null;
+    }
+
+
+    private IEnumerator AoEWave()
+    {
+       
         boss.SetMovementEnabled(false);
+
+        boss.PlayVFXandSFX(stats.waveWindup, boss.transform.position);
 
         yield return new WaitForSeconds(stats.aoeWaveWarnintTime);
 
@@ -420,6 +435,7 @@ public class BossPhase2State : IEnemyState
             BossAoEWave wave = waveObject.GetComponent<BossAoEWave>();
             if (wave != null)
             {
+                boss.PlayVFXandSFX(stats.waveRelease, center);
                 wave.Play(boss, stats.aoeWaveRadius, stats.aoeWaveSpeed, stats.aoeWaveDmg, waveHits);
 
             }
@@ -437,12 +453,10 @@ public class BossPhase2State : IEnemyState
             boss.DealRadialDamage(center, stats.aoeWaveRadius, stats.aoeWaveDmg, waveHits);
         }
 
-        boss.lastAttackTime = Time.time;
-        nextWaveTime = Time.time + stats.aoeWaveCooldown;
+       
 
         yield return new WaitForSeconds(.5f);
-        busy = false;
-        routine = null;
+        
     }
 }
 
@@ -523,12 +537,30 @@ public class BossPhase3State : IEnemyState
             telegraph = Object.Instantiate(stats.detonationTelegraphPrefab, boss.transform.position, Quaternion.identity);
             telegraph.transform.SetParent(boss.transform);
 
-            BossTelegraph marker = telegraph.GetComponent<BossTelegraph>();
-
+            BossTelegraph marker = telegraph.GetComponentInChildren<BossTelegraph>(true);
+         
             if (marker != null)
             {
                 marker.Play(stats.detonationKillRad, stats.detonationTime);
             }
+            else
+            {
+
+                Debug.LogError($"Detonation Telegraph: 'Prefab' is not assigned" + telegraph.name, telegraph);
+            }
+            if (marker.outline == null)
+            {
+                Debug.LogError($"Detonation Telegraph: 'fill' is not assigned" + marker.name + ". the countdonw will never fill.", marker);
+            }
+            if (marker.fill == null)
+            {
+                Debug.LogError($"Detonation Telegraph: 'outline' is not assigned" + marker.name + ". the kill-radius ring will never be sized.", marker);
+            }
+            if (marker.fill == null)
+            {
+                Debug.LogWarning($"Detonation Telegraph: 'ColorTarget' is not assigned" + marker.name + ". the kill-radius ring will never be sized.", marker);
+            }
+           
         }
 
         routine = boss.StartCoroutine(Countdow());
