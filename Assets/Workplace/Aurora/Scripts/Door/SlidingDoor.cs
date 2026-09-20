@@ -13,7 +13,7 @@ public class SlidingDoor : Door {
 
     [SerializeField] private bool hideDoor = false;
 
-    public override string InteractionPrompt => (hideDoor) ? string.Empty : "Press Z to Open";
+    public override string InteractionPrompt => (hideDoor) ? string.Empty : "Press E to Open";
     private void Start() {
         
         doorCollider = GetComponentInChildren<BoxCollider>();
