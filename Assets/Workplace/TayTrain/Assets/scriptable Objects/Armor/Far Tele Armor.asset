@@ -30,6 +30,6 @@ MonoBehaviour:
   concentrationMaxBonus: 0
   staminaMaxBonus: 0
   teleportCooldownReduction: 0
-  teleportDistanceBonus: 10
+  teleportDistanceBonus: 30
   dodgeCooldownReduction: 0
   dodgeSpeedBonus: 0

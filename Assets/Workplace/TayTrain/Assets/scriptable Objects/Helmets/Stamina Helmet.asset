@@ -28,7 +28,7 @@ MonoBehaviour:
   healthRegenBonus: 0
   healthMaxBonus: 0
   concentrationMaxBonus: 0
-  staminaMaxBonus: 100
+  staminaMaxBonus: 75
   teleportCooldownReduction: 0
   teleportDistanceBonus: 0
   dodgeCooldownReduction: 0
