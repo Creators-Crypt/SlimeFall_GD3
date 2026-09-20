@@ -414,7 +414,7 @@ MonoBehaviour:
   model: {fileID: 2566930387724663771}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1048576
   groundMask:
     serializedVersion: 2
     m_Bits: 8
@@ -444,6 +444,7 @@ MonoBehaviour:
   stunTimeleft: 0
   detonationTimeLeft: 0
   eyeHitCount: 0
+  isActive: 0
   colorBlendSpeed: 0
   eyeHitExpireTime: 0
   stunLockout: 0

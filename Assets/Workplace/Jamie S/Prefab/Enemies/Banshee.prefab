@@ -677,10 +677,10 @@ MonoBehaviour:
   model: {fileID: 2434645201527539545}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1048576
   groundMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
   damageableMask:
     serializedVersion: 2
     m_Bits: 0

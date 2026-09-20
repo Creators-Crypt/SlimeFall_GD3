@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_MortarFill
+  m_Name: M_BossDetonationFill
   m_Shader: {fileID: -6465566751694194690, guid: fc62006aecac3d14094404d12fae0ab2, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -50,8 +50,8 @@ Material:
     - _TrailWidth: 0.4
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _CrestColor: {r: 0.74901956, g: 0.20267591, b: 0.046997312, a: 1}
-    - _TrailColor: {r: 1.1261749, g: 0.47749814, b: 0.0855893, a: 1}
+    - _CrestColor: {r: 0.33333334, g: 0.07058824, b: 0.05490196, a: 1}
+    - _TrailColor: {r: 0.97324497, g: 0.07741721, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &3692951702744475133

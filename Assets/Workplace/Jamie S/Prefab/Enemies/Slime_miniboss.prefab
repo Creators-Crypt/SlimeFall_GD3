@@ -63,7 +63,7 @@ MonoBehaviour:
   model: {fileID: 5802837225810306042}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 1048576
   groundMask:
     serializedVersion: 2
     m_Bits: 4294967295

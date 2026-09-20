@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_MortarFill
-  m_Shader: {fileID: -6465566751694194690, guid: fc62006aecac3d14094404d12fae0ab2, type: 3}
+  m_Name: M_SlimeNuke
+  m_Shader: {fileID: -6465566751694194690, guid: bab6603e7b121ca43ba334f1db16b418, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -38,23 +38,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _EdgePostion: 0.4
-    - _EdgeWidth: 0.02
-    - _NoiseAmount: 0.05
-    - _NoiseScale: 7
-    - _Opacity: 1
+    - _Contrast: 0.65
+    - _Displace: 0.11
+    - _Emission: 2.2
+    - _Erode: 0.3
+    - _NoiseScale: 5.5
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ScrollSpeed: 0.35
-    - _Subtract: 0.5
-    - _TrailWidth: 0.4
-    m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _CrestColor: {r: 0.74901956, g: 0.20267591, b: 0.046997312, a: 1}
-    - _TrailColor: {r: 1.1261749, g: 0.47749814, b: 0.0855893, a: 1}
+    - _ScrollSpeed: -0.35
+    m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1
---- !u!114 &3692951702744475133
+--- !u!114 &7680867002251301127
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}

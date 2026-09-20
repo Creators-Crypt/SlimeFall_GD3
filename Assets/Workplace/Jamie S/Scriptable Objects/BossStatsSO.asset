@@ -48,10 +48,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1048576
   jumpdamage: 5
-  jumpWindupTime: 0.4
+  jumpWindupTime: 0.6
   jumpDuration: 0.65
   jumpHeight: 1.5
-  jumpMaxDistance: 5
+  jumpMaxDistance: 15
   jumpHitRadius: 0.5
   jumpRecovery: 0.4
   jumpObstacleMask:
@@ -60,9 +60,9 @@ MonoBehaviour:
   aoeWavePrefab: {fileID: 3563498644967845075, guid: 946b97f7b78864e41939dd9ccffe81b5, type: 3}
   aoeWaveWaringTime: 1
   aoeWaveRadius: 20
-  aoeWaveSpeed: 10
+  aoeWaveSpeed: 8
   jumpToWaveDelay: 0.25
-  jumpWaveDamage: 4
+  jumpWaveDamage: 8
   jumpWindup:
     vfxPrefab: {fileID: 4406393109996900277, guid: b24229dc2f19880488f1063a4d1da473, type: 3}
     sound: {fileID: 8300000, guid: f4afbf17cfaca2b488530d2162d7d2eb, type: 3}
@@ -135,24 +135,6 @@ MonoBehaviour:
     vfxLifetime: 3
     volume: 1
     soundDist: 55
-  bossMeleeWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeSwing:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeHit:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
   bossLeapTakeoff:
     vfxPrefab: {fileID: 7963845113487687317, guid: 2bdcc196fc3192444b943c48150fa327, type: 3}
     sound: {fileID: 8300000, guid: 85b1d0b7953a92545baa08f1d7235d13, type: 3}
@@ -166,17 +148,17 @@ MonoBehaviour:
     volume: 1
     soundDist: 55
   bossDetonationWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
+    vfxPrefab: {fileID: 7699037211894731902, guid: 5d3fd7b229d0be541b00dd7feaf57463, type: 3}
+    sound: {fileID: 8300000, guid: 9a12072ca8374ac4d84cee8fb432ae01, type: 3}
     vfxLifetime: 3
-    volume: 1
-    soundDist: 25
+    volume: 0.8
+    soundDist: 55
   bossDetonationBlast:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
+    vfxPrefab: {fileID: 7667715400565136645, guid: ebb385c9a841aa3439a179dbd01886e6, type: 3}
+    sound: {fileID: 8300000, guid: d832b716767d9d040ae3015615f76faf, type: 3}
+    vfxLifetime: 5
+    volume: 0.8
+    soundDist: 80
   splitChance: 0
   splitPrefab: {fileID: 0}
   splitCount: 2
@@ -229,7 +211,7 @@ MonoBehaviour:
   leapLandingDist: 4
   landingShockRad: 6
   landingShockDmg: 12
-  landingShockVfxPrefab: {fileID: 0}
+  landingShockVfxPrefab: {fileID: 4085713738250179142, guid: 044ef4b2abe91f1439646371f0c83ea3, type: 3}
   p2ChaseSpeed: 5
   p2MeleeRange: 2.6
   p2MeleeAngle: 100
@@ -247,4 +229,4 @@ MonoBehaviour:
   detonationKillRad: 50
   detonationDmg: 100000000
   detonationVFXPrefab: {fileID: 0}
-  detonationTelegraphPrefab: {fileID: 6911871139904711538, guid: 581835e11040e274bbccb60a64dd7340, type: 3}
+  detonationTelegraphPrefab: {fileID: 7562685562313601198, guid: 0a0d63baaa1e33f4b96caaeb9f6bdcaa, type: 3}
