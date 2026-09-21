@@ -278,7 +278,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BossAoEWave
   ringGrow: {fileID: 2303166225645969051}
-  radiusScale: 2.63
+  radiusScale: 2.5
   fadeOutTime: 1
   maxRadius: 10
   growSpeed: 1

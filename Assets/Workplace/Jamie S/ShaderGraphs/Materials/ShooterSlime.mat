@@ -105,6 +105,8 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _Jiggle_Amount: 0.1
+    - _Jiggle_Speed: 5
     - _Metallic: 0.453
     - _OcclusionStrength: 1
     - _Parallax: 0.005

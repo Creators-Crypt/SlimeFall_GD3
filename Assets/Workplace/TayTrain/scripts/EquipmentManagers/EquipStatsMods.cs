@@ -56,12 +56,9 @@ public class EquipStatsMods : MonoBehaviour
     {
         healthMaxBonus -= amount;
 
-        if (healthMaxBonus < 0)
-        {
-            healthMaxBonus = 0;
-        }
+        healthMaxBonus = Mathf.Max(0f, healthMaxBonus);
 
-        OnHealthMaxChanged?.Invoke(amount);
+        OnHealthMaxChanged?.Invoke(-amount);
     }
     public void addConcentrationMax(float amount)
     {
@@ -83,17 +80,15 @@ public class EquipStatsMods : MonoBehaviour
     public void addStaminaMax(float amount)
     {
         staminaMaxBonus += amount;
-       // will connect to stamina system
+        staminaController.SetMaxBonus(staminaMaxBonus);
     }
     public void normalStaminaMax(float amount)
     {
         staminaMaxBonus -= amount;
 
-        if (staminaMaxBonus < 0)
-        {
-            staminaMaxBonus = 0;
-        }
-        // will connect to stamina system
+       staminaMaxBonus = Mathf.Max(0f, staminaMaxBonus);
+
+        staminaController.SetMaxBonus(staminaMaxBonus);
     }
     //Amulets
     public float StaminaRegenMult

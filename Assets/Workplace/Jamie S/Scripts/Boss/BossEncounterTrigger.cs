@@ -5,6 +5,8 @@ public class BossEncounterTrigger : MonoBehaviour
     public MonoBehaviour boss;
     public BossHealthBarUI bossHealthBar;
 
+    private bool fired;
+
     public void Awake()
     {
         BoxCollider encounterArea = GetComponent<BoxCollider>();
@@ -32,6 +34,8 @@ public class BossEncounterTrigger : MonoBehaviour
 
     private void CheckForPlayer(Collider _other)
     {
+        if (fired) return;
+
         if(isActiveAndEnabled == false || boss == null|| bossHealthBar == null)
         {
             Debug.Log($"[Trigger] fail. enabled= {isActiveAndEnabled} boss={(boss==null?"NULL":boss.name)} bar= {(bossHealthBar ==null?"NULL":bossHealthBar.name)}");
@@ -40,9 +44,21 @@ public class BossEncounterTrigger : MonoBehaviour
 
         if (_other.CompareTag("Player"))
         {
+            fired = true;
             Debug.Log($"[Trigger] ShowBar ->{bossHealthBar.name}, boss = {boss.GetType().Name}");
             bossHealthBar.ShowBar(boss);
-            return;
+
+            BossAI  bossAI = boss as BossAI; 
+            if (bossAI != null)
+            {
+                bossAI.ActivateEncounter();
+            }
+            else
+            {
+                Debug.LogWarning("[Trigger] the boss field is not a BossAI so the encounter did not start");
+            }
+            enabled = false;
+                return;
         }
     }
 }

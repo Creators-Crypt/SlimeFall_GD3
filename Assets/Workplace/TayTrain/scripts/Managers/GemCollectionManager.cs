@@ -20,6 +20,24 @@ public class GemCollectionManager : Singleton<GemCollectionManager>
 
         gemsCollected++;
 
+        if(DesNarManager.Instance != null)
+        {
+            switch(gemsCollected)
+            {
+                case 1:
+                    DesNarManager.Instance.PlayLine(DesNarLine.FirstGem);
+                    break;
+
+                case 2:
+                    DesNarManager.Instance.PlayLine(DesNarLine.SecondGem);
+                    break;
+
+                case 3:
+                    DesNarManager.Instance.PlayLine(DesNarLine.ThirdGem);
+                    break;
+            }
+        }
+
         Debug.Log($"Gem Collected: {gemsCollected}/{gemsRequired}");
 
         OnGemCountChanged?.Invoke(gemsCollected, gemsRequired) ;

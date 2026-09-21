@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31b3581e68b057844916cedf99488ca3, type: 3}
   m_Name: PlayerStats
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
-  walkSpeed: 6
-  sprintSpeed: 10
+  walkSpeed: 10
+  sprintSpeed: 15
   dodgeSpeedMultiplier: 1.5
   dodgeDuration: 0.5
   dodgeCooldown: 1
@@ -26,7 +26,7 @@ MonoBehaviour:
   currentStamina: 51.32952
   staminaRegenRate: 0
   dodgeStaminaCost: 20
-  sprintStaminaCost: 20
+  sprintStaminaCost: 10
   sprintStaminaRegen: 4
   maxHealth: 100
   invincibleTime: 1

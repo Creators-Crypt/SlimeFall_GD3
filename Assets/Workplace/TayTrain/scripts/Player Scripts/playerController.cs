@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerState currentState;
+    private PlayerAudioController playerAudioController;
 
     private PlayerState previousState = (PlayerState)(-1);
     
@@ -102,7 +103,9 @@ public class PlayerController : MonoBehaviour
         Cast,
         Dead
     }
-  
+
+    public PlayerState CurrentState => currentState;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
         controller = GetComponent<CharacterController>();
@@ -126,6 +129,8 @@ public class PlayerController : MonoBehaviour
         originalControllerHeight = controller.height;
 
         originalControllerCenter = controller.center;
+
+        playerAudioController = GetComponent<PlayerAudioController>();
 
         if(teleportTrail != null)
         {
@@ -348,6 +353,8 @@ void jump() {
                 jumpCount++;
                 playerVel.y = jumpSpeed;
 
+                playerAudioController?.PlayJump();
+
                 if (GameManager.Instance != null)
                 {
                     GameManager.Instance.PlayerPerformAction("Jump");
@@ -387,14 +394,14 @@ void jump() {
     void healthRegen()
     {
         if (healthRegenMult <= 1f)
-        {
-            healthRegenTimer += Time.deltaTime;
+            return;
 
-            if (healthRegenTimer >= 1f)
-            {
-                //healthSystem.OnHeal(healthRegenMult);
-                healthRegenTimer = 0f;
-            }
+        healthRegenTimer += Time.deltaTime;
+
+        if(healthRegenTimer >= 1f)
+        {
+            healthSystem.OnHeal(healthRegenMult);
+            healthRegenTimer = 0f;
         }
     }
     //Boots stats

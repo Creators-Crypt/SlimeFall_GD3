@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: a0e66ca56b5bfcd4e9f7487890fe07a9
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 625f186215c104763be7675aa2d941aa, type: 3}
+AssetOrigin:
+  serializedVersion: 1
+  productId: 268208
+  packageName: Ancient Desert Ruins Emvironment
+  packageVersion: 1.0
+  assetPath: Assets/BefourStudios/AncientDesertRuins/Art/Shaders/S_Grass.shadergraph
+  uploadId: 658270

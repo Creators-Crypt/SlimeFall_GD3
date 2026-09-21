@@ -270,8 +270,8 @@ public class BossPhase2State : IEnemyState
     private BossStatsSO stats;
     private Coroutine routine;
 
-    private float nextMeleeTime;
-    private float nextWaveTime;
+    private float nextAttackTime;
+
     private bool busy;
 
     public BossPhase2State(BossAI _boss)
@@ -286,17 +286,15 @@ public class BossPhase2State : IEnemyState
         boss.isInvulnerable = false;
         boss.SetPhaseColor(stats.phase2Material);
 
+        busy = false;
+        nextAttackTime = Time.time + .5f;
+
         if (boss.agent != null && boss.agent.enabled)
         {
             boss.agent.speed = stats.p2ChaseSpeed;
-            boss.agent.stoppingDistance = stats.p2MeleeRange;
-
-            boss.SetMovementEnabled(true);
-
-            busy = false;
-            nextWaveTime = Time.time + stats.aoeWaveCooldown;
-            nextMeleeTime = Time.time + .5f;
+            boss.agent.stoppingDistance = stats.jumpMaxDistance *.8f;           
         }
+        boss.SetMovementEnabled(true);
     }
 
     public void Tick()
@@ -310,24 +308,17 @@ public class BossPhase2State : IEnemyState
 
         float distance = Vector3.Distance(boss.transform.position, boss.playerTarget.position);
 
-        if (Time.time >= nextWaveTime)
+        if (distance <= stats.jumpMaxDistance && Time.time >= nextAttackTime)
         {
-            StartRoutine(AoEWave());
+            StartRoutine(JumpNdWave());
             return;
         }
-        if (distance <= stats.p2MeleeRange && Time.time >= nextMeleeTime)
-        {
-            StartRoutine(MeleeAttack());
-            return;
-        }
+      
 
         boss.SetMovementEnabled(true);
         boss.MoveTo(boss.playerTarget.position);
 
-        if (distance <= stats.p2MeleeRange)
-        {
-            boss.FacePlayer();
-        }
+       
 
     }
     public void Exit()
@@ -345,68 +336,92 @@ public class BossPhase2State : IEnemyState
         if (routine != null)
         {
             boss.StopCoroutine(routine);
+            boss.RestoreJumpMovement();
         }
         routine = boss.StartCoroutine(_routineToRun);
     }
 
-    private IEnumerator MeleeAttack()
+    //private IEnumerator MeleeAttack()
+    //{
+    //    busy = true;
+    //    boss.SetMovementEnabled(false);
+    //    boss.PlayVFXandSFX(stats.bossMeleeWindup, boss.transform.position);
+    //    float timer = 0f;
+    //    while (timer < stats.p2MeleeWindup)
+    //    {
+    //        timer += Time.deltaTime;
+    //        boss.FacePlayer();
+    //        yield return null;
+    //    }
+
+    //    boss.PlayVFXandSFX(stats.bossMeleeSwing, boss.transform.position);
+    //    HitAllInFront();
+
+    //    boss.lastAttackTime = Time.time;
+    //    nextMeleeTime = Time.time + stats.p2MeleeCooldown;
+
+    //    yield return new WaitForSeconds(.3f);
+
+    //    boss.SetMovementEnabled(true);
+    //    busy = false;
+    //    routine = null;
+    //}
+
+    //private void HitAllInFront()
+    //{
+    //    LayerMask meleeHits = boss.GetAttackMask(boss.meleeFriendlyFire);
+
+    //    Collider[] hits = Physics.OverlapSphere(boss.transform.position, stats.p2MeleeRange, meleeHits);
+
+    //    List<IDamageable> alreadyHit = new List<IDamageable>();
+
+    //    foreach (Collider hit in hits)
+    //    {
+    //        if (hit == null) continue;
+    //        if (hit.transform.IsChildOf(boss.transform)) continue;
+
+    //        Vector3 dist = hit.transform.position - boss.transform.position;
+
+    //        float angle = Vector3.Angle(boss.transform.forward, dist);
+    //        if (angle > stats.p2MeleeRange) continue;
+
+    //        IDamageable target = hit.GetComponent<IDamageable>();
+    //        if (target == null) continue;
+    //        if (alreadyHit.Contains(target)) continue;
+
+    //        alreadyHit.Add(target);
+    //        target.OnDamage(stats.p2MelleDmg);
+    //        boss.PlayVFXandSFX(stats.bossMeleeHit, hit.ClosestPoint(boss.transform.position));
+    //    }
+    //}
+
+    private IEnumerator JumpNdWave()
     {
         busy = true;
-        boss.SetMovementEnabled(false);
-        boss.PlayVFXandSFX(stats.bossMeleeWindup, boss.transform.position);
-        float timer = 0f;
-        while (timer < stats.p2MeleeWindup)
+        yield return boss.JumpAttack(stats.jumpdamage);
+
+        if(boss.jumpLanded)
         {
-            timer += Time.deltaTime;
-            boss.FacePlayer();
-            yield return null;
+            yield return new WaitForSeconds(stats.jumpToWaveDelay);
+            yield return AoEWave();
         }
-
-        boss.PlayVFXandSFX(stats.bossMeleeSwing, boss.transform.position);
-        HitAllInFront();
-
         boss.lastAttackTime = Time.time;
-        nextMeleeTime = Time.time + stats.p2MeleeCooldown;
+        nextAttackTime = Time.time + stats.aoeWaveCooldown;
 
-        yield return new WaitForSeconds(.3f);
+        yield return new WaitForSeconds(stats.jumpRecovery);
 
-        boss.SetMovementEnabled(true);
+        boss.SetMovementEnabled(true) ;
         busy = false;
         routine = null;
     }
 
-    private void HitAllInFront()
-    {
-        LayerMask meleeHits = boss.GetAttackMask(boss.meleeFriendlyFire);
-
-        Collider[] hits = Physics.OverlapSphere(boss.transform.position, stats.p2MeleeRange, meleeHits);
-
-        List<IDamageable> alreadyHit = new List<IDamageable>();
-
-        foreach (Collider hit in hits)
-        {
-            if (hit == null) continue;
-            if (hit.transform.IsChildOf(boss.transform)) continue;
-
-            Vector3 dist = hit.transform.position - boss.transform.position;
-
-            float angle = Vector3.Angle(boss.transform.forward, dist);
-            if (angle > stats.p2MeleeRange) continue;
-
-            IDamageable target = hit.GetComponent<IDamageable>();
-            if (target == null) continue;
-            if (alreadyHit.Contains(target)) continue;
-
-            alreadyHit.Add(target);
-            target.OnDamage(stats.p2MelleDmg);
-            boss.PlayVFXandSFX(stats.bossMeleeHit, hit.ClosestPoint(boss.transform.position));
-        }
-    }
 
     private IEnumerator AoEWave()
     {
-        busy = true;
+       
         boss.SetMovementEnabled(false);
+
+        boss.PlayVFXandSFX(stats.waveWindup, boss.transform.position);
 
         yield return new WaitForSeconds(stats.aoeWaveWarnintTime);
 
@@ -420,6 +435,7 @@ public class BossPhase2State : IEnemyState
             BossAoEWave wave = waveObject.GetComponent<BossAoEWave>();
             if (wave != null)
             {
+                boss.PlayVFXandSFX(stats.waveRelease, center);
                 wave.Play(boss, stats.aoeWaveRadius, stats.aoeWaveSpeed, stats.aoeWaveDmg, waveHits);
 
             }
@@ -437,12 +453,10 @@ public class BossPhase2State : IEnemyState
             boss.DealRadialDamage(center, stats.aoeWaveRadius, stats.aoeWaveDmg, waveHits);
         }
 
-        boss.lastAttackTime = Time.time;
-        nextWaveTime = Time.time + stats.aoeWaveCooldown;
+       
 
         yield return new WaitForSeconds(.5f);
-        busy = false;
-        routine = null;
+        
     }
 }
 
@@ -523,12 +537,30 @@ public class BossPhase3State : IEnemyState
             telegraph = Object.Instantiate(stats.detonationTelegraphPrefab, boss.transform.position, Quaternion.identity);
             telegraph.transform.SetParent(boss.transform);
 
-            BossTelegraph marker = telegraph.GetComponent<BossTelegraph>();
-
+            BossTelegraph marker = telegraph.GetComponentInChildren<BossTelegraph>(true);
+         
             if (marker != null)
             {
                 marker.Play(stats.detonationKillRad, stats.detonationTime);
             }
+            else
+            {
+
+                Debug.LogError($"Detonation Telegraph: 'Prefab' is not assigned" + telegraph.name, telegraph);
+            }
+            if (marker.outline == null)
+            {
+                Debug.LogError($"Detonation Telegraph: 'fill' is not assigned" + marker.name + ". the countdonw will never fill.", marker);
+            }
+            if (marker.fill == null)
+            {
+                Debug.LogError($"Detonation Telegraph: 'outline' is not assigned" + marker.name + ". the kill-radius ring will never be sized.", marker);
+            }
+            if (marker.fill == null)
+            {
+                Debug.LogWarning($"Detonation Telegraph: 'ColorTarget' is not assigned" + marker.name + ". the kill-radius ring will never be sized.", marker);
+            }
+           
         }
 
         routine = boss.StartCoroutine(Countdow());

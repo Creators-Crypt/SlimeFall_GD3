@@ -98,7 +98,7 @@ public class CameraController : MonoBehaviour
         RaycastHit hit;
 
 
-        if(Physics.Raycast(rayStart, worldDirection, out hit, distanceToCamera, ~ignoreCameraLayer))
+        if(Physics.Raycast(rayStart, worldDirection, out hit, distanceToCamera, ~ignoreCameraLayer, QueryTriggerInteraction.Ignore))
         {
             Vector3 collisionPosition = hit.point - worldDirection * cameraCollisionOffset;
 

@@ -19,15 +19,15 @@ MonoBehaviour:
   patrolRadius: 20
   patrolWaitTimeMin: 1.5
   patrolWaitTimeMax: 3.5
-  detectionRadius: 10
+  detectionRadius: 20
   detectionAngle: 145
   lostSightTime: 3
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 0
-  attackRange: 3.84
+    m_Bits: 128
+  attackRange: 8
   attackCooldown: 1.2
-  attackDamage: 25.23
+  attackDamage: 10
   projectilePrefab: {fileID: 0}
   projectileSpeed: 10
   explosionRadius: 3
@@ -51,7 +51,7 @@ MonoBehaviour:
   jumpWindupTime: 0.4
   jumpDuration: 0.65
   jumpHeight: 1.5
-  jumpMaxDistance: 5
+  jumpMaxDistance: 8
   jumpHitRadius: 0.5
   jumpRecovery: 0.4
   jumpObstacleMask:
@@ -59,7 +59,7 @@ MonoBehaviour:
     m_Bits: 128
   aoeWavePrefab: {fileID: 3563498644967845075, guid: 90b365e0f2a425e4ba07ecf2baebf395, type: 3}
   aoeWaveWaringTime: 1
-  aoeWaveRadius: 9
+  aoeWaveRadius: 10
   aoeWaveSpeed: 5
   jumpToWaveDelay: 0.25
   jumpWaveDamage: 10
@@ -105,7 +105,13 @@ MonoBehaviour:
     vfxLifetime: 0.6
     volume: 0.5
     soundDist: 14
-  randedLaunch:
+  projectileLaunch:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
+  projectileHit:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}
     vfxLifetime: 3
@@ -124,24 +130,6 @@ MonoBehaviour:
     volume: 1
     soundDist: 25
   bossLeapWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeSwing:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeHit:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}
     vfxLifetime: 3
@@ -171,9 +159,26 @@ MonoBehaviour:
     vfxLifetime: 3
     volume: 1
     soundDist: 25
-  splitChance: 1
+  splitChance: 0.75
   splitPrefab: {fileID: 4858449309327273670, guid: 614c2b9a88154c045ab679a987b44de2, type: 3}
   splitCount: 2
   splitRadius: 10
   splitVFXPrefab: {fileID: 4078941901485021609, guid: 9eac5d095d625cb4684d216c543ebc7e, type: 3}
   splitGrowthSpeed: 0.25
+  canReturn: 1
+  returnDelay: 15
+  appearDelay: 0.5
+  lingerAfterScream: 1
+  scareCooldown: 8
+  bansheeTurnSpeed: 0
+  screamClips: []
+  screamVolume: 0.8
+  audibleDist: 25
+  fleeDuration: 4
+  fleedistance: 12
+  screamFeedback:
+    vfxPrefab: {fileID: 0}
+    sound: {fileID: 0}
+    vfxLifetime: 3
+    volume: 1
+    soundDist: 25
