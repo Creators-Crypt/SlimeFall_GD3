@@ -19,7 +19,12 @@ public class BossHealthBarUI : MonoBehaviour
 
         //HideBar();
     }
-
+    private void OnEnable() {
+        BossEncounterTrigger.OnBossActivate += ShowBar;
+    }
+    private void OnDisable() {
+        BossEncounterTrigger.OnBossActivate -= ShowBar;
+    }
     // Update is called once per frame
     void Update()
     {
