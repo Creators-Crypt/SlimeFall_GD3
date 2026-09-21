@@ -1,14 +1,15 @@
+using System;
 using UnityEngine;
 
 public class ObjectiveManager : Singleton<ObjectiveManager> {
-    
-    [SerializeField] private MainObjectiveUI objectiveUI;
+
+    public static event Action<string> OnObjectiveChanged;
 
     private string currentObjective;
 
     public void SetObjective(string newObjective)
     {
         currentObjective = newObjective;
-        objectiveUI.SetObjective(currentObjective);
+        OnObjectiveChanged?.Invoke(currentObjective);
     }    
 }

@@ -27,22 +27,28 @@ public class cdDarkZone : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
-        if (playerInside || other.GetComponentInParent<PlayerController>() == null)
+        if (playerInside || other.GetComponent<PlayerController>() == null)
             return;
 
         playerInside = true;
 
-        if(flashlight != null)
-        {
-            flashlightWasActive = flashlight.activeSelf;
-            flashlight.SetActive(false);
-        }
+        if (other.TryGetComponent(out PlayerController player)) {
 
-        if(concentrationLight != null)
-        {
+            FlashlightAim flashlightAim = player.GetComponentInChildren<FlashlightAim>(true);
+            if (flashlightAim != null) {
+                flashlight = flashlightAim.gameObject;
+                flashlightWasActive = flashlight.activeSelf;
+                flashlight.SetActive(false);
+            }
+
+            player.GetConcentrationObject.TryGetComponent(out concentrationLight);
+
+            normalIntensity = concentrationLight.intensity;
+            normalRange = concentrationLight.range;
+
             concentrationLight.intensity = dungeonIntensity;
             concentrationLight.range = dungeonRange;
+
         }
     }
 
@@ -53,14 +59,16 @@ public class cdDarkZone : MonoBehaviour
 
         playerInside = false;
 
-        if (flashlight != null)
+        if (flashlight != null) {
             flashlight.SetActive(flashlightWasActive);
+            flashlight = null;
+        }
 
         if(concentrationLight != null)
         {
             concentrationLight.intensity = normalIntensity;
             concentrationLight.range = normalRange;
+            concentrationLight = null;
         }
     }
-
 }

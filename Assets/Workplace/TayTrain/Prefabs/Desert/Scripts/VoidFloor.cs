@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class VoidFloor : MonoBehaviour
@@ -7,26 +6,16 @@ public class VoidFloor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Transform player = other.transform.root;
+        Transform player = other.transform;
         
-        if (!other.CompareTag("Player"))
-            return;
+        if (!other.CompareTag("Player")) return;
 
-        CharacterController controller = player.GetComponent<CharacterController>();
-
-        if(controller != null)
+        if(player.TryGetComponent<CharacterController>(out var controller))
         {
             controller.enabled = false;
-        }
-
-        player.position = target.transform.position;
-        player.rotation = target.transform.rotation;
-
-        if(controller != null)
-        {
+            player.SetPositionAndRotation(target.transform.position, target.transform.rotation);
             controller.enabled = true;
         }
-
         Debug.Log("Player entered the void.");
     }
 }

@@ -67,6 +67,9 @@ public class TutorialManager : MonoBehaviour {
         GameManager.OnPlayerAction -= HandlePlayerAction;
         NarrationManager.OnDialogueFinished -= HandleDialogueFinished;
     }
+    private void Start() {
+        GameManager.Instance.SetStage(GameStage.HomeBase_Tut_Spawn);
+    }
     private void HandleStageChanged(GameStage newStage) {
         switch (newStage) {
             case GameStage.HomeBase_Tut_Spawn:          HandleIntro(); break;
