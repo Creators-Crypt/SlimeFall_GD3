@@ -43,6 +43,12 @@ public class GameManager : Singleton<GameManager>
     {
         base.Awake();
     }
+    private void OnEnable() {
+        FindCameraController();
+    }
+    private void OnDisable() {
+        cameraController = null;
+    }
     private void Start()
     {
         FindUIReferences();

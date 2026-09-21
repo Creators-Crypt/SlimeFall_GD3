@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.WSA;
 
 
 public enum BossPhase
