@@ -10,11 +10,14 @@ public class PitTrap : MonoBehaviour
         if (!other.CompareTag("Player"))
             return;
 
-        HealthSystem health = other.GetComponent<HealthSystem>(); 
+        /*HealthSystem health = other.GetComponent<HealthSystem>(); 
 
         if(health != null)
         {
 
+        }*/
+        if (other.TryGetComponent(out HealthSystem health)) {
+            health.OnDamage(damage);
         }
 
         if(respawnPoint != null)

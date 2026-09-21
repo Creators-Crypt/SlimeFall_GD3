@@ -42,7 +42,7 @@ public class TutorialManager : MonoBehaviour {
     private int weaponPickedUp = 0;
     [SerializeField] private int neededWeaponPickedUp = 1;
     private bool weaponCycled, weaponFired, magicCycled;
-    private bool isChestOpen;
+    //private bool isChestOpen; TODO: Add this to the Tutorial
 
     [Header("Phase 3 Checklist (Abilities & Atmosphere)")]
     private bool flashlightUsed;
@@ -236,7 +236,7 @@ public class TutorialManager : MonoBehaviour {
             case "WeaponCycle":     weaponCycled = true; break;
             case "WeaponFire":      weaponFired = true; break;
             case "MagicCycle":      magicCycled = true; break;
-            case "ChestOpen":       isChestOpen = true; break;
+            //case "ChestOpen":       isChestOpen = true; break;
 
             #endregion
             #region Phase 3

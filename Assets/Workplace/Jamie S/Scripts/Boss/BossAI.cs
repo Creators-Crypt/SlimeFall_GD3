@@ -40,7 +40,7 @@ public class BossAI : EnemyAI
     private Color currentColor;
     private Color targetColor;
     [SerializeField] private float colorBlendSpeed;
-    private bool isBlendingColor = false;
+    //private bool isBlendingColor = false; TODO: Add or Remove.
 
     [SerializeField] private float eyeHitExpireTime = 0f;
     [SerializeField] private float stunLockout = 0f;
