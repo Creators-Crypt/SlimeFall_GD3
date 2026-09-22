@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6492479875460122469}
   - component: {fileID: 5526899717735880725}
   - component: {fileID: 2681466478348404514}
-  - component: {fileID: 4649729862250601113}
+  - component: {fileID: 4264247139753447618}
   m_Layer: 0
   m_Name: Portal MainArea
   m_TagString: Untagged
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2302918016687552437}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.70710707, z: -0, w: 0.70710653}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 1.7778091, y: 5.63268, z: -33.133255}
   m_LocalScale: {x: 0.5, y: 10, z: 5}
   m_ConstrainProportionsScale: 0
@@ -114,7 +114,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4649729862250601113
+--- !u!114 &4264247139753447618
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,10 +123,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2302918016687552437}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 98344b3d7d2b1d34a9093528c125c227, type: 3}
+  m_Script: {fileID: 11500000, guid: bc93c6e2b6cd3b5479a5a4f355c51e11, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Portal
-  sceneToLoad: Showcase_MainArea
+  m_EditorClassIdentifier: Assembly-CSharp::FinalCreditsPortal
 --- !u!1 &3640579222891713766
 GameObject:
   m_ObjectHideFlags: 0

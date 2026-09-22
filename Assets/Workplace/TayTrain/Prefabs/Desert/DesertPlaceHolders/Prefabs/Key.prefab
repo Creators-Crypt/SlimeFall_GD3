@@ -71,6 +71,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd0befd5192ab2949b0a7d71ea68d960, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelKeyPickup
+  keyName: Horror Key
 --- !u!1 &5216136767549787946
 GameObject:
   m_ObjectHideFlags: 0
@@ -454,7 +455,7 @@ Transform:
   m_GameObject: {fileID: 8650326479376793784}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.099998474, y: -0.364, z: -0.20000076}
+  m_LocalPosition: {x: 0.09997563, y: -0.36400008, z: -0.19999982}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6250,7 +6251,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 22
+  m_VersionIndex: 37
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -6270,7 +6271,7 @@ MonoBehaviour:
   m_Shape:
     rid: 2345751354198720607
   m_ShapeRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_UnmodifiedMeshVersion: 22
+  m_UnmodifiedMeshVersion: 34
   m_Size: {x: 2, y: 0.6, z: 2}
   m_LocalCenter: {x: 0, y: 0, z: 0}
   references:
