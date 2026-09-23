@@ -37,16 +37,17 @@ public class PlayerInteraction : MonoBehaviour {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         Vector3 targetPoint;
 
-        if (Physics.Raycast(ray, out RaycastHit camerahit, maxCameraAimDistance, ~exclusionLayer, QueryTriggerInteraction.Ignore)) {
+        LayerMask cameraMask = interactableLayer | exclusionLayer;
+
+        if (Physics.Raycast(ray, out RaycastHit camerahit, maxCameraAimDistance, cameraMask, QueryTriggerInteraction.Ignore)) {
             targetPoint = camerahit.point;
         } else {
             targetPoint = ray.GetPoint(maxCameraAimDistance);
         }
 
         Vector3 interactionDirection = (targetPoint - playerOrigin.position).normalized;
-        LayerMask combinedMask = interactableLayer & ~exclusionLayer;
 
-        if (Physics.Raycast(playerOrigin.position, interactionDirection, out RaycastHit hit, interactableLayer, combinedMask)) {
+        if (Physics.Raycast(playerOrigin.position, interactionDirection, out RaycastHit hit, interactionRange, cameraMask)) {
 
             if (hit.collider != lastCheckedCollider) {
 

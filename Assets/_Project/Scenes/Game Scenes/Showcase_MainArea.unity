@@ -3294,7 +3294,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8598788159181883143, guid: 3f62521b58e299647bb5041a49e21985, type: 3}
       propertyPath: lockedPrompt
-      value: Turorial Key Required
+      value: DLC, future level
       objectReference: {fileID: 0}
     - target: {fileID: 8598788159181883143, guid: 3f62521b58e299647bb5041a49e21985, type: 3}
       propertyPath: requiredKeyName

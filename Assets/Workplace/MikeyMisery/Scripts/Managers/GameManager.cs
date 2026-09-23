@@ -44,13 +44,10 @@ public class GameManager : Singleton<GameManager>
     private void OnDisable() {
         SceneManager.sceneLoaded -= OnSceneLoad;
     }
-
     private void OnSceneLoad(Scene scene, LoadSceneMode mode) {
         cameraController.enabled = true;
-
-        
+        HideCursor();
     }
-
     protected override void Awake()
     {
         base.Awake();
