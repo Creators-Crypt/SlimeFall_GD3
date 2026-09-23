@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    private const string GameSceneName = "Showcase_Homebase";
+    private const string GameSceneName = "Showcase_MainArea";
 
     private GameObject mainPanel;
     private GameObject settingsPanel;

@@ -156,7 +156,7 @@ public class GameManager : Singleton<GameManager>
     public void QuitToMain()
     {
         ResetUIForSceneChanges();
-        SceneManager.LoadScene("Menus");
+        SceneManager.LoadScene("Menus_1");
     }
 
     private void ShowCursor()
