@@ -18,12 +18,6 @@ public enum GameStage {
     Challenge_BossRoom,
     GameEnd,
 
-
-
-
-
-
-
     HomeBase_Tut_Spawn,
     HomeBase_Tut_Entryway,
     HomeBase_Tut_Equipment,

@@ -38,39 +38,26 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject settingsMenu;
 
     [SerializeField] private CameraController cameraController;
+    private void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoad;
+    }
+    private void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoad;
+    }
+
+    private void OnSceneLoad(Scene scene, LoadSceneMode mode) {
+        cameraController.enabled = true;
+
+        
+    }
 
     protected override void Awake()
     {
         base.Awake();
     }
-    private void OnEnable() {
-        FindCameraController();
-    }
-    private void OnDisable() {
-        cameraController = null;
-    }
-    private void Start()
-    {
-        FindUIReferences();
-        AttachGamePlaybuttons();
-        FindCameraController();
-
-        Time.timeScale = 1f;
-        currentState = GameState.Playing;
-        SetStage(GameStage.HomeBase_Tut_Spawn);
-
-        hud.SetActive(true);
-        pauseMenu.SetActive(false);
-        settingsMenu.SetActive(false);
-        winMenu.SetActive(false);
-        lossMenu.SetActive(false);
-
-        HideCursor();
-    }
-
     private void Update()
     {
-        // TEMPORARY UI TEST KEYS
+/*        // TEMPORARY UI TEST KEYS
         if (Input.GetKeyDown(KeyCode.F1))
         {
             SetWin();
@@ -79,7 +66,7 @@ public class GameManager : Singleton<GameManager>
         if (Input.GetKeyDown(KeyCode.F2))
         {
             SetLose();
-        }
+        }*/
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -93,7 +80,33 @@ public class GameManager : Singleton<GameManager>
             }
         }
     }
+    public void RegisterCameraController(CameraController camera) {
+        cameraController = camera;
 
+        if (cameraController != null) {
+
+            cameraController.enabled = true;
+            Debug.Log("<color=green>CameraController registered successfully to the active GameManager instance!</color>");
+        }
+        ConfigureGameplayState();
+    }
+    private void ConfigureGameplayState() {
+
+        FindUIReferences();
+        AttachGamePlaybuttons();
+
+        Time.timeScale = 1f;
+        currentState = GameState.Playing;
+        SetStage(GameStage.HomeBase_Tut_Spawn);
+
+        hud.SetActive(true);
+        pauseMenu.SetActive(false);
+        settingsMenu.SetActive(false);
+        winMenu.SetActive(false);
+        lossMenu.SetActive(false);
+
+        HideCursor();
+    }
     public void SetWin()
     {
         currentState = GameState.Won;
@@ -155,6 +168,7 @@ public class GameManager : Singleton<GameManager>
 
     public void QuitToMain()
     {
+
         ResetUIForSceneChanges();
         SceneManager.LoadScene("Menus_1");
     }
@@ -368,6 +382,8 @@ public class GameManager : Singleton<GameManager>
 
     private void FindCameraController()
     {
+        if (cameraController != null && cameraController.Equals(null)) cameraController = null;
+        
         cameraController = FindFirstObjectByType<CameraController>(FindObjectsInactive.Include);
 
         if (cameraController == null)

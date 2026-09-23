@@ -23,6 +23,7 @@ public class GameInitializer : Singleton<GameInitializer> {
 
         if (spawn != null && playerTransform != null)
             SpawnPlayer(spawn.transform.position, spawn.transform.rotation);
+
     }
     private void SpawnPlayer(Vector3 position, Quaternion rotation) {
 

@@ -24,6 +24,10 @@ public class CameraController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() 
     {
+        if (GameManager.Instance != null) {
+            GameManager.Instance.RegisterCameraController(this);
+        }
+
         cameraOriginalLocalPosition = transform.localPosition;
         //control the start view of the camera
         camRotX = cameraTarget.localEulerAngles.x;
