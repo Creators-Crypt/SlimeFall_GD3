@@ -80,6 +80,8 @@ public class TutorialManager : MonoBehaviour {
             case GameStage.HomeBase_Tut_Combat:         HandleCombat(); break;
             case GameStage.HomeBase_Tut_Complete:       HandleTutorialComplete(); break;
             case GameStage.HomeBase_Tut_Kitchen:        HandleKitchen(); break;
+            case GameStage.HomeBase_Tut_Office:         HandleOffice(); break;
+            case GameStage.HomeBase_Tut_Portal:         HandlePortal(); break;
         }
     }
     private void HandleIntro() {
@@ -117,6 +119,12 @@ public class TutorialManager : MonoBehaviour {
     }
     private void HandleKitchen() {
         Debug.Log("Kitchen started");
+    }
+    private void HandleOffice() {
+        ObjectiveManager.Instance.SetObjective("Kitchen, is W.I.P., please use the key to enter the office!");
+    }
+    private void HandlePortal() {
+        ObjectiveManager.Instance.SetObjective("Proceed through the Portal!");
     }
     private void DimGlobalLightsToNight(bool state) {
         
