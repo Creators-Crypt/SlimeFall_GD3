@@ -24,12 +24,18 @@ public class GameInitializer : Singleton<GameInitializer> {
         if (spawn != null && playerTransform != null)
             SpawnPlayer(spawn.transform.position, spawn.transform.rotation);
 
+        Physics.SyncTransforms();
     }
     private void SpawnPlayer(Vector3 position, Quaternion rotation) {
 
         if (playerTransform.TryGetComponent<CharacterController>(out var character)) {
             character.enabled = false;
             playerTransform.SetPositionAndRotation(position, rotation);
+
+            if (playerTransform.TryGetComponent<PlayerController>(out var player)) {
+                player.ResetVelocity();
+            }
+            
             character.enabled = true;
         }
     }

@@ -243,7 +243,7 @@ public class GameManager : Singleton<GameManager>
     public void PlayAgain()
     {        
         ResetUIForSceneChanges();
-        SceneManager.LoadScene("Showcase_Homebase");
+        SceneManager.LoadScene("Showcase_MainArea");
     }
 
     private void FindUIReferences()

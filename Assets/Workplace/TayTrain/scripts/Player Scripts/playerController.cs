@@ -176,10 +176,10 @@ public class PlayerController : MonoBehaviour
         updateState();
         updateAnimator();
     }
-    private void LateUpdate() 
-    {
+    public void ResetVelocity() {
+        playerVel = Vector3.zero;
+        playerVel.y = -2f;
     }
-  
     void movement() 
     {
         if (controller.isGrounded && playerVel.y < 0) 
@@ -345,7 +345,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(teleportAnimationDuration);
         isTeleporting = false;
     }
-void jump() {
+    void jump() {
         if (inputHandler.JumpPressed) 
         {
             if(jumpCount < jumpMax + bonusJumps)
