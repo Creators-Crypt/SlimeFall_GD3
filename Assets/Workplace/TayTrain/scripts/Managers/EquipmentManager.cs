@@ -1,6 +1,5 @@
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.ProBuilder.AutoUnwrapSettings;
 
 public class EquipmentManager : MonoBehaviour, IEquipmentPickup
 {

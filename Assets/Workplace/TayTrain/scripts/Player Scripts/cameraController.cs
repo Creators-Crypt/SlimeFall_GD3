@@ -21,30 +21,6 @@ public class CameraController : MonoBehaviour
     float camRotY;
     Vector3 cameraOriginalLocalPosition;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start() 
-    {
-        if (GameManager.Instance != null) {
-            GameManager.Instance.RegisterCameraController(this);
-        }
-
-        cameraOriginalLocalPosition = transform.localPosition;
-        //control the start view of the camera
-        camRotX = cameraTarget.localEulerAngles.x;
-        camRotY = cameraTarget.localEulerAngles.y;
-        if (camRotX > 180) {
-            camRotX -= 360f;
-        }
-
-        if(camRotY > 180)
-        {
-            camRotY -= 360f;
-        }
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-    }
-
     // Update is called once per frame
     void Update() {
 
@@ -87,7 +63,26 @@ public class CameraController : MonoBehaviour
         
         //cameraCollision();
     }
+    public void InitializeAndRegister() {
 
+        if (GameManager.Instance != null) {
+            GameManager.Instance.RegisterCameraController(this);
+        }
+
+        cameraOriginalLocalPosition = transform.localPosition;
+        //control the start view of the camera
+        camRotX = cameraTarget.localEulerAngles.x;
+        camRotY = cameraTarget.localEulerAngles.y;
+        if (camRotX > 180) {
+            camRotX -= 360f;
+        }
+
+        if (camRotY > 180) {
+            camRotY -= 360f;
+        }
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     void cameraCollision()
     {
         

@@ -1259,6 +1259,7 @@ GameObject:
   - component: {fileID: 7932996090909173713}
   - component: {fileID: 7115499411406684781}
   - component: {fileID: 493925751616726129}
+  - component: {fileID: 7902512519686830261}
   m_Layer: 0
   m_Name: UI
   m_TagString: Untagged
@@ -1280,8 +1281,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8038786880784604658}
-  - {fileID: 2483247614595974751}
   - {fileID: 8735243927910830514}
+  - {fileID: 2483247614595974751}
   - {fileID: 1967234512965330955}
   - {fileID: 6533528207437280893}
   m_Father: {fileID: 0}
@@ -1362,6 +1363,23 @@ MonoBehaviour:
   legendaryColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   equipmentManager: {fileID: 0}
   cameraController: {fileID: 0}
+--- !u!114 &7902512519686830261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993461189152343495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630d2fb9bb35d6f49ad81b1796146b96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneUIConnection
+  pauseMenu: {fileID: 8872946922173866420}
+  winMenu: {fileID: 7791297975368549986}
+  lossMenu: {fileID: 9130506267861746512}
+  hud: {fileID: 4731479931357237202}
+  settingsMenu: {fileID: 3089873695362536917}
 --- !u!1 &1011991732055017656
 GameObject:
   m_ObjectHideFlags: 0
@@ -7224,7 +7242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8038786880784604658
 Transform:
   m_ObjectHideFlags: 0

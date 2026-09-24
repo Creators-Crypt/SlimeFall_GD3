@@ -16,6 +16,12 @@ public class MainMenu : MonoBehaviour
 
     private bool isLoading;
 
+    private void OnEnable() {
+        GameInitializer.OnSceneSetupComplete += HandleSceneReady;
+    }
+    private void OnDisable() {
+        GameInitializer.OnSceneSetupComplete -= HandleSceneReady;
+    }
     private void Awake()
     {
         mainPanel = transform.Find("Canvas/MainMenu").gameObject;
@@ -56,6 +62,14 @@ public class MainMenu : MonoBehaviour
 
         ShowAudio();
         ShowMainMenu();
+    }
+    private void HandleSceneReady() {
+        Debug.Log("<color=green>[MainMenu] Level setup finished. Deactivating loading screen!</color>");
+        isLoading = false;
+
+        if (loadingPanel != null) {
+            loadingPanel.SetActive(false);
+        }
     }
 
     private void BindButton(string path, UnityAction action)
@@ -119,7 +133,7 @@ public class MainMenu : MonoBehaviour
         ShowScreen(loadingPanel);
         Time.timeScale = 1f;
 
-        SceneManager.LoadSceneAsync(GameSceneName);
+        SceneManager.LoadScene(GameSceneName);
     }
 
     public void QuitGame()

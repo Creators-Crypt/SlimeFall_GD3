@@ -28,10 +28,14 @@ public class EquipmentUI : MonoBehaviour
     [SerializeField] TMP_Text bootsStats;
 
     private void Start() {
-        if(equipmentManager == null)
-        equipmentManager = GameObject.FindGameObjectWithTag("Player").GetComponent<EquipmentManager>();
-
-        if(equipmentManager == null)
+        /*if(equipmentManager == null)
+        equipmentManager = GameObject.FindGameObjectWithTag("Player").GetComponent<EquipmentManager>();*/
+        var targetCanvas = FindFirstObjectByType<Canvas>(FindObjectsInactive.Include);
+        if (targetCanvas == null) {
+            Debug.LogWarning("[EquipmentUI] Suppressing initialization because no Canvas was found in this scene context.");
+            return;
+        }
+        if (equipmentManager == null)
         {
             enabled = false;
         }

@@ -263,6 +263,141 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1002333583
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1002333584}
+  - component: {fileID: 1002333590}
+  - component: {fileID: 1002333589}
+  - component: {fileID: 1002333588}
+  - component: {fileID: 1002333587}
+  - component: {fileID: 1002333586}
+  - component: {fileID: 1002333585}
+  - component: {fileID: 1002333591}
+  m_Layer: 0
+  m_Name: _SingletonManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1002333584
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002333583}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1002333585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002333583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df646e438960c2848aa78f8a588f7c27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectiveManager
+--- !u!114 &1002333586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002333583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57c2ed626c2700349b74660f0efb81cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InventorySystem
+  questItems: []
+  equipmentItems: []
+  weaponItems: []
+  maxBackpackCapacity: 20
+--- !u!114 &1002333587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002333583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b042e6b562ff4c44988b49e3a3c01c36, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DamagePopupManager
+  damagePopup: {fileID: 8717353881614336993, guid: 8c8fa3c241a88cb49b8f0b70608b7721, type: 3}
+--- !u!114 &1002333588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002333583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8ba1fc3ed0ec7e4099f383b16afe11c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GemCollectionManager
+  gemsRequired: 3
+  gemsCollected: 0
+--- !u!114 &1002333589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002333583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c48b61b4dbec149a489453db59a82a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  currentStage: 0
+  currentState: 0
+  pauseMenu: {fileID: 0}
+  winMenu: {fileID: 0}
+  lossMenu: {fileID: 0}
+  hud: {fileID: 0}
+  settingsMenu: {fileID: 0}
+  cameraController: {fileID: 0}
+--- !u!114 &1002333590
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002333583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a563820298ff34e4b849bc53754f4d9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameInitializer
+  playerPrefab: {fileID: 1818594594264804547, guid: 7c8edd1a529e66a458b62d32b65baca2, type: 3}
+  playerTransform: {fileID: 0}
+--- !u!81 &1002333591
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1002333583}
+  m_Enabled: 1
 --- !u!1 &1391638742
 GameObject:
   m_ObjectHideFlags: 0
@@ -355,7 +490,7 @@ GameObject:
   - component: {fileID: 2002712247}
   - component: {fileID: 2002712250}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MenuCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -378,8 +513,8 @@ Camera:
   m_GameObject: {fileID: 2002712246}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.13725491, g: 0.13725491, b: 0.13725491, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -408,7 +543,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 32
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -786,3 +921,4 @@ SceneRoots:
   - {fileID: 1391638745}
   - {fileID: 776546926}
   - {fileID: 8196257939663942902}
+  - {fileID: 1002333584}

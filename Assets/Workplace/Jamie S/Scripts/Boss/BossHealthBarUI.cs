@@ -30,13 +30,13 @@ public class BossHealthBarUI : MonoBehaviour
     {
         if(currentBoss == null)
         {
-            Debug.Log($"[Bar] Hiding because null");
+            //Debug.Log($"[Bar] Hiding because null");
             HideBar();
             return;
         }
         if (bossHealth.IsDead)
         {
-            Debug.Log($"[Bar] Hiding because dead");
+            //Debug.Log($"[Bar] Hiding because dead");
             HideBar();
             return;
         }
@@ -46,7 +46,7 @@ public class BossHealthBarUI : MonoBehaviour
 
     public void HideBar()
     {
-        Debug.Log($"[Bar]hidebar. currentBoss = {(currentBoss == null ? "NULL" : currentBoss.name)} ");
+        //Debug.Log($"[Bar]hidebar. currentBoss = {(currentBoss == null ? "NULL" : currentBoss.name)} ");
         if (bossHealth != null)
         {
             bossHealth.OnHealthChanged -= UpdateHealthBar;
@@ -70,7 +70,7 @@ public class BossHealthBarUI : MonoBehaviour
         }
         if(currentBoss == _boss)
         {
-            Debug.Log($"[Bar] some boss showing");
+            //Debug.Log($"[Bar] some boss showing");
             return;
         }
 
@@ -83,7 +83,7 @@ public class BossHealthBarUI : MonoBehaviour
         bossHealth.OnDeath += HideBar;
         UpdateHealthBar(bossHealth.CurrentHealth, bossHealth.MaxHealth);
         bossBarPanel.SetActive(true);
-        Debug.Log($"[Bar] Shown. activeInHierarchy={bossBarPanel.activeInHierarchy}, fill={healthFill.fillAmount}cur = {bossHealth.CurrentHealth} max {bossHealth.MaxHealth}");
+        //Debug.Log($"[Bar] Shown. activeInHierarchy={bossBarPanel.activeInHierarchy}, fill={healthFill.fillAmount}cur = {bossHealth.CurrentHealth} max {bossHealth.MaxHealth}");
     }
 
     private void UpdateHealthBar(float _currentHealth, float _maxHealth)
