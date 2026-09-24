@@ -1,14 +1,12 @@
 using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManager : Singleton<GameManager>
-{
+public class GameManager : Singleton<GameManager> {
 
-    public static event Action<GameStage> OnStageChanged;
-    public static event Action<string> OnPlayerAction;
+    public event Action<GameStage> OnStageChanged;
+    public event Action<string> OnPlayerAction;
 
     [SerializeField] private GameStage currentStage;
     public GameStage GameStage { get { return currentStage; } }
@@ -261,7 +259,20 @@ public class GameManager : Singleton<GameManager>
     {
 
         currentStage = newState;
-        OnStageChanged?.Invoke(currentStage);
+        Debug.Log($"<color=cyan>[GameManager] Stage changing to:</color> {currentStage}. Direct-routing to scene components...");
+
+        // 1. Explicitly update the Narration Manager in the scene
+        var narration = FindFirstObjectByType<NarrationManager>(FindObjectsInactive.Include);
+        if (narration != null) {
+            narration.HandleStageChanged(currentStage);
+        }
+
+        // 2. Explicitly update the Tutorial Manager in the scene
+        var tutorial = FindFirstObjectByType<TutorialManager>(FindObjectsInactive.Include);
+        if (tutorial != null) {
+            // Make sure HandleStageChanged is public in TutorialManager.cs as well!
+            tutorial.HandleStageChanged(currentStage);
+        }
     }
 
     public void PlayerPerformAction(string actionKey)
@@ -321,7 +332,7 @@ public class GameManager : Singleton<GameManager>
                   $"- hud: {(hud != null ? hud.name : "NULL")}\n" +
                   $"- settingsMenu: {(settingsMenu != null ? settingsMenu.name : "NULL")}");
 
-        AttachGamePlayButtonsFromContext(connector);
+        FindUIMenuReferences(connector);
     }
     public void LogCurrentUIStatus() {
         Debug.Log($"[GameManager] UI Status Check (Escape Pressed):\n" +
@@ -331,7 +342,7 @@ public class GameManager : Singleton<GameManager>
                   $"- hud: {(hud != null ? "ALIVE (" + hud.name + ")" : "DESTROYED / NULL")}\n" +
                   $"- settingsMenu: {(settingsMenu != null ? "ALIVE (" + settingsMenu.name + ")" : "DESTROYED / NULL")}");
     }
-    private void AttachGamePlayButtonsFromContext(SceneUIConnection connector) { 
+    private void FindUIMenuReferences(SceneUIConnection connector) { 
         
         Button[] buttons = connector.GetComponentsInChildren<Button>(true); 
         
@@ -388,120 +399,6 @@ public class GameManager : Singleton<GameManager>
             } 
         } 
     }
-/*    private void FindUIReferences()
-    {
-        if (SceneManager.GetActiveScene().name == "Menus_1") return;
-
-        Canvas UICanvas = FindFirstObjectByType<Canvas>(FindObjectsInactive.Include);
-        Debug.Log($"I have found the following Canvas: {UICanvas.name}");
-        Transform[] allChildren = UICanvas.GetComponentsInChildren<Transform>(true);
-
-        foreach (Transform child in allChildren)
-        {
-            switch (child.name)
-            {
-                case "Pause":
-                    pauseMenu = child.gameObject;
-                    break;
-                case "Win":
-                    winMenu = child.gameObject;
-                    break;
-                case "Lose":
-                    lossMenu = child.gameObject;
-                    break;
-                case "HUD":
-                    hud = child.gameObject;
-                    break;
-                case "SettingsMenu":
-                    settingsMenu = child.gameObject;
-                    break;
-            }
-        }
-    }
-
-    private void AttachGamePlaybuttons()
-    {
-        if (SceneManager.GetActiveScene().name == "Menus_1") return;
-
-        Button[] buttons = transform.root.GetComponentsInChildren<Button>(true);
-
-        foreach (Button button in buttons)
-        {
-            if (pauseMenu!= null && button.transform.IsChildOf(pauseMenu.transform))
-            {
-                switch (button.name)
-                {
-                    case "ResumeButton":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(ResumeGame);
-                        break;
-                    case "SettingsButton":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(OpenSettingsFromPause);
-                        break;
-                    case "QuitToMain":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(QuitToMain);
-                        break;
-                }
-
-                continue;
-            }
-
-            if (settingsMenu != null && button.transform.IsChildOf(settingsMenu.transform))
-            {
-                if (button.name == "BackButton")
-                {
-                    button.onClick.RemoveAllListeners();
-                    button.onClick.AddListener(ReturnFromSettings);
-                }
-            }
-
-            if (winMenu != null && button.transform.IsChildOf(winMenu.transform))
-            {
-                switch (button.name)
-                {
-                    case "ResumeButton":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(ResumeGame);
-                        break;
-
-                    case "SettingsButton":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(OpenSettingsFromWin);
-                        break;
-
-                    case "QuitToMain":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(QuitToMain);
-                        break;
-                }
-            }
-
-            if (lossMenu != null && button.transform.IsChildOf(lossMenu.transform))
-            {
-                switch (button.name)
-                {
-                    case "RetryButton":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(RespawnGame);
-                        Debug.Log("Testing button");
-                        break;
-
-                    case "SettingsButton":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(OpenSettingsFromLose);
-                        break;
-
-                    case "QuitToMain":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(QuitToMain);
-                        break;
-                }
-            }
-        }
-    }*/
-
     private void ResetUIForSceneChanges()
     {
         Time.timeScale = 1f;
@@ -523,17 +420,5 @@ public class GameManager : Singleton<GameManager>
             hud.SetActive(true);
 
         HideCursor();
-    }
-
-    private void FindCameraController()
-    {
-        if (cameraController != null && cameraController.Equals(null)) cameraController = null;
-        if (cameraController == null) {
-            cameraController = FindFirstObjectByType<CameraController>(FindObjectsInactive.Include);
-        }
-        if (cameraController == null)
-        {
-            Debug.LogWarning("GameManager could not find a CameraController in this scene.");
-        }
     }
 }

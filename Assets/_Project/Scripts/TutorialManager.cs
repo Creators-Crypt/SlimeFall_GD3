@@ -58,19 +58,33 @@ public class TutorialManager : MonoBehaviour {
     private bool dodged, concentrated;
 
     private void OnEnable() {
-        GameManager.OnStageChanged += HandleStageChanged;
-        GameManager.OnPlayerAction += HandlePlayerAction;
+        if (GameManager.Instance != null) {
+            GameManager.Instance.OnStageChanged += HandleStageChanged;
+            GameManager.Instance.OnPlayerAction += HandlePlayerAction;
+        }
+        
         NarrationManager.OnDialogueFinished += HandleDialogueFinished;
+        GameInitializer.OnSceneSetupComplete += EvaluateCurrentSceneStage;
     }
     private void OnDisable() {
-        GameManager.OnStageChanged -= HandleStageChanged;
-        GameManager.OnPlayerAction -= HandlePlayerAction;
+        if (GameManager.Instance != null) {
+            GameManager.Instance.OnStageChanged -= HandleStageChanged;
+            GameManager.Instance.OnPlayerAction -= HandlePlayerAction;
+        }
+
         NarrationManager.OnDialogueFinished -= HandleDialogueFinished;
+        GameInitializer.OnSceneSetupComplete -= EvaluateCurrentSceneStage;
     }
-    private void Start() {
-        GameManager.Instance.SetStage(GameStage.HomeBase_Tut_Spawn);
+    private void EvaluateCurrentSceneStage() {
+
+        if (GameManager.Instance != null) {
+            Debug.Log($"[NarrationManager] CatchUpInitialStage triggered. Evaluating current stage: {GameManager.Instance.GameStage}");
+            HandleStageChanged(GameManager.Instance.GameStage);
+        } else {
+            Debug.LogError("[NarrationManager] CatchUp failed: GameManager.Instance is still NULL during setup complete!");
+        }
     }
-    private void HandleStageChanged(GameStage newStage) {
+    public void HandleStageChanged(GameStage newStage) {
         switch (newStage) {
             case GameStage.HomeBase_Tut_Spawn:          HandleIntro(); break;
             case GameStage.HomeBase_Tut_Entryway:       HandleEntryway(); break;
@@ -196,8 +210,6 @@ public class TutorialManager : MonoBehaviour {
             HandleKitchenEntranceDialogueFinished();
         }
     }
-
-
     private void HandleIntroDialogueFinished() {
         
         if (introBarrier != null) {
@@ -213,9 +225,9 @@ public class TutorialManager : MonoBehaviour {
         Debug.Log("Tutorial: Entryway dialogue finished. Barrier removed.");
     }
     private void HandlePlayerActionsDialogueFinished() {
-        
-        bridge.SetActive(true);
-        shield.SetActive(false);
+
+        if (bridge != null) bridge.SetActive(true);
+        if (shield != null) shield.SetActive(false);
     }
     private void HandleKitchenEntranceDialogueFinished() {
 
