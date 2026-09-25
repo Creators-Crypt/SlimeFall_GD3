@@ -24,7 +24,7 @@ MonoBehaviour:
   lostSightTime: 3
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   attackRange: 1.5
   attackCooldown: 1.2
   attackDamage: 5
@@ -130,24 +130,6 @@ MonoBehaviour:
     volume: 1
     soundDist: 25
   bossLeapWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeWindup:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeSwing:
-    vfxPrefab: {fileID: 0}
-    sound: {fileID: 0}
-    vfxLifetime: 3
-    volume: 1
-    soundDist: 25
-  bossMeleeHit:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}
     vfxLifetime: 3
