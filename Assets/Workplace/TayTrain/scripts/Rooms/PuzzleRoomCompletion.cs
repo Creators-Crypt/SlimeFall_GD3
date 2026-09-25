@@ -12,11 +12,11 @@ public class PuzzleRoomCompletion : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.OnPlayerAction += HandlePlayerAction;
+        GameManager.Instance.OnPlayerAction += HandlePlayerAction;
     }
     private void OnDisable()
     {
-        GameManager.OnPlayerAction -= HandlePlayerAction;
+        GameManager.Instance.OnPlayerAction -= HandlePlayerAction;
     }
     void Start()
     {

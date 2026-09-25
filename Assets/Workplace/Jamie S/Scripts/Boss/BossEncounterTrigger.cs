@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 public class BossEncounterTrigger : MonoBehaviour
 {
+    public static event Action<MonoBehaviour> OnBossActivate;
+
     public MonoBehaviour boss;
-    public BossHealthBarUI bossHealthBar;
+    //public BossHealthBarUI bossHealthBar;
 
     private bool fired;
 
@@ -13,8 +16,11 @@ public class BossEncounterTrigger : MonoBehaviour
 
         Debug.Log($"[Trigger] Awake. isTrigger = {encounterArea.isTrigger} layer = {gameObject.layer}");
 
-        if (boss == null || bossHealthBar == null)
+        /*if (boss == null || bossHealthBar == null)
         {
+            Debug.LogError("Be sure the boss and the Canvas health bar is added to this trigger plz.");
+        }*/
+        if (boss == null) {
             Debug.LogError("Be sure the boss and the Canvas health bar is added to this trigger plz.");
         }
     }
@@ -36,29 +42,39 @@ public class BossEncounterTrigger : MonoBehaviour
     {
         if (fired) return;
 
-        if(isActiveAndEnabled == false || boss == null|| bossHealthBar == null)
-        {
-            Debug.Log($"[Trigger] fail. enabled= {isActiveAndEnabled} boss={(boss==null?"NULL":boss.name)} bar= {(bossHealthBar ==null?"NULL":bossHealthBar.name)}");
+        /*        if(isActiveAndEnabled == false || boss == null|| bossHealthBar == null)
+                {
+                    Debug.Log($"[Trigger] fail. enabled= {isActiveAndEnabled} boss={(boss==null?"NULL":boss.name)} bar= {(bossHealthBar ==null?"NULL":bossHealthBar.name)}");
+                    return;
+                }*/
+        /*if (isActiveAndEnabled == false || boss == null) {
+            Debug.Log($"[Trigger] fail. enabled= {isActiveAndEnabled} boss={(boss == null ? "NULL" : boss.name)} bar= {(bossHealthBar == null ? "NULL" : bossHealthBar.name)}");
+            return;
+        }*/
+        if (isActiveAndEnabled == false || boss == null) {
+            Debug.Log($"[Trigger] fail. enabled= {isActiveAndEnabled} boss={(boss == null ? "NULL" : boss.name)}");
             return;
         }
 
         if (_other.CompareTag("Player"))
         {
             fired = true;
-            Debug.Log($"[Trigger] ShowBar ->{bossHealthBar.name}, boss = {boss.GetType().Name}");
-            bossHealthBar.ShowBar(boss);
-
-            BossAI  bossAI = boss as BossAI; 
-            if (bossAI != null)
-            {
+            //Debug.Log($"[Trigger] ShowBar ->{bossHealthBar.name}, boss = {boss.GetType().Name}");
+            //bossHealthBar.ShowBar(boss);
+            OnBossActivate?.Invoke(boss);
+/*            BossAI  bossAI = boss as BossAI; //Works but below is the recommended syntax
+            if (bossAI == null) {
+                Debug.LogWarning("[Trigger] the boss field is not a BossAI so the encounter did not start");
+            } else {
                 bossAI.ActivateEncounter();
-            }
-            else
-            {
+            }*/
+            if (boss is BossAI bossAI) {
+                bossAI.ActivateEncounter();
+            } else {
                 Debug.LogWarning("[Trigger] the boss field is not a BossAI so the encounter did not start");
             }
             enabled = false;
-                return;
+            return;
         }
     }
 }

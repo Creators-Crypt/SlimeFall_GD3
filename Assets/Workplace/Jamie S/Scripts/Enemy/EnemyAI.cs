@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using static EnemyStatsSO;
@@ -10,14 +9,14 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
 {
     
     [Header("Data from Scriptiabl object")]
-    [SerializeField] public EnemyStatsSO stats;
+    public EnemyStatsSO stats;
     
 
-    [SerializeField] public Transform firePoint;
-    [SerializeField] public Transform mortarFirePoint;
-    [SerializeField] public NavMeshAgent agent;
-    [SerializeField] public Transform playerTarget;
-    [SerializeField] public Renderer model;
+    public Transform firePoint;
+    public Transform mortarFirePoint;
+    public NavMeshAgent agent;
+    public Transform playerTarget;
+    public Renderer model;
     
     [Header("Layers")]
     public LayerMask playerLayer;    
@@ -65,16 +64,6 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
     public virtual void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if(playerObj != null )
-        {
-            playerTarget = playerObj.transform;
-            lastPlayerPostion = playerTarget.position;
-        }
-        else
-        {
-            Debug.LogWarning("Be sure the player is TAGED AS PLAYER");
-        }
 
         origColor = model.material.GetColor("_BaseColor");
 
@@ -94,6 +83,15 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     public virtual void Start()
     {
+        if (playerTarget == null) {
+            if (GameInitializer.Instance != null && GameInitializer.Instance.GetPlayerTransform != null) {
+                playerTarget = GameInitializer.Instance.GetPlayerTransform;
+                lastPlayerPostion = playerTarget.position;
+                Debug.Log($"[EnemyAI] {gameObject.name} successfully pulled player fallback target from GameInitializer!");
+            } else {
+                Debug.LogWarning($"[EnemyAI] {gameObject.name} failed to find player target! GameInitializer or its PlayerTransform property is NULL.");
+            }
+        }
         stateMachine.Initialize(patrolState);
     }
     // Update is called once per frame
@@ -104,7 +102,16 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
         stateMachine.Tick();
        
     }
+    public void SetPlayerTarget(Transform activePlayer) {
 
+        if (activePlayer != null) {
+            playerTarget = activePlayer;
+            lastPlayerPostion = playerTarget.position;
+            Debug.Log($"[EnemyAI] {gameObject.name} successfully injected with player target: {playerTarget.name}");
+        } else {
+            Debug.LogWarning($"[EnemyAI] {gameObject.name} was passed a NULL player transform reference target payload!");
+        }
+    }
     protected void InitializeEnemyHealth()
     {
         if (stats != null)
@@ -436,7 +443,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
         {
             SplitSlime();
         }
-
+        StopAllCoroutines();
         GameManager.Instance.PlayerPerformAction("TargetDefeated");
         Destroy(gameObject, .01f);
     }

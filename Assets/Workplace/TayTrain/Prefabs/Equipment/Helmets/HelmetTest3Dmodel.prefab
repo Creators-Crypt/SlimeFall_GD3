@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1836075559791723309}
   - component: {fileID: 1988689754432587497}
   - component: {fileID: 8907577091852268095}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: HelmetTest3Dmodel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -315,7 +315,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -327,7 +327,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3446451263195295135}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ba3c6fda60b9b54da0edba8a8e6297f, type: 3}
   m_Name: 

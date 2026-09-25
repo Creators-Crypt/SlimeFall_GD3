@@ -1,6 +1,5 @@
 using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.ProBuilder.AutoUnwrapSettings;
 
 public class EquipmentManager : MonoBehaviour, IEquipmentPickup
 {
@@ -33,6 +32,8 @@ public class EquipmentManager : MonoBehaviour, IEquipmentPickup
         Armor,
         Boots
     }
+
+  
 
     public EquipmentData GetEquipment(EquipmentData newEquipment)
     {
@@ -91,6 +92,12 @@ public class EquipmentManager : MonoBehaviour, IEquipmentPickup
         }
 
         newEquipment.Equip(stats);
+
+        if(InventorySystem.Instance != null)
+        {
+            InventorySystem.Instance.SetEquippedItem(newEquipment.slot, newEquipment);
+        }
+
         UpdateEquipmentVisual(newEquipment);
         Debug.Log("Equipped: " + newEquipment.itemName);
         return oldEquipment;
@@ -127,6 +134,11 @@ public class EquipmentManager : MonoBehaviour, IEquipmentPickup
         {
             equipmentToRemove.Unequip(stats);
             RemoveEquipmentVisual(slot);
+
+            if(InventorySystem.Instance != null)
+            {
+                InventorySystem.Instance.SetEquippedItem(slot, null);
+            }
         }
         
         return equipmentToRemove;
@@ -272,5 +284,52 @@ public class EquipmentManager : MonoBehaviour, IEquipmentPickup
                 }
                 break;
         }
+    }
+
+    private void Start()
+    {
+        RestoreEquipment();
+    }
+
+    private void RestoreEquipment()
+    {
+        if (InventorySystem.Instance == null)
+            return;
+
+        RestoreSlot(InventorySystem.Instance.GetEquippedItem(EquipmentSlot.Helmet));
+
+        RestoreSlot(InventorySystem.Instance.GetEquippedItem(EquipmentSlot.Amulet));
+
+        RestoreSlot(InventorySystem.Instance.GetEquippedItem(EquipmentSlot.Armor));
+
+        RestoreSlot(InventorySystem.Instance.GetEquippedItem(EquipmentSlot.Boots));
+    }
+
+    private void RestoreSlot(EquipmentData equipment)
+    {
+        if (equipment == null)
+            return;
+
+        switch(equipment.slot)
+        {
+            case EquipmentSlot.Helmet: 
+                helmet = equipment;
+                break;
+
+            case EquipmentSlot.Amulet:
+                amulet = equipment;
+                break;
+
+            case EquipmentSlot.Armor:
+                armor = equipment;
+                break;
+
+            case EquipmentSlot.Boots:
+               boots  = equipment;
+                break;
+        }
+
+        equipment.Equip(stats);
+        UpdateEquipmentVisual(equipment);
     }
 }

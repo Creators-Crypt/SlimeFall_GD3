@@ -9,7 +9,7 @@ public class DesertBossDoor : MonoBehaviour
     {
         GemCollectionManager.OnAllGemsCollected += OpenDoor;
     }
-    private void OnDisabe()
+    private void OnDisable()
     {
         GemCollectionManager.OnAllGemsCollected -= OpenDoor;
     }
@@ -21,6 +21,11 @@ public class DesertBossDoor : MonoBehaviour
         if(doorObject != null)
         {
             doorObject.SetActive(false);
+        }
+
+        if(DesNarManager.Instance != null)
+        {
+            DesNarManager.Instance.PlayLine(DesNarLine.BossDoorAfterThreeGems);
         }
     }
 }

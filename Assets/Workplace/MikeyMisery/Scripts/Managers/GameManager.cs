@@ -3,11 +3,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManager : Singleton<GameManager>
-{
+public class GameManager : Singleton<GameManager> {
 
-    public static event Action<GameStage> OnStageChanged;
-    public static event Action<string> OnPlayerAction;
+    public event Action<GameStage> OnStageChanged;
+    public event Action<string> OnPlayerAction;
 
     [SerializeField] private GameStage currentStage;
     public GameStage GameStage { get { return currentStage; } }
@@ -30,6 +29,8 @@ public class GameManager : Singleton<GameManager>
 
     public GameState currentState = GameState.Playing;
 
+    private bool isGamePlaySceneReady = false;
+
     [Header("UI")]
     [SerializeField] private GameObject pauseMenu;
     [SerializeField] private GameObject winMenu;
@@ -38,45 +39,64 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject settingsMenu;
 
     [SerializeField] private CameraController cameraController;
-
-    protected override void Awake()
-    {
-        base.Awake();
+    private void OnEnable() {
+        SceneManager.sceneLoaded += OnSceneLoad;
     }
-    private void Start()
-    {
-        FindUIReferences();
-        AttachGamePlaybuttons();
-        FindCameraController();
+    private void OnDisable() {
+        SceneManager.sceneLoaded -= OnSceneLoad;
+    }
+    private void OnSceneLoad(Scene scene, LoadSceneMode mode) {
+        if (mode == LoadSceneMode.Additive) return;
+
+        Debug.Log($"<color=cyan>[GameManager] OnSceneLoad starting for scene: '{scene.name}'</color>");
+
+        isGamePlaySceneReady = false;
+
+        // Trace references right before clearing them
+        Debug.Log($"[GameManager] UI State BEFORE ClearReferences:\n" +
+                  $"- pauseMenu: {(pauseMenu != null ? "ASSIGNED" : "NULL/DESTROYED")}\n" +
+                  $"- hud: {(hud != null ? "ASSIGNED" : "NULL/DESTROYED")}");
+
+        ClearReferences();
+
+        Debug.Log($"[GameManager] UI State AFTER ClearReferences:\n" +
+                  $"- pauseMenu: {(pauseMenu != null ? "ASSIGNED" : "NULL/DESTROYED")}\n" +
+                  $"- hud: {(hud != null ? "ASSIGNED" : "NULL/DESTROYED")}");
 
         Time.timeScale = 1f;
         currentState = GameState.Playing;
-        SetStage(GameStage.HomeBase_Tut_Spawn);
 
-        hud.SetActive(true);
-        pauseMenu.SetActive(false);
-        settingsMenu.SetActive(false);
-        winMenu.SetActive(false);
-        lossMenu.SetActive(false);
-
-        HideCursor();
+        if (scene.name == "Menus_1") {
+            ShowCursor();
+        } else {
+            HideCursor();
+        }
     }
-
+    protected override void Awake() { base.Awake(); }
     private void Update()
     {
-        // TEMPORARY UI TEST KEYS
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            SetWin();
+        /*        // TEMPORARY UI TEST KEYS
+                if (Input.GetKeyDown(KeyCode.F1))
+                {
+                    SetWin();
+                }
+
+                if (Input.GetKeyDown(KeyCode.F2))
+                {
+                    SetLose();
+                }*/
+
+        if (isGamePlaySceneReady && pauseMenu == null) {
+            Debug.LogWarning("[GameManager] isGameplaySceneReady was true, but UI references are missing! Forcing ready state to false.");
+            isGamePlaySceneReady = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            SetLose();
-        }
+        if (!isGamePlaySceneReady) return;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            LogCurrentUIStatus();
+
             if (currentState == GameState.Playing)
             {
                 PauseGame();
@@ -87,13 +107,38 @@ public class GameManager : Singleton<GameManager>
             }
         }
     }
+    public void RegisterCameraController(CameraController camera) {
+        cameraController = camera;
 
+        if (cameraController != null) {
+
+            cameraController.enabled = true;
+            Debug.Log("<color=green>CameraController registered successfully to the active GameManager instance!</color>");
+        }
+        
+    }
+    public void ConfigureGameplayState() {
+
+        Time.timeScale = 1f;
+        currentState = GameState.Playing;
+        SetStage(GameStage.HomeBase_Tut_Spawn);
+
+        if (hud != null) hud.SetActive(true);
+        if (pauseMenu != null) pauseMenu.SetActive(false);
+        if (settingsMenu != null) settingsMenu.SetActive(false);
+        if (winMenu != null) winMenu.SetActive(false);
+        if (lossMenu != null) lossMenu.SetActive(false);
+
+        HideCursor();
+
+        isGamePlaySceneReady = true;
+    }
     public void SetWin()
     {
         currentState = GameState.Won;
 
-        hud.SetActive(false);
-        winMenu.SetActive(true);
+        if (hud != null) hud.SetActive(false);
+        if (winMenu != null) winMenu.SetActive(true);
 
         if (cameraController != null)
             cameraController.enabled = false;
@@ -106,8 +151,8 @@ public class GameManager : Singleton<GameManager>
     {
         currentState = GameState.Lost;
 
-        hud.SetActive(false);
-        lossMenu.SetActive(true);
+        if (hud != null) hud.SetActive(false);
+        if (lossMenu != null) lossMenu.SetActive(true);
 
         if (cameraController != null)
             cameraController.enabled = false;
@@ -118,9 +163,14 @@ public class GameManager : Singleton<GameManager>
 
     public void PauseGame()
     {
+        if (pauseMenu == null) {
+            Debug.LogError("[GameManager] Cannot Pause! pauseMenu reference is physically missing/destroyed.");
+            return;
+        }
+
         currentState = GameState.Paused;
 
-        hud.SetActive(false);
+        if (hud != null) hud.SetActive(false);
         pauseMenu.SetActive(true);
 
         if (cameraController != null)
@@ -134,11 +184,11 @@ public class GameManager : Singleton<GameManager>
     {
         currentState = GameState.Playing;
 
-        hud.SetActive(true);
-        pauseMenu.SetActive(false);
-        settingsMenu.SetActive(false);
-        winMenu.SetActive(false);
-        lossMenu.SetActive(false);
+        if (hud != null) hud.SetActive(true);
+        if (pauseMenu != null) pauseMenu.SetActive(false);
+        if (settingsMenu != null) settingsMenu.SetActive(false);
+        if (winMenu != null) winMenu.SetActive(false);
+        if (lossMenu != null) lossMenu.SetActive(false);
 
         if (cameraController != null)
             cameraController.enabled = true;
@@ -149,8 +199,9 @@ public class GameManager : Singleton<GameManager>
 
     public void QuitToMain()
     {
+
         ResetUIForSceneChanges();
-        SceneManager.LoadScene("Menus");
+        SceneManager.LoadScene("Menus_1");
     }
 
     private void ShowCursor()
@@ -208,135 +259,154 @@ public class GameManager : Singleton<GameManager>
     {
 
         currentStage = newState;
-        OnStageChanged?.Invoke(currentStage);
+        Debug.Log($"<color=cyan>[GameManager] Stage changing to:</color> {currentStage}. Direct-routing to scene components...");
+
+        // 1. Explicitly update the Narration Manager in the scene
+        var narration = FindFirstObjectByType<NarrationManager>(FindObjectsInactive.Include);
+        if (narration != null) {
+            narration.HandleStageChanged(currentStage);
+        }
+
+        // 2. Explicitly update the Tutorial Manager in the scene
+        var tutorial = FindFirstObjectByType<TutorialManager>(FindObjectsInactive.Include);
+        if (tutorial != null) {
+            // Make sure HandleStageChanged is public in TutorialManager.cs as well!
+            tutorial.HandleStageChanged(currentStage);
+        }
     }
 
-    public void PlayerPerformAction(string actionKey)
-    {
+    public void PlayerPerformAction(string actionKey) {
 
-        OnPlayerAction?.Invoke(actionKey);
+        Debug.Log($"[GameManager] PlayerPerformAction intercepted key: '{actionKey}'. Routing to scene managers...");
+        
+        var tutorial = FindFirstObjectByType<TutorialManager>(FindObjectsInactive.Include);
+        if (tutorial != null) {
+            
+            tutorial.HandlePlayerAction(actionKey);
+        }
+        var narration = FindFirstObjectByType<NarrationManager>(FindObjectsInactive.Include);
+        if (narration != null) {
+
+            narration.HandleDynamicAction(actionKey);
+        }
     }
-
     public void RespawnGame()
     {        
         ResetUIForSceneChanges();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-
     public void PlayAgain()
     {        
         ResetUIForSceneChanges();
-        SceneManager.LoadScene("Showcase_Homebase");
+        SceneManager.LoadScene("Showcase_MainArea");
     }
+    private void ClearReferences() {
 
-    private void FindUIReferences()
-    {
-        Transform[] allChildren = transform.root.GetComponentsInChildren<Transform>(true);
+        cameraController = null;
+        pauseMenu = null;
+        winMenu = null;
+        lossMenu = null;
+        hud = null;
+        settingsMenu = null;
 
-        foreach (Transform child in allChildren)
-        {
-            switch (child.name)
-            {
-                case "Pause":
-                    pauseMenu = child.gameObject;
-                    break;
-                case "Win":
-                    winMenu = child.gameObject;
-                    break;
-                case "Lose":
-                    lossMenu = child.gameObject;
-                    break;
-                case "HUD":
-                    hud = child.gameObject;
-                    break;
-                case "SettingsMenu":
-                    settingsMenu = child.gameObject;
-                    break;
-            }
+        OnStageChanged = null;
+        OnPlayerAction = null;
+    }
+    public void InitializeSceneUI(SceneUIConnection connector, CameraController camera) {
+
+        Debug.Log("<color=orange>[GameManager] InitializeSceneUI invoked by GameInitializer. Attempting reassignment...</color>");
+        cameraController = camera;
+        if (cameraController != null) {
+            cameraController.enabled = true;
         }
-    }
 
-    private void AttachGamePlaybuttons()
-    {
-        Button[] buttons = transform.root.GetComponentsInChildren<Button>(true);
-
-        foreach (Button button in buttons)
-        {
-            if (pauseMenu!= null && button.transform.IsChildOf(pauseMenu.transform))
-            {
-                switch (button.name)
-                {
-                    case "ResumeButton":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(ResumeGame);
-                        break;
-                    case "SettingsButton":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(OpenSettingsFromPause);
-                        break;
-                    case "QuitToMain":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(QuitToMain);
-                        break;
-                }
-
-                continue;
-            }
-
-            if (settingsMenu != null && button.transform.IsChildOf(settingsMenu.transform))
-            {
-                if (button.name == "BackButton")
-                {
-                    button.onClick.RemoveAllListeners();
-                    button.onClick.AddListener(ReturnFromSettings);
-                }
-            }
-
-            if (winMenu != null && button.transform.IsChildOf(winMenu.transform))
-            {
-                switch (button.name)
-                {
-                    case "ResumeButton":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(ResumeGame);
-                        break;
-
-                    case "SettingsButton":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(OpenSettingsFromWin);
-                        break;
-
-                    case "QuitToMain":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(QuitToMain);
-                        break;
-                }
-            }
-
-            if (lossMenu != null && button.transform.IsChildOf(lossMenu.transform))
-            {
-                switch (button.name)
-                {
-                    case "RetryButton":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(RespawnGame);
-                        Debug.Log("Testing button");
-                        break;
-
-                    case "SettingsButton":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(OpenSettingsFromLose);
-                        break;
-
-                    case "QuitToMain":
-                        button.onClick.RemoveAllListeners();
-                        button.onClick.AddListener(QuitToMain);
-                        break;
-                }
-            }
+        if (connector == null) {
+            Debug.LogError("[GameManager] InitializeSceneUI failed: The connector parameter is null.");
+            return;
         }
-    }
 
+        // Assign references
+        pauseMenu = connector.pauseMenu;
+        winMenu = connector.winMenu;
+        lossMenu = connector.lossMenu;
+        hud = connector.hud;
+        settingsMenu = connector.settingsMenu;
+
+        // Log exactly what was found inside the connector at assignment time
+        Debug.Log($"[GameManager] UI Assigned from {connector.gameObject.name}:\n" +
+                  $"- pauseMenu: {(pauseMenu != null ? pauseMenu.name : "NULL")}\n" +
+                  $"- winMenu: {(winMenu != null ? winMenu.name : "NULL")}\n" +
+                  $"- lossMenu: {(lossMenu != null ? lossMenu.name : "NULL")}\n" +
+                  $"- hud: {(hud != null ? hud.name : "NULL")}\n" +
+                  $"- settingsMenu: {(settingsMenu != null ? settingsMenu.name : "NULL")}");
+
+        FindUIMenuReferences(connector);
+    }
+    public void LogCurrentUIStatus() {
+        Debug.Log($"[GameManager] UI Status Check (Escape Pressed):\n" +
+                  $"- pauseMenu: {(pauseMenu != null ? "ALIVE (" + pauseMenu.name + ")" : "DESTROYED / NULL")}\n" +
+                  $"- winMenu: {(winMenu != null ? "ALIVE (" + winMenu.name + ")" : "DESTROYED / NULL")}\n" +
+                  $"- lossMenu: {(lossMenu != null ? "ALIVE (" + lossMenu.name + ")" : "DESTROYED / NULL")}\n" +
+                  $"- hud: {(hud != null ? "ALIVE (" + hud.name + ")" : "DESTROYED / NULL")}\n" +
+                  $"- settingsMenu: {(settingsMenu != null ? "ALIVE (" + settingsMenu.name + ")" : "DESTROYED / NULL")}");
+    }
+    private void FindUIMenuReferences(SceneUIConnection connector) { 
+        
+        Button[] buttons = connector.GetComponentsInChildren<Button>(true); 
+        
+        foreach (Button button in buttons) { 
+            if (pauseMenu != null && button.transform.IsChildOf(pauseMenu.transform)) { 
+                switch (button.name) { 
+                    case "ResumeButton": 
+                        button.onClick.RemoveAllListeners(); 
+                        button.onClick.AddListener(ResumeGame); 
+                        break; 
+                    case "SettingsButton": 
+                        button.onClick.RemoveAllListeners(); 
+                        button.onClick.AddListener(OpenSettingsFromPause); 
+                        break; 
+                    case "QuitToMain": 
+                        button.onClick.RemoveAllListeners(); 
+                        button.onClick.AddListener(QuitToMain); 
+                        break; 
+                } 
+                continue; 
+            } 
+            if (settingsMenu != null && button.transform.IsChildOf(settingsMenu.transform)) { 
+                if (button.name == "BackButton") { 
+                    button.onClick.RemoveAllListeners(); 
+                    button.onClick.AddListener(ReturnFromSettings); } } 
+            if (winMenu != null && button.transform.IsChildOf(winMenu.transform)) { 
+                switch (button.name) { 
+                    case "ResumeButton": 
+                        button.onClick.RemoveAllListeners(); 
+                        button.onClick.AddListener(ResumeGame); 
+                        break; 
+                    case "SettingsButton": 
+                        button.onClick.RemoveAllListeners(); 
+                        button.onClick.AddListener(OpenSettingsFromWin); 
+                        break; 
+                    case "QuitToMain": 
+                        button.onClick.RemoveAllListeners(); 
+                        button.onClick.AddListener(QuitToMain); break; } } 
+            if (lossMenu != null && button.transform.IsChildOf(lossMenu.transform)) { 
+                switch (button.name) { 
+                    case "RetryButton": 
+                        button.onClick.RemoveAllListeners(); 
+                        button.onClick.AddListener(RespawnGame); 
+                        break; 
+                    case "SettingsButton": 
+                        button.onClick.RemoveAllListeners(); 
+                        button.onClick.AddListener(OpenSettingsFromLose); 
+                        break; 
+                    case "QuitToMain": 
+                        button.onClick.RemoveAllListeners(); 
+                        button.onClick.AddListener(QuitToMain); 
+                        break; 
+                } 
+            } 
+        } 
+    }
     private void ResetUIForSceneChanges()
     {
         Time.timeScale = 1f;
@@ -358,15 +428,5 @@ public class GameManager : Singleton<GameManager>
             hud.SetActive(true);
 
         HideCursor();
-    }
-
-    private void FindCameraController()
-    {
-        cameraController = FindFirstObjectByType<CameraController>(FindObjectsInactive.Include);
-
-        if (cameraController == null)
-        {
-            Debug.LogWarning("GameManager could not find a CameraController in this scene.");
-        }
     }
 }

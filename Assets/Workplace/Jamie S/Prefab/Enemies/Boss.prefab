@@ -364,6 +364,7 @@ GameObject:
   - component: {fileID: 1732308838788976385}
   - component: {fileID: 5381804928126210787}
   - component: {fileID: 2631286863734658976}
+  - component: {fileID: 7567339639246806114}
   m_Layer: 8
   m_Name: Boss
   m_TagString: Enemy
@@ -531,6 +532,22 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.83
   m_Center: {x: 0, y: 0.3, z: -0.28}
+--- !u!114 &7567339639246806114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6311920655075320742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b5d8c0cc5855b44877a93d44298ef3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossRewardSpawner
+  boss: {fileID: 7121954269549159635}
+  rewardChest: {fileID: 0}
+  levelKeyPrefab: {fileID: 0}
+  keySpawnPoint: {fileID: 0}
 --- !u!1 &6487912009612946793
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.WSA;
 
 
 public enum BossPhase
@@ -40,7 +38,7 @@ public class BossAI : EnemyAI
     private Color currentColor;
     private Color targetColor;
     [SerializeField] private float colorBlendSpeed;
-    private bool isBlendingColor = false;
+    //private bool isBlendingColor = false; TODO: Add or Remove.
 
     [SerializeField] private float eyeHitExpireTime = 0f;
     [SerializeField] private float stunLockout = 0f;
@@ -363,7 +361,7 @@ public class BossAI : EnemyAI
         StopAllCoroutines();
         SetMovementEnabled(false);
 
-        GameManager.Instance.SetWin();
+       //GameManager.Instance.SetWin();
         base.Die();
     }
 

@@ -20,28 +20,45 @@ public class StageTrigger : MonoBehaviour {
     [SerializeField] private bool requireCurrentStage;
     [SerializeField] private GameStage expectedCurrentStage;
 
+    private bool hasTriggered = false;
+
     private void OnTriggerEnter(Collider other) {
 
-        if (other.CompareTag("Player")) {
+        if (!other.CompareTag("Player")) return;
 
-            if (requireCurrentStage && GameManager.Instance.GameStage != expectedCurrentStage)  return;
+        if (hasTriggered) return;
 
-            switch (executionMode) {
-                case TriggerExecutionMode.None:
-                    break;
-                case TriggerExecutionMode.StageChangeOnly:
-                    ExecuteStageChange();
-                    break;
-                case TriggerExecutionMode.PlayerActionOnly:
-                    ExecutePlayerAction();
-                    break;
-                case TriggerExecutionMode.BothStageAndAction:
-                    ExecuteStageChange();
-                    ExecutePlayerAction();
-                    break;
-            }
-            Destroy(gameObject);
+
+        Debug.Log($"[StageTrigger] Player tag confirmed. Current GameManager Stage: {GameManager.Instance.GameStage}");
+
+        if (requireCurrentStage && GameManager.Instance.GameStage != expectedCurrentStage) {
+            Debug.Log($"[StageTrigger] Trigger expected stage '{expectedCurrentStage}', but GameManager is currently on '{GameManager.Instance.GameStage}'.");
+            return;
         }
+
+        hasTriggered = true;
+
+        Debug.Log($"[StageTrigger] Conditions cleared. Executing Mode: {executionMode}");
+
+        switch (executionMode) {
+            case TriggerExecutionMode.None:
+                Debug.LogWarning("[StageTrigger] Warning: TriggerExecutionMode is set to None! No actions taken.");
+                break;
+            case TriggerExecutionMode.StageChangeOnly:
+                ExecuteStageChange();
+                break;
+            case TriggerExecutionMode.PlayerActionOnly:
+                ExecutePlayerAction();
+                break;
+            case TriggerExecutionMode.BothStageAndAction:
+                ExecuteStageChange();
+                ExecutePlayerAction();
+                break;
+        }
+
+        Debug.Log($"[StageTrigger] Execution completed successfully. Destroying trigger volume object: {gameObject.name}");
+        Destroy(gameObject);
+        
     }
     private void ExecuteStageChange() {
         GameManager.Instance.SetStage(stageToTrigger);

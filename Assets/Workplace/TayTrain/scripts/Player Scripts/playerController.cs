@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour 
@@ -105,6 +104,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public PlayerState CurrentState => currentState;
+    public GameObject GetConcentrationObject => concentrationLight;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start() {
@@ -176,10 +176,10 @@ public class PlayerController : MonoBehaviour
         updateState();
         updateAnimator();
     }
-    private void LateUpdate() 
-    {
+    public void ResetVelocity() {
+        playerVel = Vector3.zero;
+        playerVel.y = -2f;
     }
-  
     void movement() 
     {
         if (controller.isGrounded && playerVel.y < 0) 
@@ -345,7 +345,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(teleportAnimationDuration);
         isTeleporting = false;
     }
-void jump() {
+    void jump() {
         if (inputHandler.JumpPressed) 
         {
             if(jumpCount < jumpMax + bonusJumps)

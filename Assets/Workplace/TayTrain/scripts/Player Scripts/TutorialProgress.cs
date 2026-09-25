@@ -25,7 +25,7 @@ public class TutorialProgress : MonoBehaviour
     private int slimeKills;
     private int slimeKillsNeeded = 9;
 
-    private void OnEnable()
+/*    private void OnEnable()
     {
         GameManager.OnPlayerAction += HandlePlayerAction;
     }
@@ -33,7 +33,7 @@ public class TutorialProgress : MonoBehaviour
     private void OnDisable()
     {
         GameManager.OnPlayerAction -= HandlePlayerAction;
-    }
+    }*/
 
     public void StartTutorial()
     {

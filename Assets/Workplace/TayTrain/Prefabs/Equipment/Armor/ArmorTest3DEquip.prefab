@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8758217076460424986}
   - component: {fileID: 5348493471675138844}
   - component: {fileID: 3789799452640513235}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Shoulder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 3620885563084165225}
   - component: {fileID: 8714514217741315508}
   - component: {fileID: 4592552047676420551}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Shoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 1606542101878730743}
   - component: {fileID: 5496421952688688937}
   - component: {fileID: -4950008488962237293}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: ArmorTest3DEquip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +335,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}

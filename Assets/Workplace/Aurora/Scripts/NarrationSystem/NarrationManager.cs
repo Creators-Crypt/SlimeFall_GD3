@@ -33,26 +33,54 @@ public class NarrationManager : MonoBehaviour {
         Debug.Log("<color=lime>NARRATION MANAGER AWAKE</color>");
 
         InitializeDynamicComments();
-        narrationLookup = new Dictionary<GameStage, DialogueData>();
-        foreach (var mapping in stageNarrations) {
-            narrationLookup[mapping.stage] = mapping.dialogue;
-        }
+        BuildNarrationLookupTable();
         queueProcessingCoroutine = StartCoroutine(ProcessDialogueQueue());
     }
     private void OnEnable() {
 
         Debug.Log("<color=yellow>NARRATION MANAGER ENABLED</color>");
 
-        GameManager.OnStageChanged += HandleStageChanged;
-        GameManager.OnPlayerAction += HandleDynamicAction;
+        GameManager.Instance.OnStageChanged += HandleStageChanged;
+        GameManager.Instance.OnPlayerAction += HandleDynamicAction;
+
+        GameInitializer.OnSceneSetupComplete += CatchUpInitialStage;
     }
 
     private void OnDisable() {
 
         Debug.Log("<color=yellow>NARRATION MANAGER DISABLED</color>");
 
-        GameManager.OnStageChanged -= HandleStageChanged;
-        GameManager.OnPlayerAction -= HandleDynamicAction;
+        GameManager.Instance.OnStageChanged -= HandleStageChanged;
+        GameManager.Instance.OnPlayerAction -= HandleDynamicAction;
+        GameInitializer.OnSceneSetupComplete -= CatchUpInitialStage;
+    }
+    private void BuildNarrationLookupTable() {
+        if (narrationLookup != null && narrationLookup.Count > 0) return;
+
+        InitializeDynamicComments();
+        narrationLookup = new Dictionary<GameStage, DialogueData>();
+
+        if (stageNarrations == null) {
+            Debug.LogError("[NarrationManager] Critical error! 'Stage Narrations' list is unassigned in the inspector.");
+            return;
+        }
+
+        foreach (var mapping in stageNarrations) {
+            if (mapping.dialogue != null) {
+                narrationLookup[mapping.stage] = mapping.dialogue;
+            }
+        }
+
+        Debug.Log($"[NarrationManager] Lookup table successfully compiled with {narrationLookup.Count} stage tracks.");
+    }
+    private void CatchUpInitialStage() {
+
+        BuildNarrationLookupTable();
+
+        if (GameManager.Instance != null) {
+            Debug.Log($"[NarrationManager] CatchUpInitialStage triggered. Evaluating current stage: {GameManager.Instance.GameStage}");
+            HandleStageChanged(GameManager.Instance.GameStage);
+        }
     }
     private void InitializeDynamicComments() {
 
@@ -67,28 +95,23 @@ public class NarrationManager : MonoBehaviour {
         }
     }
     // This handles primary story milestones from the GameManager
-    private void HandleStageChanged(GameStage newStage) {
+    public void HandleStageChanged(GameStage newStage) {
 
-        Debug.Log(
-            $"<color=cyan>NARRATION STAGE RECEIVED:</color> {newStage}"
-        );
+        Debug.Log($"[NarrationManager] HandleStageChanged intercepting stage: {newStage}. Lookup table size: {(narrationLookup != null ? narrationLookup.Count : 0)}");
+
+        if (narrationLookup == null) {
+            BuildNarrationLookupTable();
+        }
 
         if (narrationLookup.TryGetValue(newStage, out DialogueData data)) {
-
-            Debug.Log(
-                $"<color=lime>NARRATION FOUND:</color> {data.name}"
-            );
-
+            Debug.Log($"<color=lime>[NarrationManager] MATCH FOUND FOR:</color> {newStage}. Playing clip: {data.name}");
             RequestNarration(data);
         } else {
-
-            Debug.LogWarning(
-                $"<color=red>NO NARRATION MAPPED:</color> {newStage}"
-            );
+            Debug.LogWarning($"[NarrationManager] WARNING: No dialogue clip asset mapped to enum state: {newStage}. Check your inspector mapping elements array list.");
         }
     }
     // This handles real-time actions (combat, falling, smashing objects)
-    private void HandleDynamicAction(string actionKey) {
+    public void HandleDynamicAction(string actionKey) {
         
         // Check if we have a registered DM comment group for this specific action
         if (commentLookup.TryGetValue(actionKey, out DynamicCommentGroup group)) {
@@ -103,6 +126,8 @@ public class NarrationManager : MonoBehaviour {
     public void RequestNarration(DialogueData newLine) {
         
         if (newLine == null) return;
+
+        Debug.Log($"[NarrationManager] RequestNarration received line: '{newLine.name}' with Priority: {newLine.priority}");
 
         if (newLine.priority == NarrationPriority.High_CriticalStory) {
             if (activeLine != null) {

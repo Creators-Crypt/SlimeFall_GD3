@@ -8,7 +8,20 @@ public class Respawn : MonoBehaviour {
         
         if (other.CompareTag("Player")) {
 
-            other.transform.position = target.transform.position;
+            if (other.TryGetComponent(out CharacterController character)) {
+
+                character.enabled = false;
+
+                if (other.TryGetComponent(out PlayerController player)) {
+                    player.ResetVelocity();
+                }
+                other.transform.position = target.transform.position;
+
+                character.enabled = true;
+            } else {
+                other.transform.position = target.transform.position;
+            }
+            Physics.SyncTransforms();
         } else {
             Destroy(other.gameObject);
         }

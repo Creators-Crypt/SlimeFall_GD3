@@ -1,8 +1,8 @@
-using UnityEngine;
-using TMPro;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 
 public class InventoryUI : MonoBehaviour

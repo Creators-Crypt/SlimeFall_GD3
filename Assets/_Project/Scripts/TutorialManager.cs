@@ -42,7 +42,7 @@ public class TutorialManager : MonoBehaviour {
     private int weaponPickedUp = 0;
     [SerializeField] private int neededWeaponPickedUp = 1;
     private bool weaponCycled, weaponFired, magicCycled;
-    private bool isChestOpen;
+    //private bool isChestOpen; TODO: Add this to the Tutorial
 
     [Header("Phase 3 Checklist (Abilities & Atmosphere)")]
     private bool flashlightUsed;
@@ -58,16 +58,33 @@ public class TutorialManager : MonoBehaviour {
     private bool dodged, concentrated;
 
     private void OnEnable() {
-        GameManager.OnStageChanged += HandleStageChanged;
-        GameManager.OnPlayerAction += HandlePlayerAction;
+        if (GameManager.Instance != null) {
+            GameManager.Instance.OnStageChanged += HandleStageChanged;
+            GameManager.Instance.OnPlayerAction += HandlePlayerAction;
+        }
+        
         NarrationManager.OnDialogueFinished += HandleDialogueFinished;
+        GameInitializer.OnSceneSetupComplete += EvaluateCurrentSceneStage;
     }
     private void OnDisable() {
-        GameManager.OnStageChanged -= HandleStageChanged;
-        GameManager.OnPlayerAction -= HandlePlayerAction;
+        if (GameManager.Instance != null) {
+            GameManager.Instance.OnStageChanged -= HandleStageChanged;
+            GameManager.Instance.OnPlayerAction -= HandlePlayerAction;
+        }
+
         NarrationManager.OnDialogueFinished -= HandleDialogueFinished;
+        GameInitializer.OnSceneSetupComplete -= EvaluateCurrentSceneStage;
     }
-    private void HandleStageChanged(GameStage newStage) {
+    private void EvaluateCurrentSceneStage() {
+
+        if (GameManager.Instance != null) {
+            Debug.Log($"[NarrationManager] CatchUpInitialStage triggered. Evaluating current stage: {GameManager.Instance.GameStage}");
+            HandleStageChanged(GameManager.Instance.GameStage);
+        } else {
+            Debug.LogError("[NarrationManager] CatchUp failed: GameManager.Instance is still NULL during setup complete!");
+        }
+    }
+    public void HandleStageChanged(GameStage newStage) {
         switch (newStage) {
             case GameStage.HomeBase_Tut_Spawn:          HandleIntro(); break;
             case GameStage.HomeBase_Tut_Entryway:       HandleEntryway(); break;
@@ -77,6 +94,8 @@ public class TutorialManager : MonoBehaviour {
             case GameStage.HomeBase_Tut_Combat:         HandleCombat(); break;
             case GameStage.HomeBase_Tut_Complete:       HandleTutorialComplete(); break;
             case GameStage.HomeBase_Tut_Kitchen:        HandleKitchen(); break;
+            case GameStage.HomeBase_Tut_Office:         HandleOffice(); break;
+            case GameStage.HomeBase_Tut_Portal:         HandlePortal(); break;
         }
     }
     private void HandleIntro() {
@@ -114,6 +133,12 @@ public class TutorialManager : MonoBehaviour {
     }
     private void HandleKitchen() {
         Debug.Log("Kitchen started");
+    }
+    private void HandleOffice() {
+        ObjectiveManager.Instance.SetObjective("Kitchen, is W.I.P., please use the key to enter the office!");
+    }
+    private void HandlePortal() {
+        ObjectiveManager.Instance.SetObjective("Proceed through the Portal!");
     }
     private void DimGlobalLightsToNight(bool state) {
         
@@ -185,8 +210,6 @@ public class TutorialManager : MonoBehaviour {
             HandleKitchenEntranceDialogueFinished();
         }
     }
-
-
     private void HandleIntroDialogueFinished() {
         
         if (introBarrier != null) {
@@ -202,9 +225,9 @@ public class TutorialManager : MonoBehaviour {
         Debug.Log("Tutorial: Entryway dialogue finished. Barrier removed.");
     }
     private void HandlePlayerActionsDialogueFinished() {
-        
-        bridge.SetActive(true);
-        shield.SetActive(false);
+
+        if (bridge != null) bridge.SetActive(true);
+        if (shield != null) shield.SetActive(false);
     }
     private void HandleKitchenEntranceDialogueFinished() {
 
@@ -220,7 +243,7 @@ public class TutorialManager : MonoBehaviour {
         }
         Debug.Log("Tutorial: Office Entryway dialogue finished. Barrier removed.");
     }
-    private void HandlePlayerAction(string actionKey) {
+    public void HandlePlayerAction(string actionKey) {
         if (!tutorialActive) return;
 
         switch (actionKey) {
@@ -236,7 +259,7 @@ public class TutorialManager : MonoBehaviour {
             case "WeaponCycle":     weaponCycled = true; break;
             case "WeaponFire":      weaponFired = true; break;
             case "MagicCycle":      magicCycled = true; break;
-            case "ChestOpen":       isChestOpen = true; break;
+            //case "ChestOpen":       isChestOpen = true; break;
 
             #endregion
             #region Phase 3
