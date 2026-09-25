@@ -509,6 +509,8 @@ MonoBehaviour:
   gravity: 10
   animator: {fileID: 7987748842103016349}
   currentState: 0
+  playerVisual: {fileID: 4051554752283759079}
+  dodgeVisualScale: 0.35
   teleportCooldown: 2.01
   teleportDistance: 30.2
   teleportAnimationDuration: 0.2
@@ -516,7 +518,9 @@ MonoBehaviour:
   isPlayerSprinting: 0
   staminaTimer: 0
   stamina: 0
-  dodgeControllerHeight: 0.01
+  sprintExhausted: 0
+  dodgeControllerHeight: 0.5
+  dodgeControllerRadius: 0.2
   ignoreLayer:
     serializedVersion: 2
     m_Bits: 64
