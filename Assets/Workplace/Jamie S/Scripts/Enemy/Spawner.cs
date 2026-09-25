@@ -15,25 +15,19 @@ public class Spawner : MonoBehaviour
 
     public Transform playerTarget;
 
-    private List<GameObject> spawnedEnemies = new List<GameObject>();
+    private List<GameObject> spawnedEnemies = new();
+    
+    private bool isSpawnerInitialized = false;
 
-    private void Awake()
-    {
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null) {playerTarget = playerObj.transform;}
+    public void InitializeSpawner(Transform player) {
+        playerTarget = player;
+        isSpawnerInitialized = playerTarget != null;
+
+        Debug.Log($"<color=lime>[EnemySpawner]</color> Spawner successfully linked to active player target tracking! Player verified: {isSpawnerInitialized}");
     }
-
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if (playerTarget == null) return;
+        if (!isSpawnerInitialized || playerTarget == null) return;
         if(IsEmpty()) return;
 
         RemoveDead();
@@ -51,7 +45,6 @@ public class Spawner : MonoBehaviour
             SpawnEnemy();
         } 
     }
-
     private void SpawnEnemy()
     {
         if(enemyPrefabs.Length == 0 || spawnPoints.Length == 0) return;
@@ -61,6 +54,14 @@ public class Spawner : MonoBehaviour
         Transform spawnPoiont = spawnPoints[Random.Range(0, spawnPoints.Length)];
 
         GameObject newEnemy = Instantiate(spawnedPrefab, spawnPoiont.position, spawnPoiont.rotation);
+
+        if (newEnemy.TryGetComponent(out EnemyAI enemyAI)) {
+            if (playerTarget != null) {
+                enemyAI.SetPlayerTarget(playerTarget);
+            } else {
+                Debug.LogWarning("[EnemySpawner] Cannot inject player target! Spawner's playerTransform is NULL.");
+            }
+        }
 
         spawnedEnemies.Add(newEnemy);
         totalSpawned++;

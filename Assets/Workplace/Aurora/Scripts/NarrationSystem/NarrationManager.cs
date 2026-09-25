@@ -111,7 +111,7 @@ public class NarrationManager : MonoBehaviour {
         }
     }
     // This handles real-time actions (combat, falling, smashing objects)
-    private void HandleDynamicAction(string actionKey) {
+    public void HandleDynamicAction(string actionKey) {
         
         // Check if we have a registered DM comment group for this specific action
         if (commentLookup.TryGetValue(actionKey, out DynamicCommentGroup group)) {

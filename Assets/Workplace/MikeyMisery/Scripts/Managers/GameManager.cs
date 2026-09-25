@@ -275,18 +275,26 @@ public class GameManager : Singleton<GameManager> {
         }
     }
 
-    public void PlayerPerformAction(string actionKey)
-    {
+    public void PlayerPerformAction(string actionKey) {
 
-        OnPlayerAction?.Invoke(actionKey);
+        Debug.Log($"[GameManager] PlayerPerformAction intercepted key: '{actionKey}'. Routing to scene managers...");
+        
+        var tutorial = FindFirstObjectByType<TutorialManager>(FindObjectsInactive.Include);
+        if (tutorial != null) {
+            
+            tutorial.HandlePlayerAction(actionKey);
+        }
+        var narration = FindFirstObjectByType<NarrationManager>(FindObjectsInactive.Include);
+        if (narration != null) {
+
+            narration.HandleDynamicAction(actionKey);
+        }
     }
-
     public void RespawnGame()
     {        
         ResetUIForSceneChanges();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-
     public void PlayAgain()
     {        
         ResetUIForSceneChanges();

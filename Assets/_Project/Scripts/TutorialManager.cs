@@ -243,7 +243,7 @@ public class TutorialManager : MonoBehaviour {
         }
         Debug.Log("Tutorial: Office Entryway dialogue finished. Barrier removed.");
     }
-    private void HandlePlayerAction(string actionKey) {
+    public void HandlePlayerAction(string actionKey) {
         if (!tutorialActive) return;
 
         switch (actionKey) {

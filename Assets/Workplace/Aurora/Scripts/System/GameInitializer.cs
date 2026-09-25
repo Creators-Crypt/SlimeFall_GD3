@@ -9,6 +9,8 @@ public class GameInitializer : Singleton<GameInitializer> {
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Transform playerTransform;
 
+    public Transform GetPlayerTransform => playerTransform;
+
     protected override void Awake() {
         base.Awake();
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -28,8 +30,6 @@ public class GameInitializer : Singleton<GameInitializer> {
         Debug.Log($"[GameInitializer] OnSceneLoaded triggered for '{scene.name}'. Previous playerTransform state: {prevStatus}");
 
         Debug.Log($"<color=yellow>[GameInitializer] OnSceneLoaded began executing for scene: {scene.name}</color>");
-
-        
 
         playerTransform = null;
 
@@ -58,6 +58,13 @@ public class GameInitializer : Singleton<GameInitializer> {
 
         if (spawn != null && playerTransform != null) {
             SpawnPlayer(spawn.transform.position, spawn.transform.rotation);
+
+            var enemySpawner = FindFirstObjectByType<Spawner>(FindObjectsInactive.Include);
+            if (enemySpawner != null) {
+                enemySpawner.InitializeSpawner(playerTransform);
+            } else {
+                Debug.Log("[GameInitializer] No EnemySpawner found in this scene to initialize.");
+            }
 
             CameraController playerCamera = playerTransform.GetComponentInChildren<CameraController>();
             if (playerCamera != null) {
