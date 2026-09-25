@@ -112,11 +112,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2887248668077732966, guid: af558a1be461f6b449796aa456144de8, type: 3}
       propertyPath: m_Size.y
-      value: 10
+      value: 0.7710238
       objectReference: {fileID: 0}
     - target: {fileID: 2887248668077732966, guid: af558a1be461f6b449796aa456144de8, type: 3}
       propertyPath: m_Size.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2887248668077732966, guid: af558a1be461f6b449796aa456144de8, type: 3}
+      propertyPath: m_Center.y
+      value: 4.614498
       objectReference: {fileID: 0}
     - target: {fileID: 3871807005230247962, guid: af558a1be461f6b449796aa456144de8, type: 3}
       propertyPath: m_Center.y
@@ -170,7 +174,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: FallingSpike (1) Variant
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3871807005230247962, guid: af558a1be461f6b449796aa456144de8, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4415142682420104244, guid: af558a1be461f6b449796aa456144de8, type: 3}
