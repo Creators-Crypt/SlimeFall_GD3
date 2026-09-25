@@ -23,6 +23,7 @@ public class SpellCaster : MonoBehaviour {
     [SerializeField] private float castAnimationDuration = 0.4f;
     private float castAnimationTimer;
     public bool IsCasting { get; private set;  }
+    private CharacterController characterController;
 
     private IStamina stamina;
     private IConcentration concentration;
@@ -47,7 +48,7 @@ public class SpellCaster : MonoBehaviour {
         stamina = GetComponent<IStamina>();
         concentration = GetComponent<IConcentration>();
         weaponManager = GetComponent<SpellWeaponManager>();
-
+        characterController = GetComponent<CharacterController>();
         BuildLoadout();
     }
 
@@ -123,6 +124,9 @@ public class SpellCaster : MonoBehaviour {
         spell.SetDelivery((SpellDeliveryKind)next);
     }
     public void TryCast() {
+
+        if (characterController != null && !characterController.isGrounded)
+            return;
 
         if (!weaponManager.CanSwap) return;
 

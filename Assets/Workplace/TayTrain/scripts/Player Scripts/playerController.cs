@@ -32,6 +32,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private PlayerState currentState;
     private PlayerAudioController playerAudioController;
+    [SerializeField] private Transform playerVisual;
+    [SerializeField] private float dodgeVisualScale = 0.35f;
+    private Vector3 originalVisualScale;
 
     private PlayerState previousState = (PlayerState)(-1);
     
@@ -65,16 +68,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool isPlayerSprinting = false;
     [SerializeField] float staminaTimer;
     [SerializeField] float stamina;
+    [SerializeField] bool sprintExhausted;
 
     //Dodge
     bool isDodging;
     float dodgeTimer;
     float dodgeCooldownTimer;
     float originalControllerHeight;
+    float originalControllerRadius;
     Vector3 originalControllerCenter;
     Vector3 dodgeDirection;
 
-    [SerializeField] float dodgeControllerHeight = 0.01f;
+    [SerializeField] float dodgeControllerHeight = 0.5f;
+    [SerializeField] float dodgeControllerRadius = 0.2f;
 
     //Teleport
     bool isTeleporting;
@@ -130,6 +136,8 @@ public class PlayerController : MonoBehaviour
 
         originalControllerCenter = controller.center;
 
+        originalControllerRadius = controller.radius;
+
         playerAudioController = GetComponent<PlayerAudioController>();
 
         if(teleportTrail != null)
@@ -141,20 +149,41 @@ public class PlayerController : MonoBehaviour
         {
             animator = GetComponentInChildren<Animator>();
         }
+
+        if(playerVisual != null)
+        {
+            originalVisualScale = playerVisual.localScale;
+        }
     }
     // Update is called once per frame
     void Update() {
 
         stamina = staminaController.Current;
+
+        if(!inputHandler.SprintHeld)
+        {
+            sprintExhausted = false;
+        }
+
         isPlayerSprinting = !isConcentrating && 
+            !sprintExhausted &&
             inputHandler.SprintHeld &&
             moveDir.sqrMagnitude > 0.01f &&
             staminaController.Current > 0f ;
 
-        staminaController.IsConsuming = isPlayerSprinting;
+        staminaController.IsConsuming = isPlayerSprinting && controller.isGrounded;
+
         currentSpeed = (isPlayerSprinting) ? stats.sprintSpeed : stats.walkSpeed;
-        if (isPlayerSprinting) {
+
+        if (staminaController.IsConsuming) {
             staminaController.ContinousSpent(stats.sprintStaminaCost);
+            if(staminaController.Current <= 0f)
+            {
+                sprintExhausted = true;
+                isPlayerSprinting = false;
+                staminaController.IsConsuming = false;
+                currentSpeed = stats.walkSpeed;
+            }
         }
 
         if (dodgeCooldownTimer > 0) {
@@ -223,8 +252,12 @@ public class PlayerController : MonoBehaviour
                 {
                     dodgeDirection = transform.forward;
                 }
-
+                controller.radius = dodgeControllerRadius;
                 controller.height = dodgeControllerHeight;
+                if(playerVisual != null)
+                {
+                    playerVisual.localScale = originalVisualScale * dodgeVisualScale;
+                }
 
                 float heightDifference = originalControllerHeight - dodgeControllerHeight;
 
@@ -242,9 +275,6 @@ public class PlayerController : MonoBehaviour
 
         if (isDodging) {
 
-            transform.localScale = Vector3.Lerp(transform.localScale,
-                originalScale * 0.1f, 15f * Time.deltaTime);
-
             controller.Move(dodgeDirection *
                 stats.walkSpeed *
                 (stats.dodgeSpeedMultiplier + dodgeSpeedBonus) * Time.deltaTime);
@@ -257,13 +287,14 @@ public class PlayerController : MonoBehaviour
 
                 controller.height = originalControllerHeight;
                 controller.center = originalControllerCenter;
+                controller.radius = originalControllerRadius;
+                if(playerVisual != null)
+                {
+                    playerVisual.localScale = originalVisualScale;
+                }
             }
         }
-        else
-        {
-            transform.localScale = Vector3.Lerp(transform.localScale,
-                originalScale, 15f * Time.deltaTime);
-        }
+       
     }
     void teleport ()
     {
