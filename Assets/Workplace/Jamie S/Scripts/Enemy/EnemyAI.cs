@@ -10,6 +10,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
     
     [Header("Data from Scriptiabl object")]
     public EnemyStatsSO stats;
+    public float mortarDelay = .4f;
     
 
     public Transform firePoint;
@@ -574,6 +575,8 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
     {
         Transform muzzle = mortarFirePoint;
         if (muzzle == null) muzzle = transform;
+
+        if(mortarDelay> 0f)yield return new WaitForSeconds(mortarDelay);
 
         for (int i = 0; i < stats.mortarShellsPreSalvo; i++)
         {
