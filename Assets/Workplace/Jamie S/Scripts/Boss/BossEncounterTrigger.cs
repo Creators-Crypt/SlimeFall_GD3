@@ -1,12 +1,16 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class BossEncounterTrigger : MonoBehaviour
 {
     public static event Action<MonoBehaviour> OnBossActivate;
 
+    float doorLockDelay = 1f;
+    public BossDoor lockDoor;
+
     public MonoBehaviour boss;
-    //public BossHealthBarUI bossHealthBar;
+    public BossHealthBarUI bossHealthBar;
 
     private bool fired;
 
@@ -29,7 +33,7 @@ public class BossEncounterTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log($"[Trigger] ENTER {other.name}  tag = {other.tag}");
-
+        
         CheckForPlayer(other);
     }
 
@@ -42,39 +46,48 @@ public class BossEncounterTrigger : MonoBehaviour
     {
         if (fired) return;
 
-        /*        if(isActiveAndEnabled == false || boss == null|| bossHealthBar == null)
-                {
-                    Debug.Log($"[Trigger] fail. enabled= {isActiveAndEnabled} boss={(boss==null?"NULL":boss.name)} bar= {(bossHealthBar ==null?"NULL":bossHealthBar.name)}");
-                    return;
-                }*/
-        /*if (isActiveAndEnabled == false || boss == null) {
+                //if(isActiveAndEnabled == false || boss == null|| bossHealthBar == null)
+                //{
+                //    Debug.Log($"[Trigger] fail. enabled= {isActiveAndEnabled} boss={(boss==null?"NULL":boss.name)} bar= {(bossHealthBar ==null?"NULL":bossHealthBar.name)}");
+                //    return;
+                //}
+        if (isActiveAndEnabled == false || boss == null) {
             Debug.Log($"[Trigger] fail. enabled= {isActiveAndEnabled} boss={(boss == null ? "NULL" : boss.name)} bar= {(bossHealthBar == null ? "NULL" : bossHealthBar.name)}");
             return;
-        }*/
-        if (isActiveAndEnabled == false || boss == null) {
-            Debug.Log($"[Trigger] fail. enabled= {isActiveAndEnabled} boss={(boss == null ? "NULL" : boss.name)}");
-            return;
         }
+        //if (isActiveAndEnabled == false || boss == null) {
+        //    Debug.Log($"[Trigger] fail. enabled= {isActiveAndEnabled} boss={(boss == null ? "NULL" : boss.name)}");
+        //    return;
+        //}
 
         if (_other.CompareTag("Player"))
         {
             fired = true;
+            StartCoroutine(LockDorrAfterDelay());
             //Debug.Log($"[Trigger] ShowBar ->{bossHealthBar.name}, boss = {boss.GetType().Name}");
-            //bossHealthBar.ShowBar(boss);
+            bossHealthBar.ShowBar(boss);
             OnBossActivate?.Invoke(boss);
-/*            BossAI  bossAI = boss as BossAI; //Works but below is the recommended syntax
+           BossAI  bossAI = boss as BossAI; //Works but below is the recommended syntax
             if (bossAI == null) {
                 Debug.LogWarning("[Trigger] the boss field is not a BossAI so the encounter did not start");
             } else {
+                bossAI.SetPlayerTarget(_other.transform);
                 bossAI.ActivateEncounter();
-            }*/
-            if (boss is BossAI bossAI) {
-                bossAI.ActivateEncounter();
-            } else {
-                Debug.LogWarning("[Trigger] the boss field is not a BossAI so the encounter did not start");
             }
-            enabled = false;
-            return;
+            //if (boss is BossAI bossAI) {
+            //    bossAI.ActivateEncounter();
+            //} else {
+            //    Debug.LogWarning("[Trigger] the boss field is not a BossAI so the encounter did not start");
+            //}
+            //enabled = false;
+            //return;
         }
+    }
+
+    private IEnumerator LockDorrAfterDelay()
+    {
+        yield return new WaitForSeconds(doorLockDelay);
+        lockDoor.CloseDoor();
+
     }
 }

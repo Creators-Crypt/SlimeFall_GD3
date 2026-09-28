@@ -43,7 +43,7 @@ public class BossAI : EnemyAI
     [SerializeField] private float eyeHitExpireTime = 0f;
     [SerializeField] private float stunLockout = 0f;
 
-    [SerializeField] private BossDoor lockDoor; 
+   public BossDoor lockDoor;
 
 
     public override void Awake()
@@ -363,10 +363,11 @@ public class BossAI : EnemyAI
         StopAllCoroutines();
         SetMovementEnabled(false);
 
-       //GameManager.Instance.SetWin();
+        //GameManager.Instance.SetWin();
+        
         base.Die();
 
-        lockDoor.OpenDoor(); 
+      
     }
 
     //public override void OnDrawGizmosSelected()

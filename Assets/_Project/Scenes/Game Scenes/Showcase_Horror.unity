@@ -42141,6 +42141,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 6311920655075320742, guid: 8628767145a68c649af989e6a7ffbb17, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7121954269549159635, guid: 8628767145a68c649af989e6a7ffbb17, type: 3}
+      propertyPath: lockDoor
+      value: 
+      objectReference: {fileID: 1943455262}
     - target: {fileID: 7567339639246806114, guid: 8628767145a68c649af989e6a7ffbb17, type: 3}
       propertyPath: keySpawnPoint
       value: 
@@ -64453,7 +64461,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1943455261}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e708d11890c463408c1b2fb2c20ec86, type: 3}
   m_Name: 
@@ -68778,9 +68786,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1924777562}
     - target: {fileID: 7415058462028886206, guid: 517b4adfd1ae44040842bdcdc1de68b8, type: 3}
+      propertyPath: lockDoor
+      value: 
+      objectReference: {fileID: 1943455262}
+    - target: {fileID: 7415058462028886206, guid: 517b4adfd1ae44040842bdcdc1de68b8, type: 3}
       propertyPath: bossHealthBar
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2101765662}
     - target: {fileID: 9177577710004223777, guid: 517b4adfd1ae44040842bdcdc1de68b8, type: 3}
       propertyPath: m_Name
       value: BossEncounterTrigger
@@ -70310,6 +70322,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 435358470}
   m_LocalEulerAnglesHint: {x: 0, y: -153.558, z: 0}
+--- !u!114 &2101765662 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7230440551852428195, guid: cb93c3da17a2e5a4a81db5a3a2c42e36, type: 3}
+  m_PrefabInstance: {fileID: 780587855}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85028a0da71d8ec468cfa1a4e130de2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BossHealthBarUI
 --- !u!1001 &2103186172
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71680,5 +71703,5 @@ SceneRoots:
   - {fileID: 961499737}
   - {fileID: 1999457205}
   - {fileID: 470973710}
-  - {fileID: 1758181620}
   - {fileID: 1943455265}
+  - {fileID: 1758181620}

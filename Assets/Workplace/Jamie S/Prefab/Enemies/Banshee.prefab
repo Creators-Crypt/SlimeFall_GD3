@@ -670,6 +670,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BansheeAI
   stats: {fileID: 11400000, guid: 21500590ff7cf8743b8a1c70b259bb87, type: 2}
+  mortarDelay: 0.4
   firePoint: {fileID: 5474119289944270748}
   mortarFirePoint: {fileID: 0}
   agent: {fileID: 6025981154944093563}

@@ -513,6 +513,8 @@ public class BossPhase3State : IEnemyState
     [SerializeField] private float pullEndTime;
     [SerializeField] public float pullDuration = 1f;
 
+  
+    
     [SerializeField] private float pullMinDist = 3f;
 
     public BossPhase3State(BossAI _bossAI)
@@ -522,7 +524,7 @@ public class BossPhase3State : IEnemyState
     public void Enter()
     {
         stats = boss.bossStats;
-
+        if (boss.lockDoor != null) boss.lockDoor.OpenDoor();
         boss.isInvulnerable = true;
         boss.SetMovementEnabled(false);
         boss.SetPhaseColor(stats.phase3Material);

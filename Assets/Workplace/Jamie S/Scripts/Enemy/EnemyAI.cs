@@ -103,7 +103,7 @@ public class EnemyAI : MonoBehaviour, IDamageable, IHealth
         stateMachine.Tick();
        
     }
-    public void SetPlayerTarget(Transform activePlayer) {
+    public virtual void SetPlayerTarget(Transform activePlayer) {
 
         if (activePlayer != null) {
             playerTarget = activePlayer;

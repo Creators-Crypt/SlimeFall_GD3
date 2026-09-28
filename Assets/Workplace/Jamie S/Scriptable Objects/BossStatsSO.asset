@@ -19,8 +19,8 @@ MonoBehaviour:
   patrolRadius: 20
   patrolWaitTimeMin: 1.5
   patrolWaitTimeMax: 3.5
-  detectionRadius: 15
-  detectionAngle: 180
+  detectionRadius: 34
+  detectionAngle: 360
   lostSightTime: 3
   obstacleMask:
     serializedVersion: 2
@@ -66,96 +66,112 @@ MonoBehaviour:
   jumpWindup:
     vfxPrefab: {fileID: 4406393109996900277, guid: b24229dc2f19880488f1063a4d1da473, type: 3}
     sound: {fileID: 8300000, guid: f4afbf17cfaca2b488530d2162d7d2eb, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 55
   jumpTakeOff:
     vfxPrefab: {fileID: 7963845113487687317, guid: 7040485051a8bab41959e444a764c129, type: 3}
     sound: {fileID: 8300000, guid: 85b1d0b7953a92545baa08f1d7235d13, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 55
   jumpHit:
     vfxPrefab: {fileID: 4085713738250179142, guid: 68181d3ed682c2b47a14498e467378bc, type: 3}
     sound: {fileID: 8300000, guid: bb393d09f293dfb48b3f7ad134a9ca28, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 55
   jumpLanding:
     vfxPrefab: {fileID: 4085713738250179142, guid: 044ef4b2abe91f1439646371f0c83ea3, type: 3}
     sound: {fileID: 8300000, guid: 267dcd73c1a30154994ea19989807de4, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 55
   waveWindup:
     vfxPrefab: {fileID: 4625300385375570540, guid: d7d03dfe52d9f1f4cb335e354a5aad4f, type: 3}
     sound: {fileID: 8300000, guid: 8241f78fbfab9434b964c3a0ee9e8a3b, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 55
   waveRelease:
     vfxPrefab: {fileID: 835408528358845537, guid: 221f394c795f49046b0bdd9f3fbe3d41, type: 3}
     sound: {fileID: 8300000, guid: 205b9b7fd639d914383e35813c801921, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 55
   waveHit:
     vfxPrefab: {fileID: 6484922971108967237, guid: 0c91507d0fa13d0418d673bc0ee52ee2, type: 3}
     sound: {fileID: 8300000, guid: 196ca92f63674de46aca46c76cfd88a4, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 30
   projectileLaunch:
     vfxPrefab: {fileID: 4657287752871689871, guid: 322706367e4066548a245aad43d91bec, type: 3}
     sound: {fileID: 8300000, guid: c1dc913d066f2a54bbd87db92d272fab, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 55
   projectileHit:
     vfxPrefab: {fileID: 1887492736218357856, guid: 28e43cb587142724b84cbacb4b725214, type: 3}
     sound: {fileID: 8300000, guid: 9150e63aef21cf647b029d2aab48407d, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 30
   mortarLaunch:
     vfxPrefab: {fileID: 3748373096500058089, guid: 24dc9e903c2b37d418e9f9d1505a8854, type: 3}
     sound: {fileID: 8300000, guid: 52bcef6fe2008044695347a811f02a87, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 0.8
     soundDist: 100
   bomberBlast:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 25
   bossLeapWindup:
     vfxPrefab: {fileID: 4406393109996900277, guid: b24229dc2f19880488f1063a4d1da473, type: 3}
     sound: {fileID: 8300000, guid: f4afbf17cfaca2b488530d2162d7d2eb, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 55
   bossLeapTakeoff:
     vfxPrefab: {fileID: 7963845113487687317, guid: 2bdcc196fc3192444b943c48150fa327, type: 3}
     sound: {fileID: 8300000, guid: 85b1d0b7953a92545baa08f1d7235d13, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 55
   bossLanding:
     vfxPrefab: {fileID: 4085713738250179142, guid: 68181d3ed682c2b47a14498e467378bc, type: 3}
     sound: {fileID: 8300000, guid: 267dcd73c1a30154994ea19989807de4, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 55
   bossDetonationWindup:
     vfxPrefab: {fileID: 7699037211894731902, guid: 5d3fd7b229d0be541b00dd7feaf57463, type: 3}
     sound: {fileID: 8300000, guid: 9a12072ca8374ac4d84cee8fb432ae01, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 0.8
     soundDist: 55
   bossDetonationBlast:
     vfxPrefab: {fileID: 7667715400565136645, guid: ebb385c9a841aa3439a179dbd01886e6, type: 3}
     sound: {fileID: 8300000, guid: d832b716767d9d040ae3015615f76faf, type: 3}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 5
     volume: 0.8
     soundDist: 80
@@ -179,6 +195,7 @@ MonoBehaviour:
   screamFeedback:
     vfxPrefab: {fileID: 0}
     sound: {fileID: 0}
+    mixerGroup: {fileID: 0}
     vfxLifetime: 3
     volume: 1
     soundDist: 25
